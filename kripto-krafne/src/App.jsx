@@ -4,6 +4,7 @@ import Home from './Components/Home';
 import Login from './Components/Login';
 import Logo from './assets/img/logo.png';
 import Level from './Components/Level';
+import DonutLevel from './Components/DonutLevel';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         </Routes>
       </Router>
       <Level></Level>
+      <DonutLevel></DonutLevel>
     </div>
   )
 }
