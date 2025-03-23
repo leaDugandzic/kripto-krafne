@@ -1,0 +1,16 @@
+body {
+    background-color: #ffface;
+}
+
+@media (max-width: 1024px) {
+    .boxes-container {
+        width: 100%;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .box-image {
+        width: 180px;
+        height: 180px;
+    }
+}

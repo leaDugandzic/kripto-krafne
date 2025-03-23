@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './Components/Home';
 import Login from './Components/Login';
 import Logo from './assets/img/logo.png';
+import Level from './Components/Level';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
+      <Level></Level>
     </div>
   )
 }
