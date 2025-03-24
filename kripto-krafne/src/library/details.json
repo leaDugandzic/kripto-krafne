@@ -1,0 +1,124 @@
+{
+    "categories": [
+        {
+            "category": "Kriptografija",
+            "lessons": [
+                {
+                    "title": "Osnove kriptografije",
+                    "content": "Kriptografija je znanost zaštite informacija pomoću šifriranja i dešifriranja. U ovoj lekciji istražujemo osnovne pojmove poput simetrične i asimetrične enkripcije, hash funkcija i digitalnih potpisa.",
+                    "video_link": "https://www.youtube.com/watch?v=1hWXeM4gbec"
+                },
+                {
+                    "title": "RSA i AES algoritmi",
+                    "content": "RSA i AES su najčešće korišteni algoritmi za zaštitu podataka. Ova lekcija objašnjava kako ovi algoritmi funkcioniraju i gdje se primjenjuju.",
+                    "video_link": "https://www.youtube.com/watch?v=O4xNJsjtN6E"
+                },
+                {
+                    "title": "Blockchain i sigurnost",
+                    "content": "Blockchain tehnologija koristi kriptografiju za osiguravanje transakcija. U ovoj lekciji objašnjavamo kako se hash funkcije i digitalni potpisi koriste u blockchainu.",
+                    "video_link": "https://www.youtube.com/watch?v=SSo_EIwHSd4"
+                }
+            ]
+        },
+        {
+            "category": "Web sigurnost",
+            "lessons": [
+                {
+                    "title": "Osnovni web napadi",
+                    "content": "SQL injekcije, XSS i CSRF su među najčešćim napadima na web aplikacije. Ova lekcija objašnjava kako funkcioniraju i kako se zaštititi od njih.",
+                    "video_link": "https://www.youtube.com/watch?v=ciNHn38EyRc"
+                },
+                {
+                    "title": "Sigurnost HTTPS protokola",
+                    "content": "HTTPS koristi TLS za osiguranje komunikacije na internetu. Ova lekcija objašnjava zašto je važno koristiti HTTPS i kako radi SSL/TLS enkripcija.",
+                    "video_link": "https://www.youtube.com/watch?v=weVfpmXUThA"
+                },
+                {
+                    "title": "Zaštita web aplikacija",
+                    "content": "Korištenjem sigurnosnih zaglavlja, validacije podataka i drugih metoda, moguće je značajno poboljšati sigurnost web aplikacija. Ova lekcija pokriva najbolje prakse.",
+                    "video_link": "https://www.youtube.com/watch?v=8ZtInClXe1Q"
+                }
+            ]
+        },
+        {
+            "category": "Digitalna forenzika",
+            "lessons": [
+                {
+                    "title": "Uvod u digitalnu forenziku",
+                    "content": "Digitalna forenzika je proces prikupljanja i analize digitalnih dokaza. Ova lekcija objašnjava osnovne tehnike i alate koji se koriste u istraživanju kibernetičkih incidenata.",
+                    "video_link": "https://www.youtube.com/watch?v=DM0YzpMBJEM"
+                },
+                {
+                    "title": "Analiza zlonamjernog softvera",
+                    "content": "Malware analiza pomaže u razumijevanju ponašanja zlonamjernog softvera. Ova lekcija pokriva metode statičke i dinamičke analize malwarea.",
+                    "video_link": "https://www.youtube.com/watch?v=bUWLFLexPpY"
+                },
+                {
+                    "title": "Forenzička analiza mrežnog prometa",
+                    "content": "Analiziranje mrežnog prometa može pomoći u otkrivanju napada i sumnjivih aktivnosti. Ova lekcija objašnjava kako koristiti alate poput Wiresharka za mrežnu forenziku.",
+                    "video_link": "https://www.youtube.com/watch?v=rztoI6sM1wk"
+                }
+            ]
+        },
+        {
+            "category": "Mrežna sigurnost",
+            "lessons": [
+                {
+                    "title": "Kako funkcioniraju vatrozidi?",
+                    "content": "Vatrozidi su ključni alat za zaštitu mreža od neovlaštenog pristupa. Ova lekcija objašnjava vrste vatrozida i kako ih pravilno konfigurirati.",
+                    "video_link": "https://www.youtube.com/watch?v=Vek4srbt1UA"
+                },
+                {
+                    "title": "VPN i sigurnost mreže",
+                    "content": "VPN-ovi omogućuju sigurno povezivanje na udaljene mreže. U ovoj lekciji objašnjavamo kako VPN radi i kada ga koristiti.",
+                    "video_link": "https://www.youtube.com/watch?v=5BIE6z3vP9E"
+                },
+                {
+                    "title": "Detekcija i prevencija mrežnih napada",
+                    "content": "Intrusion Detection Systems (IDS) i Intrusion Prevention Systems (IPS) koriste se za otkrivanje i blokiranje napada na mreže. Ova lekcija pokriva osnovne koncepte i primjene.",
+                    "video_link": "https://www.youtube.com/watch?v=H8w7eQsAsxQ"
+                }
+            ]
+        },
+        {
+            "category": "Reverzno inženjerstvo",
+            "lessons": [
+                {
+                    "title": "Osnove reverznog inženjerstva",
+                    "content": "Reverzno inženjerstvo omogućuje analizu softvera bez pristupa izvornom kodu. Ova lekcija objašnjava osnovne metode i alate.",
+                    "video_link": "https://www.youtube.com/watch?v=79poD0mYZmY"
+                },
+                {
+                    "title": "Disasembliranje i dekompajliranje",
+                    "content": "Disasembliranje i dekompajliranje koriste se za analizu izvršnih datoteka. Ova lekcija objašnjava kako koristiti alate poput IDA Pro i Ghidre.",
+                    "video_link": "https://www.youtube.com/watch?v=jSDOSGvq_9M"
+                },
+                {
+                    "title": "Analiza binarnih datoteka",
+                    "content": "Razumijevanje binarnih formata ključno je za istraživanje softvera. Ova lekcija pokriva osnovne tehnike analize binarnih datoteka.",
+                    "video_link": "https://www.youtube.com/watch?v=1GQMLqX6bP0"
+                }
+            ]
+        },
+        {
+            "category": "Socijalni inženjering",
+            "lessons": [
+                {
+                    "title": "Što je socijalni inženjering?",
+                    "content": "Socijalni inženjering je tehnika manipulacije ljudi s ciljem dobivanja povjerljivih informacija. Ova lekcija objašnjava kako se izvode takvi napadi i kako ih prepoznati.",
+                    "video_link": "https://www.youtube.com/watch?v=K8GF7Cv7T54"
+                },
+                {
+                    "title": "Phishing i lažne poruke",
+                    "content": "Phishing napadi koriste lažne poruke kako bi prevarili korisnike. Ova lekcija objašnjava kako prepoznati i izbjeći phishing napade.",
+                    "video_link": "https://www.youtube.com/watch?v=9PqP7B9cZIA"
+                },
+                {
+                    "title": "Zaštita od socijalnog inženjeringa",
+                    "content": "Obuka i osviještenost ključni su za obranu od socijalnog inženjeringa. Ova lekcija pokriva najbolje prakse za zaštitu od manipulacije i prevara.",
+                    "video_link": "https://www.youtube.com/watch?v=6C6D6SH0b7A"
+                }
+            ]
+        }
+    ]
+}

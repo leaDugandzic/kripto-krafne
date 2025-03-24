@@ -22,10 +22,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/box/:id/level/:levelId" element={<Level />} />
         </Routes>
       </Router>
-      <Level></Level>
-      <DonutLevel></DonutLevel>
     </div>
   )
 }
