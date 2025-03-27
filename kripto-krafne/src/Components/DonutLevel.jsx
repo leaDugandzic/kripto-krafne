@@ -4,7 +4,7 @@ import Krafna from "../assets/img/krafna.png"
 const DonutLevel = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-pink-100">
-            <div className="bg-pink-300 p-8 rounded-2xl shadow-lg text-center w-100">
+            <div className="bg-pink-300 p-8 rounded-2xl shadow-lg text-center w-100 text-pink-700">
                 <div className="flex justify-center mb-4">
                     <img
                         src={Krafna}
