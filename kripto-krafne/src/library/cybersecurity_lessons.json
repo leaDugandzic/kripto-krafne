@@ -1,0 +1,516 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "kriptografija",
+      "levels": [
+        {
+          "id": 101,
+          "name": "Osnove kriptografije",
+          "lesson": "Kriptografija je znanost o sigurnoj komunikaciji kroz korištenje šifriranja i dešifriranja podataka...",
+          "video": "https://example.com/video1",
+          "fun_facts": [
+            {
+              "question": "Tko je otac moderne kriptografije?",
+              "answer": "Otac moderne kriptografije smatra se Claude Shannon..."
+            },
+            {
+              "question": "Koja je razlika između simetrične i asimetrične kriptografije?",
+              "answer": "Simetrična kriptografija koristi jedan ključ, dok asimetrična koristi par ključeva..."
+            },
+            {
+              "question": "Koji je najpoznatiji algoritam asimetrične kriptografije?",
+              "answer": "Jedan od najpoznatijih algoritama asimetrične kriptografije je RSA..."
+            },
+            {
+              "question": "Što je hash funkcija u kriptografiji?",
+              "answer": "Hash funkcija je matematički algoritam koji pretvara ulazni podatak u fiksnu duljinu..."
+            },
+            {
+              "question": "Kako se kvantna računala mogu odraziti na kriptografiju?",
+              "answer": "Kvantna računala mogu ugroziti klasične kriptografske sustave..."
+            }
+          ]
+        },
+        {
+          "id": 102,
+          "name": "Napredni kriptografski sustavi",
+          "lesson": "Ova lekcija pokriva napredne metode poput homomorfne enkripcije i kvantne kriptografije...",
+          "video": "https://example.com/video2",
+          "fun_facts": [
+            {
+              "question": "Što je homomorfna enkripcija?",
+              "answer": "Homomorfna enkripcija omogućuje obradu šifriranih podataka bez potrebe za dešifriranjem..."
+            },
+            {
+              "question": "Kako kvantna kriptografija poboljšava sigurnost?",
+              "answer": "Kvantna kriptografija koristi kvantne čestice za prijenos ključeva koji su sigurni od presretanja..."
+            },
+            {
+              "question": "Koji algoritam se koristi u kvantnoj kriptografiji?",
+              "answer": "Protokol kvantne distribucije ključeva BB84 jedan je od najpoznatijih primjera kvantne kriptografije..."
+            },
+            {
+              "question": "Kako se SHA-256 koristi u blockchainu?",
+              "answer": "SHA-256 osigurava nepromjenjivost i sigurnost podataka u blockchain tehnologiji..."
+            },
+            {
+              "question": "Što je kvantno zaplitanje i kako se koristi u sigurnosti?",
+              "answer": "Kvantno zaplitanje omogućuje trenutno dijeljenje informacija između čestica, čime se poboljšava sigurnost prijenosa podataka..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "web sigurnost",
+      "levels": [
+        {
+          "id": 201,
+          "name": "Sigurnost web aplikacija",
+          "lesson": "Sigurnost web aplikacija odnosi se na zaštitu podataka i korisničkih informacija od napada poput SQL injectiona i XSS-a...",
+          "video": "https://example.com/video3",
+          "fun_facts": [
+            {
+              "question": "Što je SQL injection?",
+              "answer": "SQL injection je napad u kojem napadač ubacuje zlonamjerni SQL kod kako bi dobio pristup podacima baze..."
+            },
+            {
+              "question": "Kako XSS može ugroziti korisnike?",
+              "answer": "XSS omogućuje napadaču ubrizgavanje skripti u web stranicu koje mogu ukrasti podatke korisnika..."
+            },
+            {
+              "question": "Koji su najbolji načini zaštite web aplikacija?",
+              "answer": "Najbolji načini zaštite uključuju sanitizaciju unosa, pravilnu konfiguraciju servera i korištenje HTTPS protokola..."
+            },
+            {
+              "question": "Što je CSRF napad?",
+              "answer": "CSRF napad iskorištava autentificiranog korisnika kako bi izveo neautorizirane radnje..."
+            },
+            {
+              "question": "Kako se koriste sigurnosni HTTP zaglavlja?",
+              "answer": "Sigurnosna HTTP zaglavlja poput Content Security Policy (CSP) smanjuju rizik od XSS-a i drugih prijetnji..."
+            }
+          ]
+        },
+        {
+          "id": 202,
+          "name": "Sigurnost mreže",
+          "lesson": "Sigurnost mreže uključuje zaštitu podataka tijekom prijenosa putem sigurnih protokola poput SSL/TLS-a, firewall-a i VPN-a...",
+          "video": "https://example.com/video4",
+          "fun_facts": [
+            {
+              "question": "Što je SSL/TLS?",
+              "answer": "SSL/TLS su protokoli koji osiguravaju siguran prijenos podataka putem interneta šifriranjem komunikacije..."
+            },
+            {
+              "question": "Kako firewall štiti mrežu?",
+              "answer": "Firewall filtrira dolazne i odlazne mrežne pakete kako bi spriječio neovlašteni pristup mreži..."
+            },
+            {
+              "question": "Što je VPN?",
+              "answer": "VPN (Virtual Private Network) omogućuje sigurnu, šifriranu vezu između korisnika i mreže..."
+            },
+            {
+              "question": "Koje vrste mrežnih napada postoje?",
+              "answer": "Postoje različiti napadi poput DDoS-a, Man-in-the-Middle (MitM) napada i napada na sigurnosne protokole..."
+            },
+            {
+              "question": "Kako se koristi enkripcija u zaštiti mreže?",
+              "answer": "Enkripcija se koristi za zaštitu podataka od prisluškivanja i neovlaštenog pristupa tijekom prijenosa..."
+            }
+          ]
+        },
+        {
+          "id": 203,
+          "name": "Sigurnost sustava",
+          "lesson": "Sigurnost sustava bavi se zaštitom računarskih sustava od zlonamjernih napada i neovlaštenog pristupa...",
+          "video": "https://example.com/video5",
+          "fun_facts": [
+            {
+              "question": "Što je malware?",
+              "answer": "Malware (maliciozni softver) je svaki softver koji uzrokuje štetu sustavu ili koristi resurse sustava za zlonamjerne svrhe..."
+            },
+            {
+              "question": "Kako antivirusni programi rade?",
+              "answer": "Antivirusni programi skeniraju računala za poznate zlonamjerne softvere i blokiraju njihov pristup..."
+            },
+            {
+              "question": "Što je ransomware?",
+              "answer": "Ransomware je vrsta malwarea koja blokira pristup podacima dok žrtva ne plati otkupninu..."
+            },
+            {
+              "question": "Kako se štititi od phishing napada?",
+              "answer": "Zaštita uključuje provjeru autentičnosti izvora e-pošte, izbjegavanje sumnjivih linkova i korištenje dvofaktorske autentifikacije..."
+            },
+            {
+              "question": "Koje sigurnosne mjere treba poduzeti na računalu?",
+              "answer": "Redovita ažuriranja sustava, korištenje snažnih lozinki, i instalacija sigurnosnih softverskih rješenja ključne su za zaštitu sustava..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "digitalna forenzika",
+      "levels": [
+        {
+          "id": 301,
+          "name": "Uvod u digitalnu forenziku",
+          "lesson": "Digitalna forenzika proučava kako se podaci mogu koristiti kao dokaz u kriminalnim istragama. Proces uključuje prikupljanje, analizu i očuvanje digitalnih dokaza...",
+          "video": "https://example.com/video6",
+          "fun_facts": [
+            {
+              "question": "Što je digitalna forenzika?",
+              "answer": "Digitalna forenzika je grana forenzike koja se bavi analizom digitalnih uređaja kako bi se otkrili dokazni materijali za istrage..."
+            },
+            {
+              "question": "Kako se prikupljaju digitalni dokazi?",
+              "answer": "Dokazi se prikupljaju putem forenzičkih alata i tehnika koje omogućuju očuvanje integriteta podataka tijekom procesa prikupljanja..."
+            },
+            {
+              "question": "Koji su izazovi u digitalnoj forenzici?",
+              "answer": "Izazovi uključuju šifriranje podataka, volatiline podatke koji brzo nestaju, i zaštitu privatnosti korisnika..."
+            },
+            {
+              "question": "Koji su najčešći izvori digitalnih dokaza?",
+              "answer": "Izvori uključuju računala, pametne telefone, poslužitelje, mrežne uređaje i cloud usluge..."
+            },
+            {
+              "question": "Kako se očuvava integritet digitalnih dokaza?",
+              "answer": "Integritet se očuvava korištenjem tehnika poput kreiranja hash vrijednosti i zapisa o lancu custodia (chain of custody)..."
+            }
+          ]
+        },
+        {
+          "id": 302,
+          "name": "Analiza digitalnih dokaza",
+          "lesson": "Analiza digitalnih dokaza uključuje ispitivanje računarskih sustava, mobilnih uređaja, i mrežnih podataka kako bi se otkrili relevantni dokazi...",
+          "video": "https://example.com/video7",
+          "fun_facts": [
+            {
+              "question": "Koje alate koristi digitalni forenzičar?",
+              "answer": "Alati poput EnCase, FTK i Autopsy koriste se za analizu i obnovu podataka sa različitih uređaja..."
+            },
+            {
+              "question": "Što je proces ekstrakcije podataka?",
+              "answer": "Ekstrakcija podataka je proces preuzimanja podataka s uređaja bez mijenjanja originalnih podataka ili oštećenja dokaza..."
+            },
+            {
+              "question": "Koji su ključni koraci u analizi podataka?",
+              "answer": "Ključni koraci uključuju identificiranje izvora podataka, prikupljanje informacija, obnavljanje izbrisanih podataka, i analizu metapodataka..."
+            },
+            {
+              "question": "Kako se analizira mrežni promet?",
+              "answer": "Analiza mrežnog prometa uključuje pregledavanje logova, praćenje aktivnosti na mreži, i korištenje alata za analizu prometa kao što su Wireshark i tcpdump..."
+            },
+            {
+              "question": "Kako se obnavljaju izbrisani podaci?",
+              "answer": "Izbrisani podaci mogu se obnoviti pomoću forenzičkih alata koji traže tragove podataka na disku ili u memoriji..."
+            }
+          ]
+        },
+        {
+          "id": 303,
+          "name": "Zaštita i očuvanje digitalnih dokaza",
+          "lesson": "Zaštita i očuvanje dokaza je ključni element u digitalnoj forenzici. Ovaj proces uključuje sprječavanje izmjena, oštećenja ili gubitka dokaza tijekom istrage...",
+          "video": "https://example.com/video8",
+          "fun_facts": [
+            {
+              "question": "Zašto je važna zaštita digitalnih dokaza?",
+              "answer": "Zaštita dokaza osigurava da svi podaci ostanu vjerodostojni i prihvatljivi na sudu kao zakonski dokaz..."
+            },
+            {
+              "question": "Što je lanac custodia?",
+              "answer": "Lanac custodia je dokumentacija koja prati svaki korak od prikupljanja do pohrane digitalnih dokaza kako bi se očuvala njihova integritet..."
+            },
+            {
+              "question": "Koje metode se koriste za očuvanje dokaza?",
+              "answer": "Metode uključuju korištenje write-blockera, kreiranje digitalnih kopija i šifriranje podataka kako bi se spriječila neovlaštena izmjena..."
+            },
+            {
+              "question": "Koji su rizici u očuvanju dokaza?",
+              "answer": "Rizici uključuju fizičko oštećenje uređaja, izbrisane datoteke, i napade na integritet podataka kroz zlonamjerne aktivnosti..."
+            },
+            {
+              "question": "Kako se pohranjuju digitalni dokazi?",
+              "answer": "Dokazi se pohranjuju u sigurnim, zaštićenim prostorima, često koristeći posebne digitalne kutije i baze podataka za pohranu i pristup..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "mrežna sigurnost",
+      "levels": [
+        {
+          "id": 401,
+          "name": "Osnove mrežne sigurnosti",
+          "lesson": "Mrežna sigurnost obuhvaća zaštitu mrežnih resursa od napada, uključujući prijetnje poput DDoS-a, spoofing-a i sniffing-a...",
+          "video": "https://example.com/video9",
+          "fun_facts": [
+            {
+              "question": "Što je DDoS napad?",
+              "answer": "DDoS (Distributed Denial of Service) napad koristi veliki broj zaraženih računala kako bi preopteretio mrežu ili poslužitelj..."
+            },
+            {
+              "question": "Što je spoofing?",
+              "answer": "Spoofing je napad u kojem napadač lažira svoju identifikaciju kako bi se prikazao kao drugi korisnik ili uređaj na mreži..."
+            },
+            {
+              "question": "Što je sniffing?",
+              "answer": "Sniffing je proces praćenja i presretanja mrežnog prometa kako bi se ukrali podaci poput korisničkih imena i lozinki..."
+            },
+            {
+              "question": "Koji su osnovni alati za zaštitu mreže?",
+              "answer": "Alati poput firewalla, IDS/IPS sustava i VPN-a koriste se za zaštitu mreže od napada i neovlaštenog pristupa..."
+            },
+            {
+              "question": "Što je VPN?",
+              "answer": "VPN (Virtual Private Network) omogućuje sigurnu, šifriranu vezu između korisnika i mreže, štiteći podatke od presretanja..."
+            }
+          ]
+        },
+        {
+          "id": 402,
+          "name": "Zaštita od napada na mreži",
+          "lesson": "Zaštita od napada na mreži uključuje identifikaciju, prevenciju i odgovaranje na prijetnje poput Man-in-the-Middle napada, SQL injectiona i napada na protokole...",
+          "video": "https://example.com/video10",
+          "fun_facts": [
+            {
+              "question": "Što je Man-in-the-Middle napad?",
+              "answer": "Man-in-the-Middle napad uključuje napadača koji presreće i mijenja komunikaciju između dvije strane bez njihovog znanja..."
+            },
+            {
+              "question": "Kako se štititi od SQL injection napada?",
+              "answer": "Zaštita od SQL injectiona uključuje korištenje parametriziranih upita, sanitizaciju unosa i pravilnu konfiguraciju baza podataka..."
+            },
+            {
+              "question": "Što je napad na protokol?",
+              "answer": "Napadi na protokole uključuju napade koji iskorištavaju ranjivosti u mrežnim protokolima, kao što su DNS hijacking i napadi na HTTPs..."
+            },
+            {
+              "question": "Kako firewall štiti mrežu?",
+              "answer": "Firewall filtrira mrežni promet prema postavljenim pravilima i omogućava ili blokira pristup na temelju sigurnosnih politika..."
+            },
+            {
+              "question": "Koje vrste mrežnih napada postoje?",
+              "answer": "Postoje različite vrste napada poput DoS, DDoS, spoofing, phishing, SQL injection, i MITM napadi..."
+            }
+          ]
+        },
+        {
+          "id": 403,
+          "name": "Napredne mrežne sigurnosne tehnike",
+          "lesson": "Napredne tehnike uključuju korištenje šifriranja, segmentacije mreže, sigurnosne politike i naprednih sigurnosnih sustava poput SIEM-a i IDS-a...",
+          "video": "https://example.com/video11",
+          "fun_facts": [
+            {
+              "question": "Što je šifriranje u mrežnoj sigurnosti?",
+              "answer": "Šifriranje je proces kodiranja podataka kako bi se spriječio pristup neovlaštenih korisnika tijekom prijenosa preko mreže..."
+            },
+            {
+              "question": "Što je SIEM sustav?",
+              "answer": "SIEM (Security Information and Event Management) sustav prikuplja, analizira i odgovara na sigurnosne prijetnje u realnom vremenu..."
+            },
+            {
+              "question": "Što je IDS/IPS?",
+              "answer": "IDS (Intrusion Detection System) i IPS (Intrusion Prevention System) pomažu u prepoznavanju i sprječavanju napada na mreži..."
+            },
+            {
+              "question": "Kako segmentacija mreže poboljšava sigurnost?",
+              "answer": "Segmentacija mreže dijeli mrežu u manje dijelove kako bi se smanjio rizik od širenja napada i poboljšala kontrola pristupa..."
+            },
+            {
+              "question": "Kako koristiti dvofaktorsku autentifikaciju?",
+              "answer": "Dvofaktorska autentifikacija dodaje sloj zaštite korisnicima tražeći potvrdu identiteta putem dodatnog faktora, poput mobilne aplikacije ili SMS-a..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "reverzno inženjerstvo",
+      "levels": [
+        {
+          "id": 501,
+          "name": "Osnove reverznog inženjerstva",
+          "lesson": "Reverzno inženjerstvo je proces analize softverskog proizvoda kako bi se razumio njegov dizajn, funkcionalnost i način rada. Često se koristi za proučavanje sigurnosnih slabosti i ranjivosti...",
+          "video": "https://example.com/video12",
+          "fun_facts": [
+            {
+              "question": "Što je reverzno inženjerstvo?",
+              "answer": "Reverzno inženjerstvo uključuje analiziranje i dekompiliranje softverskih sustava kako bi se razumio njihov izvorni kod i arhitektura..."
+            },
+            {
+              "question": "Koje alate koristi reverzni inženjer?",
+              "answer": "Alati poput IDA Pro, OllyDbg i Ghidra koriste se za analizu i dekompilaciju binarnih datoteka i izvršnih programa..."
+            },
+            {
+              "question": "Kako reverzno inženjerstvo pomaže u sigurnosti?",
+              "answer": "Reverzno inženjerstvo pomaže u pronalaženju sigurnosnih ranjivosti, poput buffer overflow-a i ranjivosti u kodu koje mogu biti iskorištene u napadima..."
+            },
+            {
+              "question": "Koji je cilj reverznog inženjerstva?",
+              "answer": "Cilj reverznog inženjerstva može biti poboljšanje sigurnosti, razumijevanje konkurentskih proizvoda, ili istraživanje i obnova izgubljenog izvornog koda..."
+            },
+            {
+              "question": "Je li reverzno inženjerstvo legalno?",
+              "answer": "Legalnost reverznog inženjerstva ovisi o zakonima zemlje u kojoj se provodi i specifičnim uvjetima korištenja softverskog proizvoda..."
+            }
+          ]
+        },
+        {
+          "id": 502,
+          "name": "Analiza binarnih datoteka",
+          "lesson": "Analiza binarnih datoteka je ključna tehnika reverznog inženjerstva koja omogućuje dekompilaciju i analiziranje nečitljivih izvršnih datoteka kako bi se razumio njihov sadržaj i ponašanje...",
+          "video": "https://example.com/video13",
+          "fun_facts": [
+            {
+              "question": "Što su binarne datoteke?",
+              "answer": "Binarne datoteke su izvršni programi, slike, zvučni zapisi i drugi tipovi datoteka koji nisu direktno čitljivi kao tekst..."
+            },
+            {
+              "question": "Koji su osnovni koraci u analizi binarnih datoteka?",
+              "answer": "Osnovni koraci uključuju otvaranje datoteke u disassembleru, praćenje funkcija i analiziranje toka programa kako bi se razumio njegov rad..."
+            },
+            {
+              "question": "Što je disassembler?",
+              "answer": "Disassembler je alat koji pretvara strojni kod u asembler, omogućujući programerima da razumiju i analiziraju binarni kod..."
+            },
+            {
+              "question": "Koji je izazov u analizi binarnih datoteka?",
+              "answer": "Izazovi uključuju obfuscation (zamagljivanje) koda, dinamičko ponašanje programa i zaštitu poput enkripcije koja onemogućuje analizu..."
+            },
+            {
+              "question": "Kako dekompilirati izvršni program?",
+              "answer": "Dekomilacija uključuje korištenje alata koji mogu pretvoriti binarni kod natrag u izvorni kod ili u nešto što je razumljivo ljudima..."
+            }
+          ]
+        },
+        {
+          "id": 503,
+          "name": "Napredne tehnike reverznog inženjerstva",
+          "lesson": "Napredne tehnike reverznog inženjerstva uključuju analizu složenijih sustava, obfuscation koda, debugging u stvarnom vremenu, i reverse shell-ove za daljinsko upravljanje zaraženim uređajem...",
+          "video": "https://example.com/video14",
+          "fun_facts": [
+            {
+              "question": "Što je obfuscation?",
+              "answer": "Obfuscation je tehnika kojom se kod namjerno komplicira kako bi se otežalo njegovo razumijevanje ili reverzno inženjering..."
+            },
+            {
+              "question": "Kako se koristi debugging u reverznom inženjerstvu?",
+              "answer": "Debugging u reverznom inženjerstvu koristi alate kao što su OllyDbg ili x64dbg kako bi se pratilo izvršavanje koda u stvarnom vremenu..."
+            },
+            {
+              "question": "Što je reverse shell?",
+              "answer": "Reverse shell je metoda kojom zaraženi uređaj uspostavlja vezu prema napadaču, omogućujući mu daljinsko upravljanje računalom..."
+            },
+            {
+              "question": "Kako se dešifriraju zaštićeni podaci?",
+              "answer": "Dešifriranje zaštićenih podataka uključuje pronalaženje ključeva ili ranjivosti u šifriranim algoritmima kako bi se podaci postali čitljivi..."
+            },
+            {
+              "question": "Koje su prednosti i rizici naprednog reverznog inženjerstva?",
+              "answer": "Prednosti uključuju bolje razumijevanje softverskih sustava, dok rizici uključuju potencijalnu legalnu odgovornost i sigurnosne prijetnje tijekom analize..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "socijalni inženjering",
+      "levels": [
+        {
+          "id": 601,
+          "name": "Osnove socijalnog inženjeringa",
+          "lesson": "Socijalni inženjering koristi psihološke trikove i manipulaciju kako bi prevario korisnike ili zaposlenike u otkrivanju osjetljivih informacija. Uključuje napade poput phishinga, pretexting-a i baiting-a...",
+          "video": "https://example.com/video15",
+          "fun_facts": [
+            {
+              "question": "Što je socijalni inženjering?",
+              "answer": "Socijalni inženjering je metoda napada u kojoj napadači iskorištavaju ljudsku psihologiju kako bi dobili povjerenje korisnika i ukrali podatke..."
+            },
+            {
+              "question": "Što je phishing?",
+              "answer": "Phishing je napad u kojem napadači šalju lažne poruke (e-mailove, poruke) kako bi prevarili korisnike da otkriju svoje osjetljive podatke, poput lozinki..."
+            },
+            {
+              "question": "Koje su vrste socijalnog inženjeringa?",
+              "answer": "Vrste socijalnog inženjeringa uključuju phishing, pretexting, baiting, i tailgating, gdje napadači koriste različite tehnike kako bi manipulirali žrtvama..."
+            },
+            {
+              "question": "Kako se zaštititi od socijalnog inženjeringa?",
+              "answer": "Zaštita uključuje podizanje svijesti, provjeru identiteta osoba koje traže osjetljive informacije, korištenje dvostruke autentifikacije i obuku zaposlenika..."
+            },
+            {
+              "question": "Kako napadači koriste socijalni inženjering u svakodnevnim napadima?",
+              "answer": "Napadači često koriste socijalni inženjering kako bi ušli u organizacije, slali lažne e-mailove ili stvarali lažne identitete kako bi izmanipulirali ljude..."
+            }
+          ]
+        },
+        {
+          "id": 602,
+          "name": "Phishing napadi",
+          "lesson": "Phishing napadi su jedan od najčešćih oblika socijalnog inženjeringa. Napadači šalju lažne e-mailove, poruke ili web stranice kako bi prevarili korisnike da otkriju svoje osjetljive podatke...",
+          "video": "https://example.com/video16",
+          "fun_facts": [
+            {
+              "question": "Kako prepoznati phishing napad?",
+              "answer": "Phishing napadi se često prepoznaju po neobičnim e-mail adresama, gramatičkim greškama, i hitnosti zahtjeva za podacima, kao i po sumnjivim linkovima..."
+            },
+            {
+              "question": "Što napadači žele postići phishing napadima?",
+              "answer": "Napadači koriste phishing kako bi ukrali lozinke, brojeve kreditnih kartica ili druge osjetljive informacije korisnika ili organizacija..."
+            },
+            {
+              "question": "Kako se zaštititi od phishing napada?",
+              "answer": "Zaštita uključuje provjeru identiteta pošiljatelja, korištenje antivirusnih programa, izbjegavanje otvaranja sumnjivih e-mailova i postavljanje sigurnosnih mjera kao što je dvostruka autentifikacija..."
+            },
+            {
+              "question": "Kako napadači koriste lažne web stranice u phishing napadima?",
+              "answer": "Napadači često stvaraju lažne web stranice koje izgledaju identično stvarnim stranicama, tražeći od korisnika da unesu osjetljive podatke poput lozinki..."
+            },
+            {
+              "question": "Koji su najčešći ciljevi phishing napada?",
+              "answer": "Najčešći ciljevi su korisnici koji koriste online bankarstvo, e-trgovinu i društvene mreže, te zaposlenici koji imaju pristup poslovnim sustavima..."
+            }
+          ]
+        },
+        {
+          "id": 603,
+          "name": "Napredne tehnike socijalnog inženjeringa",
+          "lesson": "Napredne tehnike socijalnog inženjeringa uključuju sofisticirane napade poput pretexting-a, baiting-a i tailgating-a, gdje napadači koriste dublje psihološke trikove i situacije za manipulaciju žrtvama...",
+          "video": "https://example.com/video17",
+          "fun_facts": [
+            {
+              "question": "Što je pretexting?",
+              "answer": "Pretexting je napad u kojem napadači stvaraju lažni identitet ili izmišljenu situaciju kako bi prevarili žrtvu i iznudili osjetljive informacije..."
+            },
+            {
+              "question": "Što je baiting?",
+              "answer": "Baiting je napad u kojem napadači koriste mamac, poput besplatnih downloadova ili ponuda, kako bi prevarili korisnike da otkriju svoje podatke ili instaliraju zlonamjerni softver..."
+            },
+            {
+              "question": "Što je tailgating?",
+              "answer": "Tailgating je fizička tehnika socijalnog inženjeringa u kojoj napadači prate zaposlenike ili druge osobe u sigurnosne zone, koristeći njihov pristup za neovlašteni ulazak..."
+            },
+            {
+              "question": "Kako napadači koriste psihološke trikove u socijalnom inženjeringu?",
+              "answer": "Napadači često koriste psihološke trikove poput izazivanja osjećaja hitnosti, povjerenja ili straha, kako bi manipulirali žrtvama i natjerali ih na brze odluke..."
+            },
+            {
+              "question": "Kako se zaštititi od naprednih socijalnih inženjerskih napada?",
+              "answer": "Zaštita uključuje trening zaposlenika o prepoznavanju manipulativnih tehnika, uspostavljanje jasnih sigurnosnih procedura i redovito testiranje sustava na ranjivosti..."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
