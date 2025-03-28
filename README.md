@@ -1,4 +1,5 @@
 # kripto-krafne
+- npm install firebase i npm install daisyui@latest
 - stranica za edukaciju o kibernetičkoj sigurnosti
 - radimo s vite-om
 - library folder za json fileove
