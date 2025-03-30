@@ -6,34 +6,62 @@
       "levels": [
         {
           "id": 101,
-          "name": "Osnove kriptografije",
-          "lesson": "Kriptografija je znanost o sigurnoj komunikaciji kroz korištenje šifriranja i dešifriranja podataka...",
+          "name": "Osnove simetrične i asimetrične kriptografije",
+          "lesson": "Kriptografija je temeljna komponenta sigurnosti u digitalnom svijetu, a osnovne metode uključuju simetričnu i asimetričnu kriptografiju. Obje metode omogućuju sigurno slanje podataka, ali se razlikuju u načinu na koji se ključevi koriste za enkripciju i dekripciju. Simetrična kriptografija koristi isti ključ za enkripciju i dekripciju podataka. Pošiljatelj i primatelj moraju dijeliti isti ključ, što može biti sigurnosni rizik ako ključ nije zaštićen. Algoritmi poput AES (Advanced Encryption Standard) najčešće se koriste zbog visoke sigurnosti i brzine. Glavna prednost simetrične kriptografije je brzina, dok je najveći izazov sigurna distribucija ključeva. Asimetrična kriptografija koristi dva različita ključa: javni ključ za enkripciju i privatni ključ za dekripciju. Javni ključ može biti slobodno distribuiran, dok privatni ključ ostaje zaštićen. Najpoznatiji asimetrični algoritam je RSA (Rivest-Shamir-Adleman). Ovaj sustav omogućuje sigurno slanje podataka i autentifikaciju bez potrebe za dijeljenjem ključeva. Glavna mana je veća složenost i sporija izvedba u odnosu na simetričnu kriptografiju. Obje vrste kriptografije često se koriste zajedno. Na primjer, u TLS (Transport Layer Security) protokolu, asimetrična kriptografija koristi se za uspostavu sigurne veze i razmjenu ključeva, dok simetrična kriptografija šifrira podatke zbog svoje brzine. Razumijevanje oba pristupa ključno je za sigurnosne inženjere i sudionike CTF natjecanja.",
           "video": "https://example.com/video1",
           "fun_facts": [
             {
               "question": "Tko je otac moderne kriptografije?",
-              "answer": "Otac moderne kriptografije smatra se Claude Shannon..."
+              "answer": "Otac moderne kriptografije smatra se Claude Shannon, američki matematičar i inženjer koji je postavio temelje teorije informacije i kriptografije. Njegovo najpoznatije djelo, 'A Mathematical Theory of Communication', objavljeno 1948. godine, definiralo je osnovne principe sigurnosti u komunikacijama i šifriranju podataka. Shannon je također razvio koncept teorijske granice sigurnosti koju danas primjenjujemo u mnogim modernim kriptografskim sustavima. Njegov rad na sigurnosti i šifriranju omogućio je razvoj sofisticiranih algoritama poput AES-a i RSA-a, koji se koriste u današnjoj zaštiti podataka."
             },
             {
               "question": "Koja je razlika između simetrične i asimetrične kriptografije?",
-              "answer": "Simetrična kriptografija koristi jedan ključ, dok asimetrična koristi par ključeva..."
+              "answer": "Simetrična kriptografija koristi isti ključ za enkripciju i dekripciju podataka. To znači da pošiljatelj i primatelj moraju imati isti ključ, što može predstavljati sigurnosni izazov u slučaju kompromitacije ključa. Najpoznatiji primjer simetrične kriptografije je AES. S druge strane, asimetrična kriptografija koristi dva ključa: javni i privatni. Javni ključ se koristi za enkripciju, dok privatni ključ služi za dekripciju. Ovaj sustav omogućuje sigurnu razmjenu podataka bez potrebe za dijeljenjem tajnih ključeva, a najpoznatiji primjer je RSA algoritam. Asimetrična kriptografija je složenija i sporija, ali pruža bolju sigurnost u otvorenim mrežama."
             },
             {
               "question": "Koji je najpoznatiji algoritam asimetrične kriptografije?",
-              "answer": "Jedan od najpoznatijih algoritama asimetrične kriptografije je RSA..."
+              "answer": "Jedan od najpoznatijih algoritama asimetrične kriptografije je RSA (Rivest-Shamir-Adleman), koji je temeljen na matematičkom problemu faktorizacije velikih brojeva. RSA omogućava sigurno šifriranje podataka i digitalne potpise, što ga čini ključnim dijelom mnogih sigurnosnih protokola, poput HTTPS-a. RSA koristi par ključeva: javni ključ za enkripciju podataka i privatni ključ za dekripciju. Iako je vrlo siguran, RSA može biti sporiji od simetričnih algoritama poput AES-a, zbog čega se često koristi u kombinaciji s simetričnom kriptografijom za povećanje učinkovitosti."
             },
             {
               "question": "Što je hash funkcija u kriptografiji?",
-              "answer": "Hash funkcija je matematički algoritam koji pretvara ulazni podatak u fiksnu duljinu..."
+              "answer": "Hash funkcija je matematički algoritam koji pretvara ulazni podatak u fiksnu duljinu, obično u obliku niza znakova ili brojeva. Ključna karakteristika hash funkcija je da male promjene u ulaznim podacima rezultiraju velikim promjenama u izlaznom rezultatu, što znači da je gotovo nemoguće rekonstruirati originalne podatke iz hasha. Hash funkcije se koriste za provjeru integriteta podataka, poput u digitalnim potpisima, te za stvaranje sigurnih i jedinstvenih identifikatora za podatke. Najpoznatiji primjer hash funkcije je SHA-256, koji se koristi u Bitcoin mreži."
             },
             {
               "question": "Kako se kvantna računala mogu odraziti na kriptografiju?",
-              "answer": "Kvantna računala mogu ugroziti klasične kriptografske sustave..."
+              "answer": "Kvantna računala predstavljaju prijetnju postojećim kriptografskim sustavima jer mogu efikasno riješiti matematičke probleme koji trenutno zahtijevaju ogromne računalne resurse. Na primjer, kvantna računala mogu brzo faktorizirati velike brojeve, što bi moglo ugroziti sigurnost RSA algoritma. Kvantna računala također imaju potencijal za razbijanje simetričnih kriptografskih sustava, iako je za njih potrebna veća računalna snaga. Kao odgovor na ovu prijetnju, istražuju se kvantno otporni algoritmi koji bi bili sigurni i u eri kvantnih računala, ali ta tehnologija još nije široko dostupna."
             }
           ]
         },
         {
           "id": 102,
+          "name": "Napredni kriptografski sustavi",
+          "lesson": "Ova lekcija pokriva napredne metode poput homomorfne enkripcije i kvantne kriptografije...",
+          "video": "https://example.com/video2",
+          "fun_facts": [
+            {
+              "question": "Što je homomorfna enkripcija?",
+              "answer": "Homomorfna enkripcija omogućuje obradu šifriranih podataka bez potrebe za dešifriranjem..."
+            },
+            {
+              "question": "Kako kvantna kriptografija poboljšava sigurnost?",
+              "answer": "Kvantna kriptografija koristi kvantne čestice za prijenos ključeva koji su sigurni od presretanja..."
+            },
+            {
+              "question": "Koji algoritam se koristi u kvantnoj kriptografiji?",
+              "answer": "Protokol kvantne distribucije ključeva BB84 jedan je od najpoznatijih primjera kvantne kriptografije..."
+            },
+            {
+              "question": "Kako se SHA-256 koristi u blockchainu?",
+              "answer": "SHA-256 osigurava nepromjenjivost i sigurnost podataka u blockchain tehnologiji..."
+            },
+            {
+              "question": "Što je kvantno zaplitanje i kako se koristi u sigurnosti?",
+              "answer": "Kvantno zaplitanje omogućuje trenutno dijeljenje informacija između čestica, čime se poboljšava sigurnost prijenosa podataka..."
+            }
+          ]
+        },
+        {
+          "id": 103,
           "name": "Napredni kriptografski sustavi",
           "lesson": "Ova lekcija pokriva napredne metode poput homomorfne enkripcije i kvantne kriptografije...",
           "video": "https://example.com/video2",

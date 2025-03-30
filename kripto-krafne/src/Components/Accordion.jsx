@@ -4,7 +4,7 @@ const Accordion = ({ title, content }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="mb-2">
+        <div className="mb-2 w-300">
             <button
                 className="w-full bg-pink-400 text-white text-left px-4 py-2 rounded-lg flex justify-between items-center"
                 onClick={() => setIsOpen(!isOpen)}

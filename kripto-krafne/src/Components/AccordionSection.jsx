@@ -1,16 +1,25 @@
 import Accordion from "./Accordion";
+import useData from "./useData";
+import { useParams } from "react-router-dom";
 
 const AccordionSection = () => {
+    const { id } = useParams();
+    const { getLevelById } = useData();
+    const level = getLevelById(id);
+
+    if (!level || !level.fun_facts) {
+        return <p className="text-red-500">Nema podataka za ovaj level.</p>;
+    }
+
     return (
-        <div className="bg-cream p-8 text-pink-700">
-            <h2 className="text-xl font-bold italic text-center ">Zanimljivosti</h2>
-            <div className="mt-4">
-                <Accordion title="Pitanje 1" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit..." />
-                <Accordion title="Pitanje 2" content="Još jedan zanimljiv odgovor..." />
-                <Accordion title="Pitanje 3" content="Više informacija ovdje..." />
-            </div>
+        <div>
+            <h2>Zanimljivosti</h2>
+            {level.fun_facts.map((fact, index) => (
+                <Accordion key={index} title={fact.question} content={fact.answer} />
+            ))}
         </div>
     );
 };
 
-export default AccordionSection
+
+export default AccordionSection;

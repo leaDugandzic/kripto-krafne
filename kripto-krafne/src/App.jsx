@@ -8,7 +8,7 @@ import DonutLevel from './Components/DonutLevel';
 import Signup from './Components/Signup';
 import { useState, useEffect } from 'react';
 import Krafnapfp from "./assets/img/krafna.png";
-
+import levels from './library/levels.json';
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 function App() {
@@ -40,17 +40,17 @@ function App() {
 
   }, []);
 
-  function handleLogout(){
+  function handleLogout() {
     signOut(auth).then(() => {
       setStylepfp("none");
-        setStylebtn("flex");
+      setStylebtn("flex");
     }).catch((error) => {
-      setError("Error: " +error.message);
+      setError("Error: " + error.message);
     });
   }
-  
+
   return (
-    <div className='h-[100vh]'>
+    <div className='body'>
       <Router>
 
         <div className=" navbar bg-pink-300 p-2 flex flex-row justify-between items-center shadow-md">
@@ -92,7 +92,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-          <Route path="/box/:id/level/:levelId" element={<Level />} />
+          <Route path="/box/:id" element={<Level levels={levels} />} />
         </Routes>
       </Router>
     </div>
