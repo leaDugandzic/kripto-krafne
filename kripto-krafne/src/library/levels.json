@@ -276,85 +276,85 @@
       "levels": [
         {
           "id": 401,
-          "name": "Osnove mrežne sigurnosti",
-          "lesson": "Mrežna sigurnost obuhvaća zaštitu mrežnih resursa od napada, uključujući prijetnje poput DDoS-a, spoofing-a i sniffing-a...",
-          "video": "https://example.com/video9",
+          "name": "Osnove mrežnih protokola i analiza prometa",
+          "lesson": "Razumijevanje mrežnih protokola ključno je za analizu mrežnog prometa i prepoznavanje potencijalnih prijetnji. Osnovni mrežni protokoli uključuju TCP/IP, HTTP, HTTPS, DNS, DHCP i ICMP, a svaki od njih ima specifičnu ulogu u komunikaciji između uređaja. Napadači često iskorištavaju ranjivosti u ovim protokolima za izvođenje napada, poput DNS spoofinga ili ARP trovanja.\n\nAnaliza mrežnog prometa omogućuje prepoznavanje neovlaštenih aktivnosti i otkrivanje sumnjivih obrazaca. Najčešće korišten alat za ovu svrhu je Wireshark, koji omogućuje snimanje i analizu mrežnih paketa u stvarnom vremenu. Pomoću Wiresharka moguće je filtrirati promet, analizirati zaglavlja paketa i identificirati potencijalne prijetnje, poput nešifriranih lozinki ili neobičnih DNS zahtjeva.\n\nZa učinkovitu analizu mrežnog prometa potrebno je razumjeti kako podaci putuju kroz mrežu, uključujući OSI model i njegovih sedam slojeva. Svaki sloj igra ulogu u prijenosu podataka, a napadači često ciljaju specifične slojeve kako bi kompromitirali sigurnost sustava. Kroz ovu lekciju, natjecatelji će steći temeljno znanje o mrežnim protokolima i naučiti koristiti alate za praćenje mrežnog prometa u CTF natjecanjima.",
+          "video": "https://example.com/video10",
           "fun_facts": [
             {
-              "question": "Što je DDoS napad?",
-              "answer": "DDoS (Distributed Denial of Service) napad koristi veliki broj zaraženih računala kako bi preopteretio mrežu ili poslužitelj..."
+              "question": "Zašto je važno razumjeti TCP/IP protokol u mrežnoj sigurnosti?",
+              "answer": "TCP/IP je temelj internetske komunikacije, a napadači često iskorištavaju njegove ranjivosti za izvođenje napada, poput TCP SYN floodinga ili IP spoofinga. Razumijevanje kako TCP/IP radi omogućuje sigurnosnim istraživačima da prepoznaju anomalije u prometu i blokiraju zlonamjerne aktivnosti."
             },
             {
-              "question": "Što je spoofing?",
-              "answer": "Spoofing je napad u kojem napadač lažira svoju identifikaciju kako bi se prikazao kao drugi korisnik ili uređaj na mreži..."
+              "question": "Kako Wireshark pomaže u mrežnoj analizi?",
+              "answer": "Wireshark omogućuje hvatanje i analizu mrežnih paketa u stvarnom vremenu. Korisnici mogu filtrirati pakete prema protokolima, IP adresama ili određenim sadržajima, što olakšava otkrivanje nešifriranih lozinki, sumnjivih veza i drugih sigurnosnih prijetnji."
             },
             {
-              "question": "Što je sniffing?",
-              "answer": "Sniffing je proces praćenja i presretanja mrežnog prometa kako bi se ukrali podaci poput korisničkih imena i lozinki..."
+              "question": "Što je DNS spoofing i kako se može prepoznati?",
+              "answer": "DNS spoofing je napad u kojem napadač mijenja DNS odgovore kako bi preusmjerio žrtvu na lažne web stranice. Može se prepoznati analizom DNS prometa u alatima poput Wiresharka, gdje neuobičajeni odgovori ili IP adrese koje ne odgovaraju legitimnim serverima ukazuju na moguću manipulaciju."
             },
             {
-              "question": "Koji su osnovni alati za zaštitu mreže?",
-              "answer": "Alati poput firewalla, IDS/IPS sustava i VPN-a koriste se za zaštitu mreže od napada i neovlaštenog pristupa..."
+              "question": "Koja je uloga OSI modela u mrežnoj sigurnosti?",
+              "answer": "OSI model pomaže razumjeti kako se podaci prenose kroz mrežu i koje slojeve napadači mogu iskoristiti. Na primjer, DDoS napadi često ciljaju mrežni sloj (Layer 3), dok su aplikacijski napadi poput SQL injectiona usmjereni na sloj aplikacije (Layer 7)."
             },
             {
-              "question": "Što je VPN?",
-              "answer": "VPN (Virtual Private Network) omogućuje sigurnu, šifriranu vezu između korisnika i mreže, štiteći podatke od presretanja..."
+              "question": "Kako se može zaštititi mrežni promet od presretanja?",
+              "answer": "Šifriranje prometa pomoću HTTPS-a, VPN-a ili TLS-a sprječava neovlašteni pristup podacima tijekom prijenosa. Također, korištenje sigurnih protokola poput SSH umjesto Telnet-a i redovito nadgledanje mrežnog prometa mogu pomoći u detekciji i prevenciji napada."
             }
           ]
         },
         {
           "id": 402,
-          "name": "Zaštita od napada na mreži",
-          "lesson": "Zaštita od napada na mreži uključuje identifikaciju, prevenciju i odgovaranje na prijetnje poput Man-in-the-Middle napada, SQL injectiona i napada na protokole...",
-          "video": "https://example.com/video10",
+          "name": "Napadi na mreže: sniffing, spoofing i MITM",
+          "lesson": "Napadi na mreže koriste različite tehnike za presretanje, manipulaciju ili preusmjeravanje mrežnog prometa. Među najčešćima su sniffing, spoofing i napadi čovjeka u sredini (MITM - Man-in-the-Middle).\n\nSniffing je tehnika prisluškivanja mrežnog prometa, gdje napadači koriste alate poput Wiresharka ili tcpdumpa za presretanje nešifriranih podataka. To omogućuje krađu osjetljivih informacija poput lozinki, sesijskih kolačića i podataka o korisnicima.\n\nSpoofing napadi uključuju lažiranje identiteta kako bi napadač prevario mrežu ili korisnike. ARP spoofing omogućuje napadaču da preusmjeri promet na svoj uređaj, dok IP spoofing omogućuje slanje lažnih paketa koji se čine kao da dolaze iz pouzdanog izvora.\n\nMITM napadi kombiniraju sniffing i spoofing kako bi napadač postao posrednik u komunikaciji između dviju strana, neprimjetno presrećući i mijenjajući podatke. Ovi napadi mogu se izvoditi pomoću rogue access pointa, SSL strippinga ili proxy servera.\n\nZa zaštitu od ovih prijetnji koriste se enkripcija, autentifikacija i detekcijski alati poput ARP watchera i IDS/IPS sustava. Razumijevanje ovih napada ključno je za prepoznavanje i obranu tijekom CTF natjecanja.",
+          "video": "https://example.com/video11",
           "fun_facts": [
             {
-              "question": "Što je Man-in-the-Middle napad?",
-              "answer": "Man-in-the-Middle napad uključuje napadača koji presreće i mijenja komunikaciju između dvije strane bez njihovog znanja..."
+              "question": "Kako napadači mogu presresti mrežni promet?",
+              "answer": "Napadači koriste alate poput Wiresharka i tcpdumpa za sniffing mrežnog prometa. Ako je promet nešifriran, mogu presresti osjetljive informacije poput lozinki i kolačića sesije, što im omogućuje neovlašteni pristup korisničkim računima."
             },
             {
-              "question": "Kako se štititi od SQL injection napada?",
-              "answer": "Zaštita od SQL injectiona uključuje korištenje parametriziranih upita, sanitizaciju unosa i pravilnu konfiguraciju baza podataka..."
+              "question": "Kako funkcionira ARP spoofing?",
+              "answer": "ARP spoofing je tehnika u kojoj napadač šalje lažne ARP odgovore kako bi preusmjerio mrežni promet kroz svoj uređaj. Na taj način može presretati, mijenjati ili blokirati podatke koji prolaze kroz mrežu, što se često koristi u MITM napadima."
             },
             {
-              "question": "Što je napad na protokol?",
-              "answer": "Napadi na protokole uključuju napade koji iskorištavaju ranjivosti u mrežnim protokolima, kao što su DNS hijacking i napadi na HTTPs..."
+              "question": "Što je SSL stripping i kako ugrožava sigurnost?",
+              "answer": "SSL stripping napad prisiljava korisnika da koristi HTTP umjesto HTTPS-a, omogućujući napadaču presretanje nešifriranih podataka. To se postiže uklanjanjem sigurnosnih preusmjeravanja u mrežnom prometu kako bi korisnici nesvjesno koristili nezaštićene veze."
             },
             {
-              "question": "Kako firewall štiti mrežu?",
-              "answer": "Firewall filtrira mrežni promet prema postavljenim pravilima i omogućava ili blokira pristup na temelju sigurnosnih politika..."
+              "question": "Koje metode se koriste za zaštitu od MITM napada?",
+              "answer": "Najbolje metode zaštite uključuju korištenje HTTPS-a, VPN-a i enkripcije podataka. Također, alati poput ARP watchera mogu detektirati ARP spoofing, a IDS/IPS sustavi pomažu u ranom otkrivanju sumnjivih aktivnosti u mreži."
             },
             {
-              "question": "Koje vrste mrežnih napada postoje?",
-              "answer": "Postoje različite vrste napada poput DoS, DDoS, spoofing, phishing, SQL injection, i MITM napadi..."
+              "question": "Kako napadači koriste rogue access point?",
+              "answer": "Napadači postavljaju lažni Wi-Fi hotspot s nazivom sličnim legitimnom, a kada se korisnici spoje, sav njihov promet prolazi kroz napadačev uređaj. To omogućuje presretanje lozinki, kreditnih kartica i drugih osjetljivih podataka."
             }
           ]
         },
         {
           "id": 403,
-          "name": "Napredne mrežne sigurnosne tehnike",
-          "lesson": "Napredne tehnike uključuju korištenje šifriranja, segmentacije mreže, sigurnosne politike i naprednih sigurnosnih sustava poput SIEM-a i IDS-a...",
-          "video": "https://example.com/video11",
+          "name": "Zaštita mreža: enkripcija, firewalli i IDS/IPS sustavi",
+          "lesson": "Zaštita mreža ključna je za sprječavanje cyber napada i očuvanje sigurnosti podataka. Tri glavne metode obrane uključuju enkripciju podataka, korištenje firewall-a te detekcijske i prevencijske sustave (IDS/IPS). \n\nEnkripcija osigurava da podaci ostanu sigurni čak i ako ih napadači presretnu. Protokoli poput TLS/SSL omogućuju siguran prijenos podataka putem interneta, dok VPN enkripcija štiti komunikaciju na nesigurnim mrežama. Korištenjem jakih enkripcijskih algoritama poput AES-256, podaci postaju nečitljivi bez odgovarajućeg ključa.\n\nFirewalli (vatrozidi) predstavljaju prvu liniju obrane mreže filtriranjem prometa prema definiranim pravilima. Postoje hardverski i softverski firewalli koji kontroliraju dolazne i odlazne pakete, blokirajući sumnjive ili neovlaštene zahtjeve. Napredni firewalli mogu analizirati aplikacijski promet i spriječiti složene napade.\n\nIDS (Intrusion Detection System) i IPS (Intrusion Prevention System) sustavi koriste se za otkrivanje i prevenciju sumnjivih aktivnosti. IDS nadzire mrežni promet i obavještava administratore o mogućim napadima, dok IPS aktivno blokira prijetnje. Ovi sustavi koriste potpisnu i heurističku analizu kako bi prepoznali poznate i nepoznate napade.\n\nU kombinaciji, enkripcija, firewalli i IDS/IPS sustavi omogućuju snažnu zaštitu mreža od prijetnji, smanjujući rizik od napada i osiguravajući sigurnu komunikaciju.",
+          "video": "https://example.com/video12",
           "fun_facts": [
             {
-              "question": "Što je šifriranje u mrežnoj sigurnosti?",
-              "answer": "Šifriranje je proces kodiranja podataka kako bi se spriječio pristup neovlaštenih korisnika tijekom prijenosa preko mreže..."
+              "question": "Kako enkripcija štiti podatke tijekom prijenosa?",
+              "answer": "Enkripcija osigurava da podaci budu nečitljivi bilo kome osim ovlaštenim primateljima. Kada korisnik šalje osjetljive informacije putem HTTPS-a, protokol koristi TLS (Transport Layer Security) kako bi osigurao siguran prijenos podataka. Algoritmi poput AES-256 osiguravaju da čak i ako napadač presretne promet, neće moći dešifrirati sadržaj bez odgovarajućeg ključa. Ova metoda štiti lozinke, bankovne podatke i druge povjerljive informacije od prisluškivanja."
             },
             {
-              "question": "Što je SIEM sustav?",
-              "answer": "SIEM (Security Information and Event Management) sustav prikuplja, analizira i odgovara na sigurnosne prijetnje u realnom vremenu..."
+              "question": "Koja je razlika između hardverskog i softverskog firewall-a?",
+              "answer": "Hardverski firewalli su fizički uređaji koji filtriraju mrežni promet prije nego što dosegne interne sustave. Često se koriste u poduzećima i podatkovnim centrima za zaštitu cijelih mreža. Softverski firewalli, s druge strane, instalirani su na pojedinačnim računalima i kontroliraju promet na nivou uređaja. Oni omogućuju prilagodljiva pravila za aplikacije i procese, ali ovise o resursima uređaja na kojem su pokrenuti. Oba tipa firewalla zajedno pružaju snažniju zaštitu."
             },
             {
-              "question": "Što je IDS/IPS?",
-              "answer": "IDS (Intrusion Detection System) i IPS (Intrusion Prevention System) pomažu u prepoznavanju i sprječavanju napada na mreži..."
+              "question": "Kako IDS i IPS sustavi prepoznaju prijetnje?",
+              "answer": "IDS (Intrusion Detection System) i IPS (Intrusion Prevention System) koriste dvije glavne metode za otkrivanje prijetnji: potpisnu i heurističku analizu. Potpisna analiza uspoređuje dolazni promet s bazom poznatih napada, prepoznajući prijetnje poput SQL injekcija ili DDoS napada. Heuristička analiza prati neuobičajene obrasce ponašanja, što omogućuje detekciju novih i nepoznatih napada. IDS sustavi samo obavještavaju administratore o prijetnjama, dok IPS sustavi aktivno blokiraju zlonamjerne zahtjeve prije nego što stignu do cilja."
             },
             {
-              "question": "Kako segmentacija mreže poboljšava sigurnost?",
-              "answer": "Segmentacija mreže dijeli mrežu u manje dijelove kako bi se smanjio rizik od širenja napada i poboljšala kontrola pristupa..."
+              "question": "Zašto je VPN važan za sigurnu mrežnu komunikaciju?",
+              "answer": "VPN (Virtual Private Network) šifrira podatke prije nego što napuste uređaj korisnika, osiguravajući sigurnu komunikaciju čak i na nesigurnim mrežama poput javnih Wi-Fi hotspotova. Kada se korisnik spoji na VPN, njegov promet se tunelira kroz šifriranu vezu do udaljenog servera, skrivajući njegovu stvarnu IP adresu i otežavajući napadačima presretanje osjetljivih informacija. VPN je posebno koristan za zaštitu privatnosti i siguran pristup korporativnim mrežama."
             },
             {
-              "question": "Kako koristiti dvofaktorsku autentifikaciju?",
-              "answer": "Dvofaktorska autentifikacija dodaje sloj zaštite korisnicima tražeći potvrdu identiteta putem dodatnog faktora, poput mobilne aplikacije ili SMS-a..."
+              "question": "Kako firewalli filtriraju mrežni promet i sprječavaju napade?",
+              "answer": "Firewalli analiziraju mrežne pakete i odlučuju hoće li ih propustiti ili blokirati na temelju unaprijed definiranih pravila. Na primjer, mogu blokirati dolazne veze s poznatih zlonamjernih IP adresa ili spriječiti neovlaštene pokušaje pristupa internim serverima. Napredni firewalli, poput Next-Generation Firewall (NGFW) sustava, mogu analizirati aplikacijski promet i prepoznati prijetnje na temelju ponašanja, sprječavajući složenije napade poput Command and Control (C2) komunikacija zlonamjernog softvera."
             }
           ]
         }
