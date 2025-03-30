@@ -34,57 +34,57 @@
         },
         {
           "id": 102,
-          "name": "Napredni kriptografski sustavi",
-          "lesson": "Ova lekcija pokriva napredne metode poput homomorfne enkripcije i kvantne kriptografije...",
+          "name": "Hash funkcije i digitalni potpisi",
+          "lesson": "Hash funkcije i digitalni potpisi ključni su koncepti u kriptografiji koji omogućuju provjeru integriteta podataka i autentifikaciju korisnika. Hash funkcija je jednosmjerna matematička funkcija koja uzima ulazne podatke i stvara jedinstvenu fiksnu duljinu izlazne vrijednosti (hash). Glavne karakteristike hash funkcija su determinističnost, otpornost na sudare i osjetljivost na promjene u ulazu. Primjeri popularnih hash algoritama uključuju SHA-256 i MD5, iako se MD5 danas smatra nesigurnim. Hash funkcije se često koriste za sažimanje lozinki, provjeru integriteta datoteka i digitalne potpise. Digitalni potpis koristi hash funkcije i asimetričnu kriptografiju kako bi se osigurala autentičnost i cjelovitost podataka. Proces uključuje stvaranje hasha poruke, koji se zatim šifrira privatnim ključem pošiljatelja kako bi se stvorio digitalni potpis. Primatelj može provjeriti potpis dešifriranjem pomoću javnog ključa pošiljatelja i usporediti dobiveni hash s onim izvorne poruke. Ako se hash vrijednosti podudaraju, poruka je autentična i nije mijenjana. Digitalni potpisi se koriste u elektroničkim transakcijama, sigurnoj komunikaciji i pravno obvezujućim dokumentima. Kombinacija hash funkcija i digitalnih potpisa omogućuje sigurnu i pouzdanu razmjenu podataka u digitalnom okruženju, što ih čini ključnim alatima u modernoj kriptografiji i CTF natjecanjima.",
           "video": "https://example.com/video2",
           "fun_facts": [
             {
-              "question": "Što je homomorfna enkripcija?",
-              "answer": "Homomorfna enkripcija omogućuje obradu šifriranih podataka bez potrebe za dešifriranjem..."
+              "question": "Zašto se hash funkcije nazivaju jednosmjernim?",
+              "answer": "Hash funkcije su jednosmjerne jer nije moguće iz hash vrijednosti rekonstruirati originalne podatke. Kada se podaci proslijede kroz hash funkciju, dobije se jedinstveni sažetak fiksne duljine, ali obrnut proces nije izvediv. Ova svojstva čine ih idealnima za sigurnu pohranu lozinki i provjeru integriteta podataka. Na primjer, kada unesete lozinku na web stranicu, ona se ne sprema u izvornom obliku, već kao hash, što onemogućuje napadačima da je lako ukradu čak i ako dobiju pristup bazi podataka."
             },
             {
-              "question": "Kako kvantna kriptografija poboljšava sigurnost?",
-              "answer": "Kvantna kriptografija koristi kvantne čestice za prijenos ključeva koji su sigurni od presretanja..."
+              "question": "Kako se digitalni potpisi koriste za provjeru autentičnosti?",
+              "answer": "Digitalni potpisi koriste asimetričnu kriptografiju kako bi osigurali autentičnost i cjelovitost podataka. Kada netko želi poslati poruku, prvo stvara njen hash i zatim ga šifrira privatnim ključem kako bi generirao digitalni potpis. Primatelj može dešifrirati potpis pomoću javnog ključa pošiljatelja i usporediti dobiveni hash s originalnim podacima. Ako se podudaraju, zna da je poruka autentična i nije mijenjana. Digitalni potpisi su temelj sigurnih elektroničkih transakcija, pravnih dokumenata i softverskih certifikata."
             },
             {
-              "question": "Koji algoritam se koristi u kvantnoj kriptografiji?",
-              "answer": "Protokol kvantne distribucije ključeva BB84 jedan je od najpoznatijih primjera kvantne kriptografije..."
+              "question": "Zašto se MD5 i SHA-1 više ne smatraju sigurnima?",
+              "answer": "MD5 i SHA-1 hash funkcije više se ne smatraju sigurnima jer su otkriveni učinkoviti napadi sudara. Napad sudara znači da je moguće pronaći dva različita unosa koji generiraju isti hash, što može dovesti do krivotvorenja podataka ili digitalnih potpisa. U 2017. Google je pokazao uspješan napad na SHA-1, stvarajući dvije različite PDF datoteke s istim hashom. Zbog toga se danas preporučuju sigurniji algoritmi poput SHA-256 ili SHA-3, koji su otporniji na ove vrste napada."
             },
             {
-              "question": "Kako se SHA-256 koristi u blockchainu?",
-              "answer": "SHA-256 osigurava nepromjenjivost i sigurnost podataka u blockchain tehnologiji..."
+              "question": "Kako hash funkcije osiguravaju integritet podataka?",
+              "answer": "Hash funkcije omogućuju provjeru integriteta podataka stvaranjem jedinstvenog sažetka (hasha) iz originalnog sadržaja. Kada netko preuzme datoteku ili poruku, može generirati hash i usporediti ga s onim koji je izvorno objavljen. Ako se hash vrijednosti podudaraju, podaci nisu mijenjani. Ovaj princip se koristi u digitalnim certifikatima, blockchain tehnologiji i sigurnosnim protokolima poput TLS-a, gdje osigurava da se preneseni podaci nisu promijenili tijekom prijenosa ili napada treće strane."
             },
             {
-              "question": "Što je kvantno zaplitanje i kako se koristi u sigurnosti?",
-              "answer": "Kvantno zaplitanje omogućuje trenutno dijeljenje informacija između čestica, čime se poboljšava sigurnost prijenosa podataka..."
+              "question": "Kako blockchain koristi hash funkcije za sigurnost?",
+              "answer": "Blockchain koristi hash funkcije kako bi osigurao nepromjenjivost podataka i zaštitu od manipulacija. Svaki blok sadrži hash prethodnog bloka, čineći lanac sigurnim jer bi promjena jednog bloka zahtijevala izmjenu svih sljedećih. Osim toga, transakcije unutar bloka se grupiraju pomoću Merkle stabala, gdje se svaki sloj podataka hashira dok se ne dobije jedinstveni 'root hash'. Ova struktura omogućuje brzu provjeru integriteta podataka, čineći blockchain otpornim na lažiranje i napade."
             }
           ]
         },
         {
           "id": 103,
-          "name": "Napredni kriptografski sustavi",
-          "lesson": "Ova lekcija pokriva napredne metode poput homomorfne enkripcije i kvantne kriptografije...",
+          "name": "Napredni napadi na kriptografske sustave i zaštita od njih",
+          "lesson": "Napredni napadi na kriptografske sustave ciljaju slabosti u algoritmima, implementaciji ili načinima korištenja kriptografije. Među najpoznatijim napadima su napadi grubom silom, kriptoanaliza, bočni kanali i napadi sudara. Napad grubom silom pokušava isprobati sve moguće ključeve dok ne pronađe ispravan, no moderni algoritmi poput AES-256 imaju toliko velik ključni prostor da je ovakav napad neizvediv. Kriptoanaliza proučava matematičke slabosti algoritama, kao što je diferencijalna i linearna kriptoanaliza za razbijanje simetričnih šifri. Napadi bočnih kanala koriste fizičke informacije, poput vremena izvršavanja ili potrošnje energije, kako bi otkrili tajne ključeve. Napadi sudara iskorištavaju slabosti hash funkcija kako bi pronašli dva različita ulaza s istim hashom, ugrožavajući integritet podataka. Zaštita od ovih napada uključuje korištenje jakih kriptografskih algoritama, sigurne implementacije i dodatne zaštitne mjere poput dodavanja slučajnosti (salt) pri hashiranju lozinki i zaštite od bočnih kanala u hardveru. Razumijevanje ovih napada ključno je za osiguravanje sigurnosti digitalnih sustava i zaštitu osjetljivih podataka u modernom svijetu.",
           "video": "https://example.com/video2",
           "fun_facts": [
             {
-              "question": "Što je homomorfna enkripcija?",
-              "answer": "Homomorfna enkripcija omogućuje obradu šifriranih podataka bez potrebe za dešifriranjem..."
+              "question": "Kako napadi bočnih kanala mogu otkriti tajne ključeve?",
+              "answer": "Napadi bočnih kanala koriste fizičke karakteristike uređaja, poput vremena izvršavanja, potrošnje energije ili elektromagnetskog zračenja, kako bi dobili informacije o tajnim ključevima. Na primjer, ako algoritam za dešifriranje koristi različito vrijeme za obradu različitih ključeva, napadač može analizirati ove varijacije i postupno rekonstruirati ključ. Takvi napadi su posebno opasni kod ugrađenih sustava i pametnih kartica, gdje su fizički pristup i mjerenja mogući."
             },
             {
-              "question": "Kako kvantna kriptografija poboljšava sigurnost?",
-              "answer": "Kvantna kriptografija koristi kvantne čestice za prijenos ključeva koji su sigurni od presretanja..."
+              "question": "Zašto se napadi sudara smatraju prijetnjom za hash funkcije?",
+              "answer": "Napadi sudara iskorištavaju slabosti hash funkcija kako bi pronašli dva različita ulaza koji generiraju isti hash. Ako napadač može stvoriti dokument s istim hashom kao originalni, može ga zamijeniti bez da itko primijeti promjenu. Ovo može ugroziti digitalne potpise i sigurnosne certifikate. SHA-1 je postao nesiguran nakon što su istraživači pokazali praktične sudare, zbog čega se preporučuju sigurniji algoritmi poput SHA-256 ili SHA-3."
             },
             {
-              "question": "Koji algoritam se koristi u kvantnoj kriptografiji?",
-              "answer": "Protokol kvantne distribucije ključeva BB84 jedan je od najpoznatijih primjera kvantne kriptografije..."
+              "question": "Kako se zaštititi od napada grubom silom?",
+              "answer": "Najbolja zaštita od napada grubom silom je korištenje dugih i složenih ključeva. Na primjer, AES-256 ima toliko velik broj mogućih ključeva da bi napad grubom silom trajao milijarde godina čak i uz najmoćnija računala. Osim toga, sustavi mogu ograničiti broj pokušaja prijave, uvesti dvofaktorsku autentifikaciju i koristiti metode poput PBKDF2, bcrypt ili Argon2 za sigurno hashiranje lozinki kako bi se otežao napad grubom silom."
             },
             {
-              "question": "Kako se SHA-256 koristi u blockchainu?",
-              "answer": "SHA-256 osigurava nepromjenjivost i sigurnost podataka u blockchain tehnologiji..."
+              "question": "Kako kvantno računanje prijeti kriptografiji?",
+              "answer": "Kvantna računala mogu značajno oslabiti klasične kriptografske sustave koristeći algoritme poput Shorovog i Groverovog. Shorov algoritam može faktorizirati velike brojeve eksponencijalno brže od klasičnih računala, što ugrožava RSA i ECC enkripciju. Groverov algoritam može prepoloviti sigurnost simetričnih šifri, što znači da bi AES-256 bio siguran kao AES-128. Zbog ovoga se razvijaju postkvantni kriptografski algoritmi otporni na kvantne napade."
             },
             {
-              "question": "Što je kvantno zaplitanje i kako se koristi u sigurnosti?",
-              "answer": "Kvantno zaplitanje omogućuje trenutno dijeljenje informacija između čestica, čime se poboljšava sigurnost prijenosa podataka..."
+              "question": "Zašto je dodavanje slučajnosti (salta) važno pri hashiranju lozinki?",
+              "answer": "Dodavanje slučajne vrijednosti (salta) prije hashiranja lozinke sprječava napade unaprijed izračunatim tablicama (rainbow tables). Bez salta, napadači mogu koristiti unaprijed izračunate hash vrijednosti kako bi brzo razbili lozinke. Kada se svakom hashiranju doda jedinstveni salt, čak i identične lozinke daju različite hashove, čineći takve napade neučinkovitima. Sigurni sustavi koriste metode poput bcrypt, scrypt ili Argon2, koji uključuju salt i iteracije kako bi dodatno otežali razbijanje lozinki."
             }
           ]
         }
@@ -96,85 +96,85 @@
       "levels": [
         {
           "id": 201,
-          "name": "Sigurnost web aplikacija",
-          "lesson": "Sigurnost web aplikacija odnosi se na zaštitu podataka i korisničkih informacija od napada poput SQL injectiona i XSS-a...",
+          "name": "Osnove web sigurnosti i uobičajene ranjivosti (OWASP Top 10)",
+          "lesson": "Web sigurnost ključna je za zaštitu aplikacija od napada, a OWASP (Open Web Application Security Project) definira deset najkritičnijih ranjivosti. SQL injekcija (SQLi) omogućuje napadačima manipulaciju bazom podataka, što može dovesti do krađe osjetljivih podataka ili potpunog preuzimanja sustava. Cross-Site Scripting (XSS) omogućuje ubacivanje zlonamjernog JavaScript koda u web stranice, što može rezultirati krađom kolačića sesije i korisničkih podataka. Cross-Site Request Forgery (CSRF) iskorištava autentifikaciju korisnika kako bi izvršio neželjene radnje, poput prijenosa novca bez njegovog znanja. \n\nSlaba autentifikacija i upravljanje sesijama mogu dovesti do preuzimanja korisničkih računa. Ako aplikacija ne koristi sigurnu pohranu lozinki ili dvofaktorsku autentifikaciju, napadači mogu lako doći do računa. Nesigurna deserializacija omogućuje izvršavanje proizvoljnog koda kroz manipulaciju podacima. Loše konfigurirane sigurnosne postavke često omogućuju napade, dok nedovoljna zaštita API-ja ostavlja sustav izložen prijetnjama. \n\nImplementacija sigurnosnih mjera poput sanitizacije korisničkog unosa, sigurnog upravljanja sesijama i enkripcije podataka putem HTTPS-a ključna je za zaštitu web aplikacija. Razumijevanje OWASP Top 10 pomaže programerima i sigurnosnim stručnjacima u prepoznavanju prijetnji i poduzimanju potrebnih mjera kako bi zaštitili korisnike i sustave od napada.",
           "video": "https://example.com/video3",
           "fun_facts": [
             {
-              "question": "Što je SQL injection?",
-              "answer": "SQL injection je napad u kojem napadač ubacuje zlonamjerni SQL kod kako bi dobio pristup podacima baze..."
+              "question": "Zašto je SQL injekcija jedna od najopasnijih ranjivosti?",
+              "answer": "SQL injekcija omogućuje napadačima da izvršavaju proizvoljne SQL upite na bazi podataka aplikacije. To može dovesti do krađe osjetljivih podataka, mijenjanja sadržaja baze ili čak preuzimanja potpunog nadzora nad sustavom. Ako aplikacija ne sanitizira korisnički unos, jednostavan unos poput ' OR '1'='1 može zaobići autentifikaciju i omogućiti pristup svim korisničkim računima."
             },
             {
-              "question": "Kako XSS može ugroziti korisnike?",
-              "answer": "XSS omogućuje napadaču ubrizgavanje skripti u web stranicu koje mogu ukrasti podatke korisnika..."
+              "question": "Kako funkcionira XSS napad?",
+              "answer": "Cross-Site Scripting (XSS) napad omogućuje napadaču da ubaci zlonamjerni JavaScript kod u web stranicu, koji se zatim izvršava u pregledniku drugih korisnika. Ovaj napad može se koristiti za krađu kolačića sesije, preusmjeravanje žrtava na phishing stranice ili prikazivanje lažnih sadržaja. Postoje tri glavne vrste XSS-a: reflektirani, pohranjeni i DOM-based XSS."
             },
             {
-              "question": "Koji su najbolji načini zaštite web aplikacija?",
-              "answer": "Najbolji načini zaštite uključuju sanitizaciju unosa, pravilnu konfiguraciju servera i korištenje HTTPS protokola..."
+              "question": "Što je CSRF i kako može biti iskorišten?",
+              "answer": "Cross-Site Request Forgery (CSRF) napad prisiljava korisnika da izvrši neželjene radnje na web aplikaciji u kojoj je već prijavljen. Napadač može kreirati zlonamjernu poveznicu koja, kada je korisnik klikne, šalje zahtjev aplikaciji bez njegovog znanja. Na primjer, ako je korisnik prijavljen u online bankarstvo, CSRF napad može izvršiti neautorizirani prijenos novca u ime žrtve."
             },
             {
-              "question": "Što je CSRF napad?",
-              "answer": "CSRF napad iskorištava autentificiranog korisnika kako bi izveo neautorizirane radnje..."
+              "question": "Kako HTTPS štiti od određenih ranjivosti?",
+              "answer": "HTTPS (HyperText Transfer Protocol Secure) koristi TLS enkripciju kako bi zaštitio podatke u prijenosu između korisnika i servera. Time se sprječava napade presretanja podataka, poput Man-in-the-Middle (MitM) napada. Osim enkripcije, HTTPS osigurava autentičnost servera pomoću SSL/TLS certifikata, čime se smanjuje rizik od phishing napada i neovlaštenih presretanja osjetljivih informacija."
             },
             {
-              "question": "Kako se koriste sigurnosni HTTP zaglavlja?",
-              "answer": "Sigurnosna HTTP zaglavlja poput Content Security Policy (CSP) smanjuju rizik od XSS-a i drugih prijetnji..."
+              "question": "Zašto je upravljanje sesijama važno za sigurnost?",
+              "answer": "Nepravilno upravljanje sesijama može omogućiti napadačima krađu korisničkih sesija i preuzimanje računa. Ako aplikacija ne koristi sigurnosne kolačiće, ne postavlja pravilna ograničenja sesije ili ne koristi token za autentifikaciju, napadači mogu iskoristiti napade poput session fixation ili session hijacking. Sigurnosne mjere poput Secure i HttpOnly kolačića, regeneracije sesijskog ID-a i isticanja sesija pomažu u zaštiti korisnika."
             }
           ]
         },
         {
           "id": 202,
-          "name": "Sigurnost mreže",
-          "lesson": "Sigurnost mreže uključuje zaštitu podataka tijekom prijenosa putem sigurnih protokola poput SSL/TLS-a, firewall-a i VPN-a...",
+          "name": "Sigurnosni propusti u autentifikaciji i upravljanju sesijama",
+          "lesson": "Autentifikacija i upravljanje sesijama ključni su aspekti web sigurnosti jer omogućuju korisnicima siguran pristup aplikacijama. Međutim, nepravilna implementacija može dovesti do ozbiljnih ranjivosti poput krađe identiteta, neovlaštenog pristupa i preuzimanja korisničkih računa. Napadači mogu iskoristiti slabe lozinke, ponovnu upotrebu istih zaporki i nedostatak dvofaktorske autentifikacije kako bi preuzeli korisničke račune. \n\nJedan od najčešćih problema je slaba pohrana lozinki. Ako se lozinke ne hashiraju koristeći jake algoritme poput bcrypta ili Argon2, napadači ih mogu lako dešifrirati nakon curenja podataka. Također, ranjivosti poput session hijackinga omogućuju napadačima da ukradu sesijske kolačiće i preuzmu identitet korisnika. Napadi brute force i credential stuffing iskorištavaju slabe lozinke i ponovnu upotrebu istih podataka na više servisa. \n\nSigurno upravljanje sesijama uključuje korištenje sigurnih i kratkotrajnih sesijskih kolačića, regeneraciju sesijskih ID-ova nakon prijave te korištenje HttpOnly i Secure atributa kako bi se spriječilo njihovo presretanje. Implementacija mjera poput dvofaktorske autentifikacije, ograničavanja broja neuspjelih prijava i enkripcije osjetljivih podataka može značajno poboljšati sigurnost sustava. Pravilna provjera identiteta korisnika i sigurno upravljanje autentifikacijskim tokenima ključni su za zaštitu korisničkih računa.",
           "video": "https://example.com/video4",
           "fun_facts": [
             {
-              "question": "Što je SSL/TLS?",
-              "answer": "SSL/TLS su protokoli koji osiguravaju siguran prijenos podataka putem interneta šifriranjem komunikacije..."
+              "question": "Zašto je hashiranje lozinki važno?",
+              "answer": "Ako lozinke nisu hashirane jakim algoritmima poput bcrypta ili Argon2, napadači ih mogu lako dešifrirati u slučaju curenja podataka. Hashiranje dodaje sloj zaštite, sprječavajući izravno otkrivanje lozinki."
             },
             {
-              "question": "Kako firewall štiti mrežu?",
-              "answer": "Firewall filtrira dolazne i odlazne mrežne pakete kako bi spriječio neovlašteni pristup mreži..."
+              "question": "Kako funkcionira session hijacking?",
+              "answer": "Session hijacking omogućuje napadačima krađu sesijskog kolačića korisnika, čime mogu preuzeti njegovu aktivnu sesiju. Ako kolačići nisu zaštićeni Secure i HttpOnly atributima, napadač ih može presresti putem XSS ili MITM napada."
             },
             {
-              "question": "Što je VPN?",
-              "answer": "VPN (Virtual Private Network) omogućuje sigurnu, šifriranu vezu između korisnika i mreže..."
+              "question": "Što je credential stuffing napad?",
+              "answer": "Credential stuffing iskorištava činjenicu da mnogi korisnici koriste iste lozinke na više servisa. Napadači koriste ukradene vjerodajnice s jednog servisa kako bi pokušali dobiti pristup drugim korisničkim računima."
             },
             {
-              "question": "Koje vrste mrežnih napada postoje?",
-              "answer": "Postoje različiti napadi poput DDoS-a, Man-in-the-Middle (MitM) napada i napada na sigurnosne protokole..."
+              "question": "Kako dvofaktorska autentifikacija povećava sigurnost?",
+              "answer": "Dvofaktorska autentifikacija (2FA) dodaje dodatni sloj sigurnosti, tražeći od korisnika da unese dodatni kod uz lozinku. Time se smanjuje mogućnost preuzimanja računa čak i ako je lozinka kompromitirana."
             },
             {
-              "question": "Kako se koristi enkripcija u zaštiti mreže?",
-              "answer": "Enkripcija se koristi za zaštitu podataka od prisluškivanja i neovlaštenog pristupa tijekom prijenosa..."
+              "question": "Zašto treba ograničiti broj neuspjelih prijava?",
+              "answer": "Ograničavanjem neuspjelih prijava može se spriječiti brute-force napade, gdje napadači sustavno pokušavaju razne kombinacije lozinki dok ne pronađu ispravnu."
             }
           ]
         },
         {
           "id": 203,
-          "name": "Sigurnost sustava",
-          "lesson": "Sigurnost sustava bavi se zaštitom računarskih sustava od zlonamjernih napada i neovlaštenog pristupa...",
+          "name": "Napadi na web aplikacije i strategije obrane",
+          "lesson": "Web aplikacije su česta meta napada zbog svoje dostupnosti i osjetljivih podataka koje obrađuju. Napadači koriste razne tehnike kako bi iskoristili ranjivosti u kodu i infrastrukturi aplikacija. Među najčešćim napadima su SQL injekcija, Cross-Site Scripting (XSS), Cross-Site Request Forgery (CSRF) i Remote Code Execution (RCE). Ovi napadi mogu dovesti do krađe podataka, neovlaštenog pristupa sustavima i kompromitiranja korisnika. \n\nJedna od osnovnih strategija obrane je pravilna validacija i sanitizacija korisničkog unosa kako bi se spriječile injekcije koda. Također, Content Security Policy (CSP) može značajno smanjiti rizik od XSS napada ograničavanjem dopuštenih izvora skripti. Korištenje sigurnih metoda autentifikacije i autorizacije, kao što su OAuth 2.0 i JWT tokeni, može spriječiti neovlašteni pristup. \n\nZaštita web aplikacija također uključuje implementaciju Web Application Firewalla (WAF), enkripciju osjetljivih podataka i redovito ažuriranje softvera. Sigurnosni testovi poput penetracijskog testiranja i automatiziranih sigurnosnih skenera pomažu u prepoznavanju ranjivosti prije nego što ih napadači iskoriste. Kroz kombinaciju sigurnosnih mjera i dobre prakse razvoja, web aplikacije mogu biti zaštićene od širokog spektra prijetnji.",
           "video": "https://example.com/video5",
           "fun_facts": [
             {
-              "question": "Što je malware?",
-              "answer": "Malware (maliciozni softver) je svaki softver koji uzrokuje štetu sustavu ili koristi resurse sustava za zlonamjerne svrhe..."
+              "question": "Kako se SQL injekcija može spriječiti?",
+              "answer": "Najbolji način za sprječavanje SQL injekcija je korištenje pripremljenih upita (prepared statements) i ORM sustava, koji osiguravaju da se korisnički unos ne može interpretirati kao SQL naredba."
             },
             {
-              "question": "Kako antivirusni programi rade?",
-              "answer": "Antivirusni programi skeniraju računala za poznate zlonamjerne softvere i blokiraju njihov pristup..."
+              "question": "Što je Content Security Policy (CSP) i kako pomaže?",
+              "answer": "CSP je sigurnosni mehanizam koji ograničava izvore s kojih se mogu učitavati skripte, slike i druge resurse, čime se smanjuje rizik od XSS napada i drugih sigurnosnih prijetnji."
             },
             {
-              "question": "Što je ransomware?",
-              "answer": "Ransomware je vrsta malwarea koja blokira pristup podacima dok žrtva ne plati otkupninu..."
+              "question": "Kako WAF (Web Application Firewall) štiti aplikacije?",
+              "answer": "WAF filtrira dolazne HTTP zahtjeve i blokira sumnjive aktivnosti, poput pokušaja eksploatacije ranjivosti, čime štiti web aplikaciju od uobičajenih napada poput SQLi i XSS-a."
             },
             {
-              "question": "Kako se štititi od phishing napada?",
-              "answer": "Zaštita uključuje provjeru autentičnosti izvora e-pošte, izbjegavanje sumnjivih linkova i korištenje dvofaktorske autentifikacije..."
+              "question": "Zašto je važno redovito ažurirati softver?",
+              "answer": "Redovita ažuriranja osiguravaju da su sigurnosni propusti u softveru ispravljeni, čime se smanjuje rizik od napada koji iskorištavaju poznate ranjivosti."
             },
             {
-              "question": "Koje sigurnosne mjere treba poduzeti na računalu?",
-              "answer": "Redovita ažuriranja sustava, korištenje snažnih lozinki, i instalacija sigurnosnih softverskih rješenja ključne su za zaštitu sustava..."
+              "question": "Kako penetracijsko testiranje pomaže u sigurnosti?",
+              "answer": "Penetracijsko testiranje simulira stvarne napade kako bi se identificirale ranjivosti u sustavu prije nego što ih napadači mogu iskoristiti, omogućujući pravovremene sigurnosne popravke."
             }
           ]
         }
@@ -186,85 +186,85 @@
       "levels": [
         {
           "id": 301,
-          "name": "Uvod u digitalnu forenziku",
-          "lesson": "Digitalna forenzika proučava kako se podaci mogu koristiti kao dokaz u kriminalnim istragama. Proces uključuje prikupljanje, analizu i očuvanje digitalnih dokaza...",
+          "name": "Osnove digitalne forenzike i metode prikupljanja dokaza",
+          "lesson": "Digitalna forenzika je grana forenzike koja se bavi identifikacijom, prikupljanjem, analizom i očuvanjem digitalnih dokaza u svrhu istrage cyber kriminala. Ključna načela digitalne forenzike uključuju očuvanje integriteta dokaza, dokumentiranje postupaka i ponovljivost analize kako bi se dokazi mogli koristiti na sudu. Prikupljanje dokaza mora se provoditi pažljivo kako bi se izbjeglo njihovo oštećenje ili izmjena. \n\nPostoje različite vrste digitalne forenzike, uključujući forenziku računala, mreže, mobilnih uređaja i cloud sustava. Analiza podataka s tvrdih diskova uključuje prepoznavanje izbrisanih datoteka, pretragu skrivenih informacija i analizu metapodataka. Forenzički alati poput Autopsy, FTK Imager i EnCase omogućuju istražiteljima rad s diskovnim slikama i analizom datotečnih sustava. Prilikom prikupljanja dokaza, koristi se metoda 'write-blocking' kako bi se spriječilo nenamjerno mijenjanje podataka. \n\nOsim tehničkih aspekata, digitalni forenzičari moraju slijediti zakonske i etičke smjernice kako bi osigurali valjanost dokaza. Dokumentiranje svih koraka istrage omogućava ponovnu provjeru nalaza i sprječava neovlaštene manipulacije podacima. Razumijevanje osnovnih principa digitalne forenzike ključno je za uspješnu analizu i izgradnju jakih dokaza u istragama cyber kriminala.",
           "video": "https://example.com/video6",
           "fun_facts": [
             {
-              "question": "Što je digitalna forenzika?",
-              "answer": "Digitalna forenzika je grana forenzike koja se bavi analizom digitalnih uređaja kako bi se otkrili dokazni materijali za istrage..."
+              "question": "Zašto je integritet digitalnih dokaza ključan u forenzici?",
+              "answer": "Integritet digitalnih dokaza osigurava se kako bi se spriječile manipulacije i osigurala njihova valjanost u sudskom postupku. Ako dokaz bude promijenjen, čak i nehotice, njegova vjerodostojnost može biti dovedena u pitanje. Zbog toga se koriste hash funkcije poput SHA-256 kako bi se osiguralo da podaci nisu mijenjani tijekom istrage."
             },
             {
-              "question": "Kako se prikupljaju digitalni dokazi?",
-              "answer": "Dokazi se prikupljaju putem forenzičkih alata i tehnika koje omogućuju očuvanje integriteta podataka tijekom procesa prikupljanja..."
+              "question": "Kako digitalni forenzičari pronalaze izbrisane podatke?",
+              "answer": "Kada korisnik izbriše datoteku, ona često nije odmah trajno uklonjena s diska, već samo označena kao nevidljiva za operativni sustav. Digitalni forenzičari koriste alate poput Autopsy i FTK Imager za rekonstrukciju izbrisanih podataka analizirajući slobodni prostor na disku i zapisivanje metapodataka datoteka kako bi ih ponovno vratili."
             },
             {
-              "question": "Koji su izazovi u digitalnoj forenzici?",
-              "answer": "Izazovi uključuju šifriranje podataka, volatiline podatke koji brzo nestaju, i zaštitu privatnosti korisnika..."
+              "question": "Što je ‘write-blocking’ i zašto je važan?",
+              "answer": "‘Write-blocking’ je tehnika koja sprječava bilo kakve promjene na digitalnim dokazima tijekom forenzičke analize. Korištenjem hardverskih ili softverskih write-blockera osigurava se da podaci ostaju nepromijenjeni, čime se sprječava nenamjerno oštećenje dokaza i osigurava njihova vjerodostojnost prilikom analize."
             },
             {
-              "question": "Koji su najčešći izvori digitalnih dokaza?",
-              "answer": "Izvori uključuju računala, pametne telefone, poslužitelje, mrežne uređaje i cloud usluge..."
+              "question": "Kako se digitalni forenzičari nose s enkriptiranim podacima?",
+              "answer": "Enkripcija može otežati pristup digitalnim dokazima, ali forenzičari koriste razne metode za dešifriranje. To uključuje analiziranje memorije računala za pronalaženje enkripcijskih ključeva, napade grubom silom na lozinke ili iskorištavanje slabosti u enkripcijskim algoritmima. U nekim slučajevima, forenzičari mogu koristiti pravne metode kako bi prisilili osumnjičenog da preda enkripcijske ključeve."
             },
             {
-              "question": "Kako se očuvava integritet digitalnih dokaza?",
-              "answer": "Integritet se očuvava korištenjem tehnika poput kreiranja hash vrijednosti i zapisa o lancu custodia (chain of custody)..."
+              "question": "Koji su najčešće korišteni alati u digitalnoj forenzici?",
+              "answer": "Najčešće korišteni alati uključuju Autopsy i The Sleuth Kit za analizu diskova, FTK Imager za rad s diskovnim slikama, EnCase za dubinsku analizu datotečnih sustava i Wireshark za analizu mrežnog prometa. Svaki od ovih alata omogućuje forenzičarima prikupljanje i analizu digitalnih dokaza na način koji čuva njihovu vjerodostojnost."
             }
           ]
         },
         {
           "id": 302,
-          "name": "Analiza digitalnih dokaza",
-          "lesson": "Analiza digitalnih dokaza uključuje ispitivanje računarskih sustava, mobilnih uređaja, i mrežnih podataka kako bi se otkrili relevantni dokazi...",
-          "video": "https://example.com/video7",
+          "name": "Analiza datoteka, skrivenih podataka i steganografije",
+          "lesson": "Analiza datoteka je ključni dio digitalne forenzike, jer napadači često skrivaju podatke unutar različitih formata kako bi izbjegli otkrivanje. Skriveni podaci mogu biti smješteni u metapodacima, unutar neiskorištenih dijelova datoteke ili čak u drugim formatima pomoću tehnika steganografije. \n\nSteganografija je metoda skrivanja informacija unutar digitalnih medija, poput slika, zvučnih zapisa ili čak videozapisa. Za razliku od enkripcije, gdje su podaci vidljivo šifrirani, steganografija omogućuje da podaci ostanu neprimijećeni. Primjerice, napadač može sakriti tekstualnu poruku unutar piksela slike tako da ljudsko oko ne primijeti razliku. \n\nForenzičari koriste razne alate za otkrivanje skrivenih podataka, uključujući binarnu analizu datoteka, provjeru hash vrijednosti i alate za detekciju steganografije. Najpoznatiji alati uključuju StegExpose za otkrivanje skrivene informacije u slikama, ExifTool za analizu metapodataka i binarne editore poput HxD za ručno pregledavanje strukture datoteke. Kroz temeljitu analizu forenzičari mogu pronaći skrivene podatke i rekonstruirati informacije koje su napadači pokušali sakriti.",
+          "video": "https://example.com/video8",
           "fun_facts": [
             {
-              "question": "Koje alate koristi digitalni forenzičar?",
-              "answer": "Alati poput EnCase, FTK i Autopsy koriste se za analizu i obnovu podataka sa različitih uređaja..."
+              "question": "Kako se steganografija razlikuje od enkripcije?",
+              "answer": "Steganografija skriva postojanje podataka unutar drugog medija, poput slike ili zvuka, dok enkripcija pretvara podatke u nečitljiv format pomoću matematičkih algoritama. Glavna prednost steganografije je da skriva samu činjenicu da podaci postoje, što je čini korisnom za tajnu komunikaciju."
             },
             {
-              "question": "Što je proces ekstrakcije podataka?",
-              "answer": "Ekstrakcija podataka je proces preuzimanja podataka s uređaja bez mijenjanja originalnih podataka ili oštećenja dokaza..."
+              "question": "Koje metode se koriste za skrivanje podataka unutar slika?",
+              "answer": "Najčešća metoda skrivanja podataka u slikama je Least Significant Bit (LSB) tehnika, gdje se najmanje značajni bitovi piksela zamjenjuju bitovima skrivenih podataka. Na taj način, promjene su toliko male da ljudsko oko ne može primijetiti razliku, ali računalo može izvući skrivene informacije."
             },
             {
-              "question": "Koji su ključni koraci u analizi podataka?",
-              "answer": "Ključni koraci uključuju identificiranje izvora podataka, prikupljanje informacija, obnavljanje izbrisanih podataka, i analizu metapodataka..."
+              "question": "Kako se otkrivaju skriveni podaci u slikama?",
+              "answer": "Forenzičari koriste alate poput StegExpose i OpenStego za otkrivanje anomalija u slikovnim datotekama. Također, histogram analiza i provjera RGB distribucije mogu otkriti neuobičajene promjene koje ukazuju na skrivene podatke. Analiza razlika između originalne i modificirane slike također može pomoći u identifikaciji steganografskih tehnika."
             },
             {
-              "question": "Kako se analizira mrežni promet?",
-              "answer": "Analiza mrežnog prometa uključuje pregledavanje logova, praćenje aktivnosti na mreži, i korištenje alata za analizu prometa kao što su Wireshark i tcpdump..."
+              "question": "Što su metapodaci i kako mogu sadržavati skrivene informacije?",
+              "answer": "Metapodaci su podaci o podacima, poput vremena kreiranja datoteke, korištenog uređaja i lokacije snimanja. Napadači mogu iskoristiti metapodatke za skrivanje tajnih informacija unutar slika, dokumenata ili drugih datoteka. ExifTool je jedan od najpoznatijih alata koji omogućuje analizu i izmjenu metapodataka."
             },
             {
-              "question": "Kako se obnavljaju izbrisani podaci?",
-              "answer": "Izbrisani podaci mogu se obnoviti pomoću forenzičkih alata koji traže tragove podataka na disku ili u memoriji..."
+              "question": "Može li se steganografija koristiti u audio datotekama?",
+              "answer": "Da, steganografija se može primijeniti na audio datoteke pomoću metoda poput Echo Hiding i Phase Coding, gdje se skriveni podaci ugrađuju u neslušljive dijelove zvuka. Na ovaj način, napadači mogu prenijeti tajne informacije kroz audio datoteke bez izazivanja sumnje kod slušatelja."
             }
           ]
         },
         {
           "id": 303,
-          "name": "Zaštita i očuvanje digitalnih dokaza",
-          "lesson": "Zaštita i očuvanje dokaza je ključni element u digitalnoj forenzici. Ovaj proces uključuje sprječavanje izmjena, oštećenja ili gubitka dokaza tijekom istrage...",
-          "video": "https://example.com/video8",
+          "name": "Forenzika mrežnog prometa i analiza zlonamjernog softvera",
+          "lesson": "Forenzika mrežnog prometa igra ključnu ulogu u otkrivanju cyber napada, analiziranju neovlaštenih aktivnosti i praćenju komunikacije unutar mreža. Ova disciplina koristi mrežne snimke (packet capture) kako bi identificirala sumnjive obrasce prometa, neobične zahtjeve prema serverima i moguće podatkovne curenja. Najčešće korišteni alat u analizi mrežnog prometa je Wireshark, koji omogućuje istraživačima pregled paketa, filtriranje podataka i otkrivanje zlonamjernih aktivnosti.\n\nAnaliza zlonamjernog softvera (malware forenzika) fokusira se na prepoznavanje, dekompilaciju i analizu zloćudnih programa. Ova analiza može biti statička, gdje se istražuju binarni podaci malicioznog koda bez njegovog pokretanja, ili dinamička, gdje se malware izvodi u kontroliranom okruženju poput sandboxa kako bi se promatrale njegove aktivnosti. \n\nZa analizu malwarea koriste se alati poput IDA Pro za dekompilaciju, Ghidra za reverzni inženjering te VirusTotal za provjeru poznatih prijetnji. Ključni cilj malware forenzike je razumjeti kako zlonamjerni programi rade, otkriti njihove ciljeve i razviti metode zaštite. Kombiniranjem mrežne forenzike i analize malwarea, istražitelji mogu učinkovito identificirati prijetnje i spriječiti daljnje napade.",
+          "video": "https://example.com/video9",
           "fun_facts": [
             {
-              "question": "Zašto je važna zaštita digitalnih dokaza?",
-              "answer": "Zaštita dokaza osigurava da svi podaci ostanu vjerodostojni i prihvatljivi na sudu kao zakonski dokaz..."
+              "question": "Kako se može analizirati mrežni promet u stvarnom vremenu?",
+              "answer": "Za analizu mrežnog prometa u stvarnom vremenu koristi se Wireshark, koji omogućuje hvatanje i pregled mrežnih paketa. Korisnici mogu filtrirati promet prema protokolima, IP adresama ili specifičnim ključnim riječima kako bi pronašli sumnjive aktivnosti. Analizom HTTP zahtjeva i DNS upita može se identificirati moguće napade i curenje podataka."
             },
             {
-              "question": "Što je lanac custodia?",
-              "answer": "Lanac custodia je dokumentacija koja prati svaki korak od prikupljanja do pohrane digitalnih dokaza kako bi se očuvala njihova integritet..."
+              "question": "Koja je razlika između statičke i dinamičke analize malwarea?",
+              "answer": "Statička analiza malwarea proučava binarni kod bez njegovog pokretanja, koristeći alate za dekompilaciju kako bi istražila funkcije i moguće zlonamjerne namjere. Dinamička analiza, s druge strane, uključuje pokretanje malwarea u sandbox okruženju kako bi se promatrala njegova aktivnost, uključujući mrežne veze, promjene u registru i pokušaje eksfiltracije podataka."
             },
             {
-              "question": "Koje metode se koriste za očuvanje dokaza?",
-              "answer": "Metode uključuju korištenje write-blockera, kreiranje digitalnih kopija i šifriranje podataka kako bi se spriječila neovlaštena izmjena..."
+              "question": "Kako napadači koriste ‘command and control’ (C2) poslužitelje?",
+              "answer": "Napadači koriste C2 poslužitelje za upravljanje kompromitiranim uređajima i slanje naredbi zlonamjernom softveru. Zombirani sustavi (botovi) mogu primati instrukcije o krađi podataka, izvođenju DDoS napada ili širenju malwarea. Forenzičari prate C2 komunikaciju analizirajući sumnjive mrežne konekcije i blokirajući poznate C2 domene."
             },
             {
-              "question": "Koji su rizici u očuvanju dokaza?",
-              "answer": "Rizici uključuju fizičko oštećenje uređaja, izbrisane datoteke, i napade na integritet podataka kroz zlonamjerne aktivnosti..."
+              "question": "Zašto je analiza malwarea u sandboxu važna?",
+              "answer": "Sandboxing omogućuje istraživačima pokretanje sumnjivih programa u izoliranom okruženju bez opasnosti od širenja infekcije. To omogućuje detaljnu analizu ponašanja malwarea, uključujući otkrivanje njegovih mrežnih aktivnosti, promjena u sustavu i pokušaja eskalacije privilegija, što pomaže u razvoju sigurnosnih rješenja."
             },
             {
-              "question": "Kako se pohranjuju digitalni dokazi?",
-              "answer": "Dokazi se pohranjuju u sigurnim, zaštićenim prostorima, često koristeći posebne digitalne kutije i baze podataka za pohranu i pristup..."
+              "question": "Kako forenzičari otkrivaju ‘fileless’ malware napade?",
+              "answer": "‘Fileless’ malware ne ostavlja tragove na disku, već se izvršava iz memorije, što otežava detekciju klasičnim antivirusnim alatima. Forenzičari koriste napredne metode analize memorije pomoću alata poput Volatility kako bi identificirali neobične procese, sumnjive skripte u RAM-u i neovlaštene mrežne konekcije koje ukazuju na prisutnost ‘fileless’ prijetnji."
             }
           ]
         }
