@@ -366,85 +366,85 @@
       "levels": [
         {
           "id": 501,
-          "name": "Osnove reverznog inženjerstva",
-          "lesson": "Reverzno inženjerstvo je proces analize softverskog proizvoda kako bi se razumio njegov dizajn, funkcionalnost i način rada. Često se koristi za proučavanje sigurnosnih slabosti i ranjivosti...",
-          "video": "https://example.com/video12",
+          "name": "Osnove reverznog inženjerstva: disassembleri, decompileri i debugging",
+          "lesson": "Reverzno inženjerstvo je postupak analize softvera bez izvornog koda kako bi se razumjela njegova funkcionalnost, otkrile ranjivosti ili kreirale zakrpe. Koristi se u sigurnosnim istraživanjima, analizi zlonamjernog softvera, razbijanju softverskih ograničenja i čak u legalnim sigurnosnim revizijama. Osnovni alati koji se koriste u ovom procesu su disassembleri, decompileri i debuggers.\n\nDisassembleri, poput IDA Pro i Radare2, prevode binarni kod u asembler, omogućujući analizu niskorazinske strukture programa. Ovi alati su neophodni za istraživanje funkcija unutar izvršnih datoteka, što omogućuje analizu ponašanja softvera bez njegovog pokretanja. \n\nDecompileri, poput Ghidre i RetDec-a, idu korak dalje i pokušavaju rekonstruirati izvorni kod iz binarnih datoteka. Iako ovaj proces nije savršen zbog optimizacija kompajlera i gubitka originalnih struktura, decompilacija može olakšati razumijevanje složenih algoritama unutar aplikacije. \n\nDebugging je ključna tehnika koja omogućuje praćenje rada programa u stvarnom vremenu. Alati poput GDB-a, x64dbg-a i WinDbg-a omogućuju zaustavljanje programa na određenim točkama (breakpoints), inspekciju memorije, registrara i manipulaciju izvršnim tokom. Ova metoda je posebno korisna za otkrivanje ranjivosti i bypassiranje zaštitnih mehanizama.\n\nJedan od ključnih izazova u reverznom inženjerstvu su zaštitne tehnike koje programi koriste kako bi otežali analizu. Anti-debugging metode, packeri koji kompresiraju ili šifriraju izvršne datoteke te obfuskacija koda često sprječavaju klasične metode analize. Kombinacijom statičke (disassembling, decompiling) i dinamičke analize (debugging, monitoring runtime ponašanja), moguće je zaobići te prepreke i dobiti bolji uvid u funkcionalnost softvera.",
+          "video": "https://www.youtube.com/watch?v=6sM6sB2Xj6M",
           "fun_facts": [
             {
-              "question": "Što je reverzno inženjerstvo?",
-              "answer": "Reverzno inženjerstvo uključuje analiziranje i dekompiliranje softverskih sustava kako bi se razumio njihov izvorni kod i arhitektura..."
+              "question": "Što je disassembler i kako pomaže u reverznom inženjerstvu?",
+              "answer": "Disassembler je alat koji prevodi binarni kod u asembler, čineći ga čitljivijim za analizu. Alati poput IDA Pro i Radare2 omogućuju istraživanje strukture izvršnih datoteka, identifikaciju funkcija i razumijevanje niskorazinskog ponašanja programa. Bez disassemblera, analiza binarnih datoteka bila bi znatno teža jer bi se programer suočavao s nečitljivim nizovima bajtova."
             },
             {
-              "question": "Koje alate koristi reverzni inženjer?",
-              "answer": "Alati poput IDA Pro, OllyDbg i Ghidra koriste se za analizu i dekompilaciju binarnih datoteka i izvršnih programa..."
+              "question": "Koja je razlika između disassemblera i decompilera?",
+              "answer": "Disassembler prevodi binarni kod u asembler, dok decompiler pokušava rekonstruirati viši programski kod (npr. C ili C++) iz binarne datoteke. Decompilacija može olakšati razumijevanje složenih algoritama, ali nije uvijek potpuno točna zbog optimizacija kompajlera i gubitka originalnih struktura koda. Stoga se u reverznom inženjerstvu često koriste oba alata zajedno."
             },
             {
-              "question": "Kako reverzno inženjerstvo pomaže u sigurnosti?",
-              "answer": "Reverzno inženjerstvo pomaže u pronalaženju sigurnosnih ranjivosti, poput buffer overflow-a i ranjivosti u kodu koje mogu biti iskorištene u napadima..."
+              "question": "Kako debugging pomaže u analizi softvera?",
+              "answer": "Debugging omogućuje pokretanje programa korak po korak, zaustavljanje na određenim točkama (breakpoints) i analizu registara i memorije u stvarnom vremenu. Alati poput GDB-a, x64dbg-a i WinDbg-a pomažu istražiti ponašanje softvera, identificirati ranjivosti i čak modificirati izvršni kod u letu. Ova tehnika se često koristi za zaobilaženje zaštitnih mehanizama i razumijevanje kako program obrađuje ulazne podatke."
             },
             {
-              "question": "Koji je cilj reverznog inženjerstva?",
-              "answer": "Cilj reverznog inženjerstva može biti poboljšanje sigurnosti, razumijevanje konkurentskih proizvoda, ili istraživanje i obnova izgubljenog izvornog koda..."
+              "question": "Zašto je IDA Pro jedan od najpoznatijih alata za reverzno inženjerstvo?",
+              "answer": "IDA Pro je moćan disassembler koji omogućuje statičku analizu binarnih datoteka s interaktivnim grafičkim sučeljem. Osim disassembla, IDA Pro podržava osnovnu dekompilaciju i skriptiranje za automatizaciju analize. Iako postoje besplatne alternative poput Ghidre i Radare2, IDA Pro je često izbor profesionalaca zbog svoje preciznosti i dodatnih značajki poput pluginova za detekciju zaštitnih mehanizama."
             },
             {
-              "question": "Je li reverzno inženjerstvo legalno?",
-              "answer": "Legalnost reverznog inženjerstva ovisi o zakonima zemlje u kojoj se provodi i specifičnim uvjetima korištenja softverskog proizvoda..."
+              "question": "Koje su najčešće prepreke u reverznom inženjerstvu?",
+              "answer": "Programi često koriste zaštitne mehanizme poput anti-debugging tehnika, obfuskacije koda i packera koji kompresiraju ili šifriraju izvršne datoteke. Ove metode otežavaju analizu disassemblera i decompilera. Reverzni inženjeri koriste dinamičku analizu, manualnu rekonstrukciju koda i specijalizirane alate poput Unpacker-a za zaobilaženje takvih prepreka i dobivanje originalnog binarnog koda."
             }
           ]
         },
         {
           "id": 502,
-          "name": "Analiza binarnih datoteka",
-          "lesson": "Analiza binarnih datoteka je ključna tehnika reverznog inženjerstva koja omogućuje dekompilaciju i analiziranje nečitljivih izvršnih datoteka kako bi se razumio njihov sadržaj i ponašanje...",
-          "video": "https://example.com/video13",
+          "name": "Analiza binarnih izvršnih datoteka i detekcija zaštitnih mehanizama",
+          "lesson": "Analiza binarnih izvršnih datoteka je ključna u reverznom inženjerstvu i CTF natjecanjima. Statička analiza podrazumijeva razgradnju binarnog koda uz pomoć disassemblera poput IDA Pro, Ghidra ili Radare2. Ovi alati omogućuju pregled asembler koda, koji se koristi za razumijevanje funkcionalnosti aplikacija. Korištenje decompilera može pomoći u rekonstrukciji izvorne funkcionalnosti aplikacije. Dinamička analiza uključuje praćenje izvršavanja programa u stvarnom vremenu koristeći alate za debugging kao što su GDB ili x64dbg. Ovi alati omogućuju praćenje tokova izvršenja i praćenje promjena u memoriji, registrima i podacima tijekom rada programa.\n\nZaštitni mehanizmi kao što su obfuskacija koda, packeri i anti-debugging tehnike koriste se kako bi spriječili analizu programa. Obfuskacija mijenja strukturu koda na način koji otežava njegovo razumijevanje, dok packeri komprimiraju datoteke kako bi ih učinili nečitljivima dok se ne dekomprimiraju tijekom izvršenja. Anti-debugging tehnike detektiraju kada je program podložan analizi ili debugiranju i ometaju rad alata poput debuggerskih sustava. Kako bi uspješno analizirali takve zaštićene datoteke, istraživači koriste specifične tehnike za zaobilaženje ovih zaštita.\n\nU kontekstu CTF natjecanja, analitičari koriste ove metode kako bi otkrili skrivene podatke, zastavice ili ranjivosti u binarnim datotekama. Svaka analiza zahtijeva razumijevanje specifičnih alata i tehnika te sposobnost za zaobilaženje zaštitnih mehanizama, što je ključ za uspješan napad ili rješenje izazova u CTF-u. Uz pomoć tih alata, istraživači mogu dobiti uvid u aplikacije i pronaći skrivene informacije koje su neophodne za napredne izazove CTF natjecanja.",
+          "video": "https://www.youtube.com/watch?v=Jfojz2i25bA",
           "fun_facts": [
             {
-              "question": "Što su binarne datoteke?",
-              "answer": "Binarne datoteke su izvršni programi, slike, zvučni zapisi i drugi tipovi datoteka koji nisu direktno čitljivi kao tekst..."
+              "question": "Koje su glavne vrste zaštitnih mehanizama u binarnim izvršnim datotekama?",
+              "answer": "Binarne izvršne datoteke često koriste nekoliko vrsta zaštite: obfuskaciju koda, anti-debugging tehnike, i packere. Obfuskacija mijenja strukturu koda kako bi bila nečitljiva analitičarima, dok packeri komprimiraju ili šifriraju datoteke, čineći ih nečitljivima dok se ne dekomprimiraju. Anti-debugging tehnike detektiraju alate za debugiranje i sprječavaju njihovo korištenje, ometajući analizu programa."
             },
             {
-              "question": "Koji su osnovni koraci u analizi binarnih datoteka?",
-              "answer": "Osnovni koraci uključuju otvaranje datoteke u disassembleru, praćenje funkcija i analiziranje toka programa kako bi se razumio njegov rad..."
+              "question": "Što je obfuskacija koda i kako se koristi u zaštiti?",
+              "answer": "Obfuskacija koda je tehnika koja mijenja izvorni kod na način da ga učini teškim za razumjeti i analizirati, ali ne mijenja njegovu funkcionalnost. Ova metoda se koristi za zaštitu intelektualnog vlasništva i sprječavanje reverznog inženjerstva. Obfuskirani kod može biti teže analizirati jer se kontrolne strukture, varijable i funkcije preimenuju u nasumične nazive, čineći kod neprepoznatljivim."
             },
             {
-              "question": "Što je disassembler?",
-              "answer": "Disassembler je alat koji pretvara strojni kod u asembler, omogućujući programerima da razumiju i analiziraju binarni kod..."
+              "question": "Koja je uloga packera u zaštiti binarnih datoteka?",
+              "answer": "Packer je alat koji komprimira izvršne datoteke kako bi ih učinio nečitljivima. Datoteke se 'pakiraju' u komprimirani format koji se mora dekomprimirati tijekom izvršenja. To otežava analizu jer nekomprimirane datoteke nisu dostupne za direktnu analizu. Packer se koristi za skrivanje stvarnog koda, a istraživači moraju koristiti odgovarajuće alate za dekompresiju i analizu pakiranih datoteka."
             },
             {
-              "question": "Koji je izazov u analizi binarnih datoteka?",
-              "answer": "Izazovi uključuju obfuscation (zamagljivanje) koda, dinamičko ponašanje programa i zaštitu poput enkripcije koja onemogućuje analizu..."
+              "question": "Kako debugging pomaže u analizi binarnih datoteka?",
+              "answer": "Debugging omogućuje dinamičku analizu binarnih datoteka. Korištenjem alata poput GDB-a, analitičar može pratiti izvršavanje programa, zaustaviti ga na određenim točkama (breakpoints) i istražiti memoriju, registre i promjene u ponašanju programa u stvarnom vremenu. Ovaj proces pomaže u pronalaženju grešaka, ranjivosti i skrivenih funkcionalnosti koje mogu biti korisne za napad ili analizu."
             },
             {
-              "question": "Kako dekompilirati izvršni program?",
-              "answer": "Dekomilacija uključuje korištenje alata koji mogu pretvoriti binarni kod natrag u izvorni kod ili u nešto što je razumljivo ljudima..."
+              "question": "Koji su alati najkorisniji za analizu binarnih datoteka?",
+              "answer": "Alati kao što su IDA Pro, Ghidra i Radare2 koriste se za statičku analizu binarnih datoteka. IDA Pro i Radare2 su disassembleri koji prevode binarni kod u asembler, dok Ghidra omogućuje i dekompilaciju i analizu viših razina koda. Za dinamičku analizu koriste se alati poput GDB-a i x64dbg-a koji omogućuju praćenje izvršavanja programa i inspekciju memorije u stvarnom vremenu."
             }
           ]
         },
         {
           "id": 503,
-          "name": "Napredne tehnike reverznog inženjerstva",
-          "lesson": "Napredne tehnike reverznog inženjerstva uključuju analizu složenijih sustava, obfuscation koda, debugging u stvarnom vremenu, i reverse shell-ove za daljinsko upravljanje zaraženim uređajem...",
-          "video": "https://example.com/video14",
+          "name": "Tehnike zaobilaženja zaštita i obfuscation u reverznom inženjerstvu",
+          "lesson": "Tehnike zaobilaženja zaštita i obfuscation ključne su u reverznom inženjerstvu, osobito kada se suočavate s naprednim zaštitnim mehanizmima u CTF natjecanjima. Obfuskacija koda je jedna od najučinkovitijih zaštita koja mijenja izgled koda, čineći ga teškim za analizu. Uključuje preimenovanje varijabli, funkcija i metoda u nasumične nazive, komplicirajući razumijevanje stvarne funkcionalnosti. Osim toga, obfuskacija može dodati beskorisne instrukcije u kod, kako bi se još više otežalo reverzno inženjerstvo. Za obnavljanje funkcionalnosti obfuskiranih aplikacija koriste se posebni alati, kao što su deobfuscators ili tehnike praćenja izvršnog toka programa.\n\nPored obfuskacije, packeri su drugi oblik zaštite koji komprimira binarne datoteke. Packer koristi algoritme za kompresiju, čineći izvršne datoteke nečitljivima dok se ne dekomprimiraju u memoriji tijekom izvršenja. Ova zaštita komplicira analizu jer istraživači moraju prvo dekomprimirati datoteku prije nego što je mogu analizirati. Da bi se zaobišli packeri, istraživači koriste alate za statičku analizu i praćenje programa u stvarnom vremenu.\n\nAnti-debugging tehnike sprječavaju korištenje alata za debugiranje, detektirajući kada se program pokreće unutar debuggerskog okruženja. Moguće je koristiti tehnike kao što su 'timing attacks' ili detekcija posebnih instrumenata (npr. GDB ili OllyDbg). Za uspješno zaobilaženje ovih tehnika, istraživači često koriste virtualizaciju, hardware debugging, ili modificiraju okolinu pokretanja programa. Ove tehnike omogućuju izvođenje programa unutar okruženja u kojem je teško otkriti analitičara. Sve ove metode omogućuju istraživačima da zaobiđu zaštite, što je od suštinskog značaja u procesu pronalaženja ranjivosti ili skrivene zastavice.",
+          "video": "https://www.youtube.com/watch?v=Jfojz2i25bA",
           "fun_facts": [
             {
-              "question": "Što je obfuscation?",
-              "answer": "Obfuscation je tehnika kojom se kod namjerno komplicira kako bi se otežalo njegovo razumijevanje ili reverzno inženjering..."
+              "question": "Što je obfuskacija koda i kako se koristi u zaštiti?",
+              "answer": "Obfuskacija koda koristi se za skrivanje stvarne funkcionalnosti programa preimenovanjem varijabli, funkcija i metoda u nasumične nazive. Ova tehnika otežava razumijevanje koda i povećava složenost analize. Korištenjem deobfuscators alata moguće je obrnuti obfuskaciju i rekonstruirati izvorni kod."
             },
             {
-              "question": "Kako se koristi debugging u reverznom inženjerstvu?",
-              "answer": "Debugging u reverznom inženjerstvu koristi alate kao što su OllyDbg ili x64dbg kako bi se pratilo izvršavanje koda u stvarnom vremenu..."
+              "question": "Kako packeri utječu na reverzno inženjerstvo?",
+              "answer": "Packer koristi kompresijske algoritme za smanjenje veličine izvršnih datoteka i otežava analizu jer je datoteka nečitljiva dok se ne dekomprimira u memoriji. Analitičari moraju dekomprimirati datoteku koristeći specijalizirane alate kako bi nastavili s analizom."
             },
             {
-              "question": "Što je reverse shell?",
-              "answer": "Reverse shell je metoda kojom zaraženi uređaj uspostavlja vezu prema napadaču, omogućujući mu daljinsko upravljanje računalom..."
+              "question": "Što je anti-debugging i kako se može zaobići?",
+              "answer": "Anti-debugging tehnike detektiraju alate za debuggiranje i onemogućuju analizu programa u realnom vremenu. Da bi se zaobišle, istraživači koriste virtualizaciju, modificiraju okruženje pokretanja ili koriste hardverske debugerske alate koji nisu prepoznatljivi od strane programa."
             },
             {
-              "question": "Kako se dešifriraju zaštićeni podaci?",
-              "answer": "Dešifriranje zaštićenih podataka uključuje pronalaženje ključeva ili ranjivosti u šifriranim algoritmima kako bi se podaci postali čitljivi..."
+              "question": "Zašto se koristi virtualizacija u zaobilaženju zaštita?",
+              "answer": "Virtualizacija omogućuje analitičarima da pokreću aplikacije u okruženju koje je teško detektirati od strane programa. Korištenjem virtualnih strojeva, istraživači mogu zaobići mnoge anti-debugging zaštite koje bi se inače aktivirale pri korištenju uobičajenih debugging alata."
             },
             {
-              "question": "Koje su prednosti i rizici naprednog reverznog inženjerstva?",
-              "answer": "Prednosti uključuju bolje razumijevanje softverskih sustava, dok rizici uključuju potencijalnu legalnu odgovornost i sigurnosne prijetnje tijekom analize..."
+              "question": "Koji alati se koriste za analizu obfuskiranih datoteka?",
+              "answer": "Za analizu obfuskiranih datoteka koriste se alati poput deobfuscators koji pomažu u vraćanju obfuskiranog koda u njegovu čitljiviju formu. Također se koristi i statička analiza uz alate kao što su Ghidra ili IDA Pro koji omogućuju razgradnju i analizu binarnih datoteka."
             }
           ]
         }
@@ -456,85 +456,85 @@
       "levels": [
         {
           "id": 601,
-          "name": "Osnove socijalnog inženjeringa",
-          "lesson": "Socijalni inženjering koristi psihološke trikove i manipulaciju kako bi prevario korisnike ili zaposlenike u otkrivanju osjetljivih informacija. Uključuje napade poput phishinga, pretexting-a i baiting-a...",
-          "video": "https://example.com/video15",
+          "name": "Uvod u socijalni inženjering: Metode i tehnike napada",
+          "lesson": "Socijalni inženjering je oblik napada u kojem napadači koriste psihološke trikove kako bi manipulisali ljudima, natjerali ih da otkriju povjerljive informacije ili izvrše radnje koje ugrožavaju sigurnost. Ova metoda temelji se na iskorištavanju ljudskih slabosti, kao što su povjerenje, naivnost, strah ili želja za pomoći. Napadači često koriste e-mailove, telefonske pozive ili čak osobne susrete kako bi prevarili žrtve. U kontekstu CTF natjecanja, socijalni inženjering se može koristiti za manipulaciju zaposlenicima ili korisnicima ciljanih organizacija, omogućujući napadačima pristup sigurnosnim sustavima.\n\nPostoje različite tehnike socijalnog inženjeringa, uključujući phishing, vishing, pretexting i baiting. Phishing uključuje slanje lažnih e-mailova koji izgledaju kao legitimni zahtjevi od poznatih organizacija, dok vishing koristi telefon za slične pretrage osjetljivih podataka. Pretexting se temelji na stvaranju lažnog identiteta kako bi se dobile povjerljive informacije, dok baiting koristi fizičke ili virtualne 'mamce' kako bi prevarili žrtve da preuzmu maliciozni softver ili daju pristup osjetljivim podacima.\n\nKako bi se zaštitili od socijalnog inženjeringa, važno je educirati korisnike o opasnostima i načinima prepoznavanja napada. Organizacije bi trebale implementirati sigurnosne politike koje uključuju autentifikaciju korisnika, provjeru e-mailova i telefonskih poziva, te redovito testiranje zaposlenika kroz simulirane napade. Ove mjere pomažu u smanjenju rizika od uspješnih napada socijalnog inženjeringa i zaštiti od potencijalnih prijetnji. Razumijevanje socijalnog inženjeringa ključno je za uspješno rješavanje izazova u CTF natjecanjima.",
+          "video": "https://www.youtube.com/watch?v=Z8zyV0Lg6So",
           "fun_facts": [
             {
-              "question": "Što je socijalni inženjering?",
-              "answer": "Socijalni inženjering je metoda napada u kojoj napadači iskorištavaju ljudsku psihologiju kako bi dobili povjerenje korisnika i ukrali podatke..."
+              "question": "Koja je osnovna strategija socijalnog inženjeringa?",
+              "answer": "Osnovna strategija socijalnog inženjeringa je manipulacija ljudskim ponašanjem kako bi se natjerale žrtve da otkriju povjerljive informacije ili izvrše radnje koje ne bi inače učinili. Napadači iskorištavaju ljudske slabosti, kao što su povjerenje i strah, da postignu svoje ciljeve."
             },
             {
-              "question": "Što je phishing?",
-              "answer": "Phishing je napad u kojem napadači šalju lažne poruke (e-mailove, poruke) kako bi prevarili korisnike da otkriju svoje osjetljive podatke, poput lozinki..."
+              "question": "Koje su najčešće vrste socijalnog inženjeringa?",
+              "answer": "Najčešće vrste socijalnog inženjeringa uključuju phishing, vishing, pretexting i baiting. Phishing se temelji na lažnim e-mailovima, vishing na telefonskim pozivima, pretexting na lažnim identitetima, a baiting na mamcima poput USB uređaja ili zaraženih web stranica."
             },
             {
-              "question": "Koje su vrste socijalnog inženjeringa?",
-              "answer": "Vrste socijalnog inženjeringa uključuju phishing, pretexting, baiting, i tailgating, gdje napadači koriste različite tehnike kako bi manipulirali žrtvama..."
+              "question": "Kako prepoznati phishing napad?",
+              "answer": "Phishing napadi često dolaze u obliku e-mailova koji izgledaju kao da su poslani od legitimnih organizacija, kao što su banke ili poznate web stranice. E-mailovi često sadrže lažne linkove, gramatiku i stil pisanja koji ne odgovara pravim izvorima, te zahtijevaju hitnu akciju poput unosa osjetljivih podataka."
             },
             {
-              "question": "Kako se zaštititi od socijalnog inženjeringa?",
-              "answer": "Zaštita uključuje podizanje svijesti, provjeru identiteta osoba koje traže osjetljive informacije, korištenje dvostruke autentifikacije i obuku zaposlenika..."
+              "question": "Što je pretexting i kako se koristi?",
+              "answer": "Pretexting je tehnika u kojoj napadač stvara lažni identitet ili priču kako bi prevario žrtvu i dobio povjerljive informacije. Na primjer, napadač može tvrditi da je zaposlenik banke i tražiti od žrtve da potvrdi svoj račun ili podatke iz sigurnosnih razloga."
             },
             {
-              "question": "Kako napadači koriste socijalni inženjering u svakodnevnim napadima?",
-              "answer": "Napadači često koriste socijalni inženjering kako bi ušli u organizacije, slali lažne e-mailove ili stvarali lažne identitete kako bi izmanipulirali ljude..."
+              "question": "Koji su najbolji načini zaštite od socijalnog inženjeringa?",
+              "answer": "Najbolji načini zaštite uključuju edukaciju korisnika o opasnostima socijalnog inženjeringa, implementaciju višefaktorske autentifikacije, redovite sigurnosne provjere, te obučavanje zaposlenika kako prepoznati i prijaviti sumnjive aktivnosti."
             }
           ]
         },
         {
           "id": 602,
-          "name": "Phishing napadi",
-          "lesson": "Phishing napadi su jedan od najčešćih oblika socijalnog inženjeringa. Napadači šalju lažne e-mailove, poruke ili web stranice kako bi prevarili korisnike da otkriju svoje osjetljive podatke...",
-          "video": "https://example.com/video16",
+          "name": "Phishing, vishing i pretexting: Kako prepoznati i obraniti se",
+          "lesson": "Phishing, vishing i pretexting su tri ključne metode socijalnog inženjeringa koje napadači koriste za krađu osjetljivih informacija. Phishing uključuje slanje lažnih e-mailova koji izgledaju kao da dolaze od poznatih institucija, s ciljem da žrtva otkrije svoje privatne podatke. Vishing je varijacija phishinga koja koristi telefonske pozive za slične napade, gdje napadači lažno predstavljaju službenike banaka ili drugih organizacija. Pretexting, s druge strane, podrazumijeva stvaranje lažnog identiteta kako bi napadač od žrtve dobio povjerljive informacije, najčešće pod izgovorom nužnosti provjere ili potvrde podataka.\n\nDa biste se obranili od ovih napada, uvijek budite oprezni pri unosu osobnih podataka, osobito putem e-maila, telefonskih poziva ili sumnjivih web stranica. Važno je redovito provoditi provjere autentičnosti, kao što je kontaktiranje organizacija na službenim brojevima telefona, a ne putem e-mailova ili sumnjivih linkova. Implementacija višefaktorske autentifikacije može značajno smanjiti rizik od napada čak i ako napadači uspiju prikupiti korisničke podatke.",
+          "video": "https://www.youtube.com/watch?v=vFpwFZL44co",
           "fun_facts": [
             {
-              "question": "Kako prepoznati phishing napad?",
-              "answer": "Phishing napadi se često prepoznaju po neobičnim e-mail adresama, gramatičkim greškama, i hitnosti zahtjeva za podacima, kao i po sumnjivim linkovima..."
+              "question": "Što je phishing i kako ga prepoznati?",
+              "answer": "Phishing je napad u kojem napadači šalju lažne e-mailove koji izgledaju kao da dolaze od pouzdane institucije, kao što je banka. E-mailovi često traže da unesete osjetljive informacije na lažnim web stranicama. Da biste prepoznali phishing, obratite pažnju na neobične URL-ove, lošu gramatiku i prijetnje u poruci."
             },
             {
-              "question": "Što napadači žele postići phishing napadima?",
-              "answer": "Napadači koriste phishing kako bi ukrali lozinke, brojeve kreditnih kartica ili druge osjetljive informacije korisnika ili organizacija..."
+              "question": "Kako vishing koristi telefon u socijalnom inženjeringu?",
+              "answer": "Vishing je oblik phishinga koji se izvodi putem telefona. Napadači se predstavljaju kao službenici banaka, službi za korisnike ili druge institucije i pokušavaju dobiti osobne podatke od žrtve. Prepoznavanje vishing napada uključuje sumnju na pozive od nepoznatih brojeva i zahtjeve za osjetljivim informacijama preko telefona."
             },
             {
-              "question": "Kako se zaštititi od phishing napada?",
-              "answer": "Zaštita uključuje provjeru identiteta pošiljatelja, korištenje antivirusnih programa, izbjegavanje otvaranja sumnjivih e-mailova i postavljanje sigurnosnih mjera kao što je dvostruka autentifikacija..."
+              "question": "Što je pretexting i kako ga se koristi u napadima?",
+              "answer": "Pretexting je tehnika socijalnog inženjeringa u kojoj napadači stvaraju lažni identitet i izmišljaju priču kako bi prevarili žrtvu da otkrije osjetljive podatke. Često se koriste izgovori poput 'provjere identiteta' ili 'potrebe za potvrdom informacija'. Za zaštitu, važno je uvijek provoditi provjeru izvora prije nego što pružite informacije."
             },
             {
-              "question": "Kako napadači koriste lažne web stranice u phishing napadima?",
-              "answer": "Napadači često stvaraju lažne web stranice koje izgledaju identično stvarnim stranicama, tražeći od korisnika da unesu osjetljive podatke poput lozinki..."
+              "question": "Koji su znakovi da je e-mail phishing napad?",
+              "answer": "Phishing e-mailovi obično sadrže sumnjive linkove, nagle zahtjeve za akciju (kao što je resetiranje lozinke) ili lošu gramatiku. Također, često uključuju prijetnje, kao što je 'vaš račun će biti blokiran ako ne poduzmete odmah radnju'. Uvijek provjerite URL web stranice prije nego što unesete svoje podatke."
             },
             {
-              "question": "Koji su najčešći ciljevi phishing napada?",
-              "answer": "Najčešći ciljevi su korisnici koji koriste online bankarstvo, e-trgovinu i društvene mreže, te zaposlenici koji imaju pristup poslovnim sustavima..."
+              "question": "Koji su najbolji načini za zaštitu od phishing, vishing i pretexting napada?",
+              "answer": "Za zaštitu od ovih napada, ključno je uvijek provoditi provjere autentičnosti putem službenih kanala, koristiti višefaktorsku autentifikaciju i biti oprezan pri otvaranju e-mailova i pozivima od nepoznatih osoba. Također, redovito educirajte sebe i kolege o najnovijim prijetnjama i tehnikama socijalnog inženjeringa."
             }
           ]
         },
         {
           "id": 603,
-          "name": "Napredne tehnike socijalnog inženjeringa",
-          "lesson": "Napredne tehnike socijalnog inženjeringa uključuju sofisticirane napade poput pretexting-a, baiting-a i tailgating-a, gdje napadači koriste dublje psihološke trikove i situacije za manipulaciju žrtvama...",
-          "video": "https://example.com/video17",
+          "name": "Manipulacija povjerenjem: Korištenje psihologije u socijalnom inženjeringu",
+          "lesson": "Manipulacija povjerenjem je ključna komponenta socijalnog inženjeringa, gdje napadači koriste psihološke tehnike kako bi prevarili žrtvu i prikupili osjetljive informacije. Ova tehnika često uključuje iskorištavanje prirodnih ljudskih osobina poput želje za pomaganjem, poštovanja autoriteta, ili straha. Napadači stvaraju iluziju da su vjerodostojni, često se predstavljajući kao poznati i pouzdani subjekti poput kolega, menadžera, ili poznatih institucija, kako bi dobili pristup zaštićenim informacijama.\n\nKorištenje psiholoških taktika uključuje pristup kao što je 'recipročnost' – kad napadač nudi pomoć ili koristi gestu kako bi žrtvu natjerao da osjeća potrebu za uzvratnom uslugom. Također, napadači često koriste taktiku 'hitnosti' gdje stvaraju osjećaj nužnosti i prijetnje, tjerajući žrtvu na brzu reakciju bez vremena za razmišljanje. Manipulacija povjerenjem također može uključivati 'autoritet', gdje napadač koristi status i autoritet kako bi natjerao žrtvu da poduzme akciju, kao što je otkrivanje osobnih podataka.\n\nDa bi se obranili od ovih napada, važno je razviti kritički pristup prema informacijama koje se primaju, osobito kada se radi o neočekivanim zahtjevima za povjerljivim podacima. Obuka zaposlenika i korisnika o psihološkim tehnikama socijalnog inženjeringa može značajno smanjiti uspješnost tih napada. Također, organizacije trebaju implementirati jasne politike sigurnosti koje uključuju procese verifikacije i provjere identiteta, osobito u situacijama kada se zahtijevaju povjerljivi podaci ili kada postoji osjećaj nužnosti.",
+          "video": "https://www.youtube.com/watch?v=JqJ0wPn0Q_I",
           "fun_facts": [
             {
-              "question": "Što je pretexting?",
-              "answer": "Pretexting je napad u kojem napadači stvaraju lažni identitet ili izmišljenu situaciju kako bi prevarili žrtvu i iznudili osjetljive informacije..."
+              "question": "Kako manipulacija povjerenjem utječe na socijalni inženjering?",
+              "answer": "Manipulacija povjerenjem igra ključnu ulogu u socijalnom inženjeringu, jer napadači koriste ljudske osobine kao što su želja za pomaganjem i poštovanje autoriteta kako bi žrtve natjerali da otkriju povjerljive informacije. Koriste taktike poput reciprociteta, hitnosti i autoriteta da stvore osjećaj dužnosti kod žrtve."
             },
             {
-              "question": "Što je baiting?",
-              "answer": "Baiting je napad u kojem napadači koriste mamac, poput besplatnih downloadova ili ponuda, kako bi prevarili korisnike da otkriju svoje podatke ili instaliraju zlonamjerni softver..."
+              "question": "Koje psihološke tehnike napadači koriste u socijalnom inženjeringu?",
+              "answer": "Napadači u socijalnom inženjeringu koriste psihološke tehnike poput reciprociteta, gdje nude pomoć kako bi natjerali žrtvu da uzvrati, ili stvaranje osjećaja hitnosti, gdje žrtva mora brzo reagirati. Također, koriste autoritet, predstavljajući se kao ovlaštene osobe ili institucije kako bi stekli povjerenje žrtve."
             },
             {
-              "question": "Što je tailgating?",
-              "answer": "Tailgating je fizička tehnika socijalnog inženjeringa u kojoj napadači prate zaposlenike ili druge osobe u sigurnosne zone, koristeći njihov pristup za neovlašteni ulazak..."
+              "question": "Zašto je manipulacija povjerenjem učinkovita metoda socijalnog inženjeringa?",
+              "answer": "Manipulacija povjerenjem učinkovita je jer se temelji na prirodnim ljudskim instinktima i psihološkim osobinama, poput želje za pomaganjem ili straha od neuspjeha. Ljudi su skloni vjerovati onima koji izgledaju poznato ili autoritativno, što napadačima omogućuje da uspješno prikriju svoje stvarne namjere."
             },
             {
-              "question": "Kako napadači koriste psihološke trikove u socijalnom inženjeringu?",
-              "answer": "Napadači često koriste psihološke trikove poput izazivanja osjećaja hitnosti, povjerenja ili straha, kako bi manipulirali žrtvama i natjerali ih na brze odluke..."
+              "question": "Kako se obraniti od manipulacije povjerenjem?",
+              "answer": "Za obranu od manipulacije povjerenjem, važno je razviti kritički pristup informacijama i ne donijeti brzopotezne odluke, osobito kad se traže povjerljivi podaci. Provodite uvijek verifikaciju identiteta putem službenih kanala, posebno u situacijama kada postoji osjećaj nužnosti ili hitnosti."
             },
             {
-              "question": "Kako se zaštititi od naprednih socijalnih inženjerskih napada?",
-              "answer": "Zaštita uključuje trening zaposlenika o prepoznavanju manipulativnih tehnika, uspostavljanje jasnih sigurnosnih procedura i redovito testiranje sustava na ranjivosti..."
+              "question": "Kako organizacije mogu spriječiti napade temeljenje na manipulaciji povjerenjem?",
+              "answer": "Organizacije mogu spriječiti napade temeljenje na manipulaciji povjerenjem implementiranjem jasnih politika sigurnosti koje uključuju procese verifikacije i provjere identiteta. Također, važno je educirati zaposlenike o tehnikama socijalnog inženjeringa kako bi postali oprezniji i prepoznali pokušaje manipulacije."
             }
           ]
         }
