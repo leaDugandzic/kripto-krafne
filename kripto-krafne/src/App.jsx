@@ -14,7 +14,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 import Radnici from './KraljestvoKrafni/Radnici';
 import Glazba from './KraljestvoKrafni/Glazba';
-import { Menu } from 'lucide-react';
+import Menu from './KraljestvoKrafni/Menu';
 function App() {
   const [stylepfp, setStylepfp] = useState("none");
   const [stylebtn, setStylebtn] = useState("flex");

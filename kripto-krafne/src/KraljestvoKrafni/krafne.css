@@ -217,7 +217,7 @@ nav ul li a:hover {
 }
 
 
-.menu {
+.menu1 {
     display: flex;
     flex-direction: column;
     width: 90%;
@@ -305,9 +305,13 @@ nav ul li a:hover {
 
 
 .items {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 18px;
+    gap: 18px; */
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction:row;
+    gap:20px;
     justify-content: center;
 }
 
