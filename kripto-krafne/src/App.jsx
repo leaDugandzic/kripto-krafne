@@ -13,6 +13,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 import Radnici from './KraljestvoKrafni/Radnici';
+import Glazba from './KraljestvoKrafni/Glazba';
+import { Menu } from 'lucide-react';
 function App() {
   const [stylepfp, setStylepfp] = useState("none");
   const [stylebtn, setStylebtn] = useState("flex");
@@ -94,6 +96,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/radnici" element={<Radnici></Radnici>}></Route>
+          <Route path="/glazba" element={<Glazba></Glazba>}></Route>
+          <Route path="/menu" element={<Menu></Menu>}></Route>
+
           <Route path="/box/:id" element={<Level levels={levels} />} />
         </Routes>
       </Router>

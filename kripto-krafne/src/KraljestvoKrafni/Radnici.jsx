@@ -69,7 +69,7 @@ function Radnici() {
               <img className="profile-pic" src={Radnik5} alt="Matea Cezar" />
               <h1 className="profile-name">Matea Cezar</h1>
               <h3 className="profile-posao">Menadžer</h3>
-              <p className="profile-bio">/jodced.sks</p>
+              <p className="profile-bio">/jodced</p>
             </div>
           ) : (
             <div className="radnik">
