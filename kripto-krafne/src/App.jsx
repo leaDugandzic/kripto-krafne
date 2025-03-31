@@ -11,6 +11,8 @@ import Krafnapfp from "./assets/img/krafna.png";
 import levels from './library/levels.json';
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+
+import Radnici from './KraljestvoKrafni/Radnici';
 function App() {
   const [stylepfp, setStylepfp] = useState("none");
   const [stylebtn, setStylebtn] = useState("flex");
@@ -91,7 +93,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
+          <Route path="/radnici" element={<Radnici></Radnici>}></Route>
           <Route path="/box/:id" element={<Level levels={levels} />} />
         </Routes>
       </Router>
