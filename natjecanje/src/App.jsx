@@ -46,21 +46,18 @@ const lines = [
     src: "../src/img/1and5.png",
     position: { top: "60%", left: "23%" },
     width: "22vw",
-    // height: "5vh",
   },
   {
     id: "two",
     src: "../src/img/two.png",
     position: { top: "51%", left: "50%" },
     width: "25vw",
-    // height: "5vh",
   },
   {
     id: "three",
     src: "../src/img/three.png",
     position: { top: "40%", left: "70%" },
     width: "25vw",
-    // height: "5vh",
     transform: "scaleY(-1) rotate(90deg)",
   },
   {
@@ -68,7 +65,6 @@ const lines = [
     src: "../src/img/four.png",
     position: { top: "10%", left: "61%" },
     width: "27vw",
-    // height: "5vh",
     transform: " rotate(230deg)",
   },
   {
@@ -76,7 +72,6 @@ const lines = [
     src: "../src/img/two.png",
     position: { top: "15%", left: "28%" },
     width: "26vw",
-    // height: "5vh",
     transform: "scaleY(-1) ",
   },
   {
@@ -84,7 +79,6 @@ const lines = [
     src: "../src/img/six.png",
     position: { top: "35%", left: "8%" },
     width: "16vw",
-    // height: "5vh",
     transform: "scaleY(-1) ",
   },
 ];
@@ -118,7 +112,7 @@ export default function DonutGame() {
   };
 
   return (
-    <div className="relative w-full h-screen bg-[#ffceea] flex items-center justify-center overflow-hidden">
+    <div className="relative w-full h-screen bg-[#ffceea] flex items-center justify-center overflow-hidden p-8 md:p-12">
       <img
         src="../src/img/castle.png"
         alt="Castle"
