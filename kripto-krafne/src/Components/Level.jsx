@@ -1,33 +1,25 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useData from './useData';
 import AccordionSection from './AccordionSection';
 import DetailsSection from './DetailsSection';
+import DragDropGame from './DragDropGame';
 
 const Level = () => {
-    const { id } = useParams(); // Dohvati ID iz URL-a
+    const { id } = useParams(); // Get the ID from URL
     const { getLevelById } = useData();
-    const navigate = useNavigate();
 
-    const level = getLevelById(id);
+    const level = getLevelById(id); // Retrieve the level data using the provided ID
     if (!level) return <p>Level nije pronađen</p>;
 
     const nextLevelId = Number(id) + 1;
-    const isLastLevel = nextLevelId % 100 === 4; // Ako je id 104, 204, 304...
+    const isLastLevel = nextLevelId % 100 === 4; // Check if this is the last level
 
     return (
         <div>
             <DetailsSection level={level} />
             <AccordionSection funFacts={level.fun_facts} />
-
-            <div className="flex justify-center mt-4">
-                <button
-                    onClick={() => navigate(isLastLevel ? '/' : `/box/${nextLevelId}`)}
-                    className="bg-pink-700 text-white px-4 py-2 rounded-md"
-                >
-                    {isLastLevel ? "Povratak na početnu" : "Sljedeći level"}
-                </button>
-            </div>
+            <DragDropGame gameData={level.game} currentLevelId={level.id} />
         </div>
     );
 };

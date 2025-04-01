@@ -30,6 +30,28 @@
               "question": "Kako se kvantna računala mogu odraziti na kriptografiju?",
               "answer": "Kvantna računala predstavljaju prijetnju postojećim kriptografskim sustavima jer mogu efikasno riješiti matematičke probleme koji trenutno zahtijevaju ogromne računalne resurse. Na primjer, kvantna računala mogu brzo faktorizirati velike brojeve, što bi moglo ugroziti sigurnost RSA algoritma. Kvantna računala također imaju potencijal za razbijanje simetričnih kriptografskih sustava, iako je za njih potrebna veća računalna snaga. Kao odgovor na ovu prijetnju, istražuju se kvantno otporni algoritmi koji bi bili sigurni i u eri kvantnih računala, ali ta tehnologija još nije široko dostupna."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "AES",
+              "description": "Simetrični algoritam visokih performansi."
+            },
+            {
+              "id": 2,
+              "term": "RSA",
+              "description": "Najpoznatiji asimetrični algoritam."
+            },
+            {
+              "id": 3,
+              "term": "Hash funkcija",
+              "description": "Koristi se za provjeru integriteta podataka."
+            },
+            {
+              "id": 4,
+              "term": "Kvantna računala",
+              "description": "Mogu ugroziti postojeće kriptografske sustave."
+            }
           ]
         },
         {
@@ -58,6 +80,28 @@
               "question": "Kako blockchain koristi hash funkcije za sigurnost?",
               "answer": "Blockchain koristi hash funkcije kako bi osigurao nepromjenjivost podataka i zaštitu od manipulacija. Svaki blok sadrži hash prethodnog bloka, čineći lanac sigurnim jer bi promjena jednog bloka zahtijevala izmjenu svih sljedećih. Osim toga, transakcije unutar bloka se grupiraju pomoću Merkle stabala, gdje se svaki sloj podataka hashira dok se ne dobije jedinstveni 'root hash'. Ova struktura omogućuje brzu provjeru integriteta podataka, čineći blockchain otpornim na lažiranje i napade."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "AES",
+              "description": "Simetrični algoritam visokih performansi."
+            },
+            {
+              "id": 2,
+              "term": "RSA",
+              "description": "Najpoznatiji asimetrični algoritam."
+            },
+            {
+              "id": 3,
+              "term": "Hash funkcija",
+              "description": "Koristi se za provjeru integriteta podataka."
+            },
+            {
+              "id": 4,
+              "term": "Kvantna računala",
+              "description": "Mogu ugroziti postojeće kriptografske sustave."
+            }
           ]
         },
         {
@@ -85,6 +129,28 @@
             {
               "question": "Zašto je dodavanje slučajnosti (salta) važno pri hashiranju lozinki?",
               "answer": "Dodavanje slučajne vrijednosti (salta) prije hashiranja lozinke sprječava napade unaprijed izračunatim tablicama (rainbow tables). Bez salta, napadači mogu koristiti unaprijed izračunate hash vrijednosti kako bi brzo razbili lozinke. Kada se svakom hashiranju doda jedinstveni salt, čak i identične lozinke daju različite hashove, čineći takve napade neučinkovitima. Sigurni sustavi koriste metode poput bcrypt, scrypt ili Argon2, koji uključuju salt i iteracije kako bi dodatno otežali razbijanje lozinki."
+            }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "AES",
+              "description": "Simetrični algoritam visokih performansi."
+            },
+            {
+              "id": 2,
+              "term": "RSA",
+              "description": "Najpoznatiji asimetrični algoritam."
+            },
+            {
+              "id": 3,
+              "term": "Hash funkcija",
+              "description": "Koristi se za provjeru integriteta podataka."
+            },
+            {
+              "id": 4,
+              "term": "Kvantna računala",
+              "description": "Mogu ugroziti postojeće kriptografske sustave."
             }
           ]
         }

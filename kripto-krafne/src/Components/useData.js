@@ -8,11 +8,12 @@ const useData = () => {
 
     useEffect(() => {
         try {
-            // Pretpostavljam da tvoj JSON ima ključ "categories"
             setCategories(levelsData.categories);
+            console.log("Učitane kategorije:", levelsData.categories);
             setLoading(false);
         } catch (error) {
             setError("Failed to load data.");
+            console.error("Greška pri učitavanju podataka:", error);
             setLoading(false);
         }
     }, []);
@@ -22,18 +23,20 @@ const useData = () => {
             console.error("categories nije učitan ili nije array");
             return null;
         }
-        // Pazite da pretvoriš tip ako id dolazi kao string (npr. iz useParams)
-        return categories.find(category => category.id === Number(id));
+        const category = categories.find(category => category.id === Number(id));
+        console.log("Dohvaćena kategorija:", category);
+        return category;
     };
 
     const getLevelById = (id) => {
-        // Pregledaj sve kategorije i traži level s odgovarajućim id-om
         for (const category of categories) {
             const levelFound = category.levels.find(level => level.id === Number(id));
             if (levelFound) {
+                console.log("Dohvaćen level:", levelFound);
                 return levelFound;
             }
         }
+        console.error("Level nije pronađen za id:", id);
         return null;
     };
 

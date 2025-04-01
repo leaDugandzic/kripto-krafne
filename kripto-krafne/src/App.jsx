@@ -91,7 +91,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
+          <Route path="/donut-level/:id" element={<DonutLevel />} />
           <Route path="/box/:id" element={<Level levels={levels} />} />
         </Routes>
       </Router>
