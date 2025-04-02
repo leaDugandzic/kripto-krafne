@@ -84,23 +84,23 @@
           "game": [
             {
               "id": 1,
-              "term": "AES",
-              "description": "Simetrični algoritam visokih performansi."
+              "term": "SHA-256",
+              "description": "Sigurna hash funkcija korištena u Bitcoin mreži."
             },
             {
               "id": 2,
-              "term": "RSA",
-              "description": "Najpoznatiji asimetrični algoritam."
+              "term": "Digitalni potpis",
+              "description": "Kombinacija hash funkcije i asimetrične kriptografije."
             },
             {
               "id": 3,
-              "term": "Hash funkcija",
-              "description": "Koristi se za provjeru integriteta podataka."
+              "term": "MD5",
+              "description": "Zastarjela hash funkcija podložna napadima sudara."
             },
             {
               "id": 4,
-              "term": "Kvantna računala",
-              "description": "Mogu ugroziti postojeće kriptografske sustave."
+              "term": "Steganografija",
+              "description": "Skrivanje informacija unutar drugih datoteka."
             }
           ]
         },
@@ -134,23 +134,23 @@
           "game": [
             {
               "id": 1,
-              "term": "AES",
-              "description": "Simetrični algoritam visokih performansi."
+              "term": "Bočni kanali",
+              "description": "Napadi koji koriste fizičke karakteristike uređaja."
             },
             {
               "id": 2,
-              "term": "RSA",
-              "description": "Najpoznatiji asimetrični algoritam."
+              "term": "Salt",
+              "description": "Slučajna vrijednost dodana prije hashiranja lozinke."
             },
             {
               "id": 3,
-              "term": "Hash funkcija",
-              "description": "Koristi se za provjeru integriteta podataka."
+              "term": "Shorov algoritam",
+              "description": "Kvantni algoritam koji ugrožava RSA enkripciju."
             },
             {
               "id": 4,
-              "term": "Kvantna računala",
-              "description": "Mogu ugroziti postojeće kriptografske sustave."
+              "term": "Rainbow tables",
+              "description": "Unaprijed izračunate tablice za napade na lozinke."
             }
           ]
         }
@@ -186,6 +186,28 @@
               "question": "Zašto je upravljanje sesijama važno za sigurnost?",
               "answer": "Nepravilno upravljanje sesijama može omogućiti napadačima krađu korisničkih sesija i preuzimanje računa. Ako aplikacija ne koristi sigurnosne kolačiće, ne postavlja pravilna ograničenja sesije ili ne koristi token za autentifikaciju, napadači mogu iskoristiti napade poput session fixation ili session hijacking. Sigurnosne mjere poput Secure i HttpOnly kolačića, regeneracije sesijskog ID-a i isticanja sesija pomažu u zaštiti korisnika."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "SQL injekcija",
+              "description": "Napad koji omogućuje izvršavanje proizvoljnih SQL upita."
+            },
+            {
+              "id": 2,
+              "term": "XSS",
+              "description": "Ubacivanje zlonamjernog JavaScript koda u web stranice."
+            },
+            {
+              "id": 3,
+              "term": "CSRF",
+              "description": "Napad koji iskorištava autentifikaciju korisnika."
+            },
+            {
+              "id": 4,
+              "term": "OWASP",
+              "description": "Organizacija koja definira najkritičnije web ranjivosti."
+            }
           ]
         },
         {
@@ -214,6 +236,28 @@
               "question": "Zašto treba ograničiti broj neuspjelih prijava?",
               "answer": "Ograničavanjem neuspjelih prijava može se spriječiti brute-force napade, gdje napadači sustavno pokušavaju razne kombinacije lozinki dok ne pronađu ispravnu."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "Session hijacking",
+              "description": "Krađa sesijskog kolačića za preuzimanje korisničkog računa."
+            },
+            {
+              "id": 2,
+              "term": "Credential stuffing",
+              "description": "Iskorištavanje istih lozinki na više servisa."
+            },
+            {
+              "id": 3,
+              "term": "2FA",
+              "description": "Dvofaktorska autentifikacija za dodatnu sigurnost."
+            },
+            {
+              "id": 4,
+              "term": "Bcrypt",
+              "description": "Algoritam za sigurno hashiranje lozinki."
+            }
           ]
         },
         {
@@ -241,6 +285,28 @@
             {
               "question": "Kako penetracijsko testiranje pomaže u sigurnosti?",
               "answer": "Penetracijsko testiranje simulira stvarne napade kako bi se identificirale ranjivosti u sustavu prije nego što ih napadači mogu iskoristiti, omogućujući pravovremene sigurnosne popravke."
+            }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "WAF",
+              "description": "Web Application Firewall za filtriranje zlonamjernog prometa."
+            },
+            {
+              "id": 2,
+              "term": "CSP",
+              "description": "Content Security Policy za ograničavanje izvora skripti."
+            },
+            {
+              "id": 3,
+              "term": "RCE",
+              "description": "Remote Code Execution - izvršavanje koda na udaljenom sustavu."
+            },
+            {
+              "id": 4,
+              "term": "Pen testiranje",
+              "description": "Simulacija napada za pronalaženje ranjivosti."
             }
           ]
         }
@@ -276,6 +342,28 @@
               "question": "Koji su najčešće korišteni alati u digitalnoj forenzici?",
               "answer": "Najčešće korišteni alati uključuju Autopsy i The Sleuth Kit za analizu diskova, FTK Imager za rad s diskovnim slikama, EnCase za dubinsku analizu datotečnih sustava i Wireshark za analizu mrežnog prometa. Svaki od ovih alata omogućuje forenzičarima prikupljanje i analizu digitalnih dokaza na način koji čuva njihovu vjerodostojnost."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "Write-blocker",
+              "description": "Uređaj koji sprječava promjene na digitalnim dokazima."
+            },
+            {
+              "id": 2,
+              "term": "Autopsy",
+              "description": "Alat za forenzičku analizu diskova."
+            },
+            {
+              "id": 3,
+              "term": "FTK Imager",
+              "description": "Alat za kreiranje forenzičkih slika diskova."
+            },
+            {
+              "id": 4,
+              "term": "Volatility",
+              "description": "Alat za analizu memorije u forenzici."
+            }
           ]
         },
         {
@@ -304,6 +392,28 @@
               "question": "Može li se steganografija koristiti u audio datotekama?",
               "answer": "Da, steganografija se može primijeniti na audio datoteke pomoću metoda poput Echo Hiding i Phase Coding, gdje se skriveni podaci ugrađuju u neslušljive dijelove zvuka. Na ovaj način, napadači mogu prenijeti tajne informacije kroz audio datoteke bez izazivanja sumnje kod slušatelja."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "LSB",
+              "description": "Least Significant Bit - metoda skrivanja podataka u slikama."
+            },
+            {
+              "id": 2,
+              "term": "ExifTool",
+              "description": "Alat za analizu metapodataka u datotekama."
+            },
+            {
+              "id": 3,
+              "term": "StegExpose",
+              "description": "Alat za detekciju steganografije u slikama."
+            },
+            {
+              "id": 4,
+              "term": "Binarni editor",
+              "description": "Alat za ručnu analizu strukture datoteka."
+            }
           ]
         },
         {
@@ -331,6 +441,28 @@
             {
               "question": "Kako forenzičari otkrivaju ‘fileless’ malware napade?",
               "answer": "‘Fileless’ malware ne ostavlja tragove na disku, već se izvršava iz memorije, što otežava detekciju klasičnim antivirusnim alatima. Forenzičari koriste napredne metode analize memorije pomoću alata poput Volatility kako bi identificirali neobične procese, sumnjive skripte u RAM-u i neovlaštene mrežne konekcije koje ukazuju na prisutnost ‘fileless’ prijetnji."
+            }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "Wireshark",
+              "description": "Alat za analizu mrežnog prometa."
+            },
+            {
+              "id": 2,
+              "term": "C2 poslužitelj",
+              "description": "Command and Control server za upravljanje botnetom."
+            },
+            {
+              "id": 3,
+              "term": "Sandbox",
+              "description": "Izolirano okruženje za analizu malwarea."
+            },
+            {
+              "id": 4,
+              "term": "Fileless malware",
+              "description": "Zlonamjerni softver koji radi samo u memoriji."
             }
           ]
         }
@@ -366,6 +498,28 @@
               "question": "Kako se može zaštititi mrežni promet od presretanja?",
               "answer": "Šifriranje prometa pomoću HTTPS-a, VPN-a ili TLS-a sprječava neovlašteni pristup podacima tijekom prijenosa. Također, korištenje sigurnih protokola poput SSH umjesto Telnet-a i redovito nadgledanje mrežnog prometa mogu pomoći u detekciji i prevenciji napada."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "TCP/IP",
+              "description": "Temeljni protokolni skup internetske komunikacije."
+            },
+            {
+              "id": 2,
+              "term": "DNS spoofing",
+              "description": "Napad lažiranjem DNS odgovora za preusmjeravanje prometa."
+            },
+            {
+              "id": 3,
+              "term": "OSI model",
+              "description": "Model s 7 slojeva koji opisuje mrežnu komunikaciju."
+            },
+            {
+              "id": 4,
+              "term": "TLS",
+              "description": "Protokol za šifriranu komunikaciju na internetu."
+            }
           ]
         },
         {
@@ -394,6 +548,28 @@
               "question": "Kako napadači koriste rogue access point?",
               "answer": "Napadači postavljaju lažni Wi-Fi hotspot s nazivom sličnim legitimnom, a kada se korisnici spoje, sav njihov promet prolazi kroz napadačev uređaj. To omogućuje presretanje lozinki, kreditnih kartica i drugih osjetljivih podataka."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "ARP spoofing",
+              "description": "Lažiranje ARP odgovora za preusmjeravanje prometa."
+            },
+            {
+              "id": 2,
+              "term": "SSL stripping",
+              "description": "Napad koji prisiljava korisnike na nešifrirane veze."
+            },
+            {
+              "id": 3,
+              "term": "Rogue AP",
+              "description": "Lažni Wi-Fi pristupni punkt za presretanje prometa."
+            },
+            {
+              "id": 4,
+              "term": "tcpdump",
+              "description": "Alat za snimanje mrežnog prometa u terminalu."
+            }
           ]
         },
         {
@@ -421,6 +597,28 @@
             {
               "question": "Kako firewalli filtriraju mrežni promet i sprječavaju napade?",
               "answer": "Firewalli analiziraju mrežne pakete i odlučuju hoće li ih propustiti ili blokirati na temelju unaprijed definiranih pravila. Na primjer, mogu blokirati dolazne veze s poznatih zlonamjernih IP adresa ili spriječiti neovlaštene pokušaje pristupa internim serverima. Napredni firewalli, poput Next-Generation Firewall (NGFW) sustava, mogu analizirati aplikacijski promet i prepoznati prijetnje na temelju ponašanja, sprječavajući složenije napade poput Command and Control (C2) komunikacija zlonamjernog softvera."
+            }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "VPN",
+              "description": "Virtualna privatna mreža za šifriranu komunikaciju."
+            },
+            {
+              "id": 2,
+              "term": "NGFW",
+              "description": "Next-Generation Firewall s naprednim filtiranjem."
+            },
+            {
+              "id": 3,
+              "term": "IDS",
+              "description": "Sustav za detekciju upada u mrežu."
+            },
+            {
+              "id": 4,
+              "term": "AES-256",
+              "description": "Napredni algoritam za šifriranje podataka."
             }
           ]
         }
@@ -456,6 +654,28 @@
               "question": "Koje su najčešće prepreke u reverznom inženjerstvu?",
               "answer": "Programi često koriste zaštitne mehanizme poput anti-debugging tehnika, obfuskacije koda i packera koji kompresiraju ili šifriraju izvršne datoteke. Ove metode otežavaju analizu disassemblera i decompilera. Reverzni inženjeri koriste dinamičku analizu, manualnu rekonstrukciju koda i specijalizirane alate poput Unpacker-a za zaobilaženje takvih prepreka i dobivanje originalnog binarnog koda."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "IDA Pro",
+              "description": "Profesionalni disassembler za reverzno inženjerstvo."
+            },
+            {
+              "id": 2,
+              "term": "Ghidra",
+              "description": "Besplatni alat za dekompilaciju NSA-inog porijekla."
+            },
+            {
+              "id": 3,
+              "term": "x64dbg",
+              "description": "Debugger za 32-bitne i 64-bitne Windows aplikacije."
+            },
+            {
+              "id": 4,
+              "term": "Anti-debugging",
+              "description": "Tehnike za sprječavanje debuggiranja programa."
+            }
           ]
         },
         {
@@ -484,6 +704,28 @@
               "question": "Koji su alati najkorisniji za analizu binarnih datoteka?",
               "answer": "Alati kao što su IDA Pro, Ghidra i Radare2 koriste se za statičku analizu binarnih datoteka. IDA Pro i Radare2 su disassembleri koji prevode binarni kod u asembler, dok Ghidra omogućuje i dekompilaciju i analizu viših razina koda. Za dinamičku analizu koriste se alati poput GDB-a i x64dbg-a koji omogućuju praćenje izvršavanja programa i inspekciju memorije u stvarnom vremenu."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "Obfuskacija",
+              "description": "Namjerno zamućivanje koda kako bi se otežala analiza."
+            },
+            {
+              "id": 2,
+              "term": "Packer",
+              "description": "Alat za kompresiju/šifriranje izvršnih datoteka."
+            },
+            {
+              "id": 3,
+              "term": "Radare2",
+              "description": "Framework za analizu binarnih datoteka."
+            },
+            {
+              "id": 4,
+              "term": "Unpacker",
+              "description": "Alat za dekompresiju pakiranih izvršnih datoteka."
+            }
           ]
         },
         {
@@ -511,6 +753,28 @@
             {
               "question": "Koji alati se koriste za analizu obfuskiranih datoteka?",
               "answer": "Za analizu obfuskiranih datoteka koriste se alati poput deobfuscators koji pomažu u vraćanju obfuskiranog koda u njegovu čitljiviju formu. Također se koristi i statička analiza uz alate kao što su Ghidra ili IDA Pro koji omogućuju razgradnju i analizu binarnih datoteka."
+            }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "Deobfuskator",
+              "description": "Alat za vraćanje obfuskiranog koda u čitljivu formu."
+            },
+            {
+              "id": 2,
+              "term": "Hardware breakpoint",
+              "description": "Debugging tehnika koja zaobilazi softverske zaštite."
+            },
+            {
+              "id": 3,
+              "term": "VM detection",
+              "description": "Metode za otkrivanje virtualnog okruženja."
+            },
+            {
+              "id": 4,
+              "term": "Code caves",
+              "description": "Nekorišteni dijelovi koda gdje se može ubaciti payload."
             }
           ]
         }
@@ -546,6 +810,28 @@
               "question": "Koji su najbolji načini zaštite od socijalnog inženjeringa?",
               "answer": "Najbolji načini zaštite uključuju edukaciju korisnika o opasnostima socijalnog inženjeringa, implementaciju višefaktorske autentifikacije, redovite sigurnosne provjere, te obučavanje zaposlenika kako prepoznati i prijaviti sumnjive aktivnosti."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "Phishing",
+              "description": "Napad lažnim e-mailovima koji oponašaju legitimne izvore."
+            },
+            {
+              "id": 2,
+              "term": "Vishing",
+              "description": "Telefonska verzija phishing napada."
+            },
+            {
+              "id": 3,
+              "term": "Baiting",
+              "description": "Napad korištenjem fizičkih ili digitalnih mamaca."
+            },
+            {
+              "id": 4,
+              "term": "Pretexting",
+              "description": "Stvaranje lažnog scenarija za dobit povjerenja."
+            }
           ]
         },
         {
@@ -574,6 +860,28 @@
               "question": "Koji su najbolji načini za zaštitu od phishing, vishing i pretexting napada?",
               "answer": "Za zaštitu od ovih napada, ključno je uvijek provoditi provjere autentičnosti putem službenih kanala, koristiti višefaktorsku autentifikaciju i biti oprezan pri otvaranju e-mailova i pozivima od nepoznatih osoba. Također, redovito educirajte sebe i kolege o najnovijim prijetnjama i tehnikama socijalnog inženjeringa."
             }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "Spear phishing",
+              "description": "Personalizirani phishing napad na određenu osobu."
+            },
+            {
+              "id": 2,
+              "term": "Smishing",
+              "description": "Phishing putem SMS poruka."
+            },
+            {
+              "id": 3,
+              "term": "CEO fraud",
+              "description": "Pretexting gdje se napadač predstavlja kao visoki rukovodilac."
+            },
+            {
+              "id": 4,
+              "term": "HTTPS spoofing",
+              "description": "Lažiranje sigurne veze u phishing napadima."
+            }
           ]
         },
         {
@@ -601,6 +909,28 @@
             {
               "question": "Kako organizacije mogu spriječiti napade temeljenje na manipulaciji povjerenjem?",
               "answer": "Organizacije mogu spriječiti napade temeljenje na manipulaciji povjerenjem implementiranjem jasnih politika sigurnosti koje uključuju procese verifikacije i provjere identiteta. Također, važno je educirati zaposlenike o tehnikama socijalnog inženjeringa kako bi postali oprezniji i prepoznali pokušaje manipulacije."
+            }
+          ],
+          "game": [
+            {
+              "id": 1,
+              "term": "Reciprocitet",
+              "description": "Psihološka tehnika uzvraćanja usluge."
+            },
+            {
+              "id": 2,
+              "term": "Autoritet",
+              "description": "Zlouporaba položaja moći za manipulaciju."
+            },
+            {
+              "id": 3,
+              "term": "Hitnost",
+              "description": "Stvaranje osjećaja nužnosti za brzu reakciju."
+            },
+            {
+              "id": 4,
+              "term": "Društveni dokaz",
+              "description": "Korištenje činjenice da drugi nešto rade kao opravdanje."
             }
           ]
         }
