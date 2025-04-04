@@ -8,7 +8,6 @@ const MemoryCardGame = ({ gameData, currentLevelId }) => {
     const [moves, setMoves] = useState(0);
     const navigate = useNavigate();
 
-    // Inicijalizacija kartica
     useEffect(() => {
         const cardPairs = gameData.map(item => ({
             id: item.id,
@@ -25,7 +24,6 @@ const MemoryCardGame = ({ gameData, currentLevelId }) => {
     }, [gameData]);
 
     const handleCardClick = (id) => {
-        // Ne dopusti više od 2 okrenute kartice ili klik na već okrenutu
         if (flipped.length >= 2 || flipped.includes(id) || matched.includes(cards.find(c => c.uniqueId === id).id)) {
             return;
         }
@@ -33,7 +31,6 @@ const MemoryCardGame = ({ gameData, currentLevelId }) => {
         setFlipped([...flipped, id]);
         setMoves(moves + 1);
 
-        // Provjeri podudaranje nakon što se okrenu dvije kartice
         if (flipped.length === 1) {
             const firstCard = cards.find(c => c.uniqueId === flipped[0]);
             const secondCard = cards.find(c => c.uniqueId === id);
@@ -57,7 +54,7 @@ const MemoryCardGame = ({ gameData, currentLevelId }) => {
                     <div
                         key={card.uniqueId}
                         onClick={() => handleCardClick(card.uniqueId)}
-                        className={`card h-32 cursor-pointer transition-all duration-300 ${flipped.includes(card.uniqueId) || matched.includes(card.id) ? 'bg-pink-100' : 'bg-purple-100'}`}
+                        className={`card h-32 cursor-pointer transition-all duration-300 ${flipped.includes(card.uniqueId) || matched.includes(card.id) ? 'bg-purple-400' : 'bg-purple-100'}`}
                     >
                         <div className={`card-body flex items-center justify-center p-2 ${flipped.includes(card.uniqueId) || matched.includes(card.id) ? '' : 'backface-hidden'}`}>
                             {flipped.includes(card.uniqueId) || matched.includes(card.id) ? (
