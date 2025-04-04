@@ -1,7 +1,18 @@
 import React from "react";
-import Krafna from "../assets/img/krafna.png"
+import { useNavigate, useParams } from "react-router-dom";
+import Krafna from "../assets/img/krafna.png";
 
 const DonutLevel = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const nextLevelId = Number(id) + 1;
+    const isLastLevel = nextLevelId % 100 === 4;
+
+    const handleNavigation = () => {
+        navigate(isLastLevel ? "/" : `/box/${nextLevelId}`);
+    };
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-pink-100">
             <div className="bg-pink-300 p-8 rounded-2xl shadow-lg text-center w-100 text-pink-700">
@@ -11,15 +22,37 @@ const DonutLevel = () => {
                         alt="Donut"
                         className="w-20 h-20"
                     />
-                    <div className="w-20 h-20 border-2 border-dotted border-gray-500 rounded-full mx-2"></div>
-                    <div className="w-20 h-20 border-2 border-dotted border-gray-500 rounded-full"></div>
+
+                    {id % 100 >= 2 ? (
+                        <img
+                            src={Krafna}
+                            alt="Donut"
+                            className="w-20 h-20 mx-2"
+                        />
+                    ) : (
+                        <div className="w-20 h-20 border-2 border-dotted border-gray-500 rounded-full mx-2"></div>
+                    )}
+
+                    {id % 100 === 3 ? (
+                        <img
+                            src={Krafna}
+                            alt="Donut"
+                            className="w-20 h-20"
+                        />
+                    ) : (
+                        <div className="w-20 h-20 border-2 border-dotted border-gray-500 rounded-full"></div>
+                    )}
                 </div>
+
                 <p className="text-white font-semibold italic">
-                    Bravo! Osvojio si svoju prvu <br /> Kripto Krafnu.
+                    Bravo! Možeš li doći do svih <br /> Kripto Krafni?
                 </p>
-                <a href="#" className="text-gray-900 font-semibold mt-4 block hover:underline">
-                    Idući level &gt;
-                </a>
+                <button
+                    onClick={handleNavigation}
+                    className="bg-pink-700 text-white px-4 py-2 rounded-md mt-4 hover:bg-pink-800"
+                >
+                    {isLastLevel ? "Povratak na početnu" : "Idući level >"}
+                </button>
             </div>
         </div>
     );
