@@ -3,14 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import Krafna from "../assets/img/krafna.png";
 
 const DonutLevel = () => {
-    const { id } = useParams(); // Get current level ID from the URL
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const nextLevelId = Number(id) + 1;
-    const isLastLevel = nextLevelId % 100 === 4; // Check if this is the last level (104, 204, 304...)
+    const isLastLevel = nextLevelId % 100 === 4;
 
     const handleNavigation = () => {
-        // Navigate to the next level or home page
         navigate(isLastLevel ? "/" : `/box/${nextLevelId}`);
     };
 
@@ -18,7 +17,6 @@ const DonutLevel = () => {
         <div className="flex items-center justify-center min-h-screen bg-pink-100">
             <div className="bg-pink-300 p-8 rounded-2xl shadow-lg text-center w-100 text-pink-700">
                 <div className="flex justify-center mb-4">
-                    {/* First Donut */}
                     <img
                         src={Krafna}
                         alt="Donut"

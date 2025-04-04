@@ -9,7 +9,6 @@ const useData = () => {
     useEffect(() => {
         try {
             setCategories(levelsData.categories);
-            console.log("Učitane kategorije:", levelsData.categories);
             setLoading(false);
         } catch (error) {
             setError("Failed to load data.");
@@ -24,7 +23,6 @@ const useData = () => {
             return null;
         }
         const category = categories.find(category => category.id === Number(id));
-        console.log("Dohvaćena kategorija:", category);
         return category;
     };
 
@@ -32,7 +30,6 @@ const useData = () => {
         for (const category of categories) {
             const levelFound = category.levels.find(level => level.id === Number(id));
             if (levelFound) {
-                console.log("Dohvaćen level:", levelFound);
                 return levelFound;
             }
         }
