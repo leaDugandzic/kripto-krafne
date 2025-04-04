@@ -31,6 +31,7 @@
               "answer": "Kvantna računala predstavljaju prijetnju postojećim kriptografskim sustavima jer mogu efikasno riješiti matematičke probleme koji trenutno zahtijevaju ogromne računalne resurse. Na primjer, kvantna računala mogu brzo faktorizirati velike brojeve, što bi moglo ugroziti sigurnost RSA algoritma. Kvantna računala također imaju potencijal za razbijanje simetričnih kriptografskih sustava, iako je za njih potrebna veća računalna snaga. Kao odgovor na ovu prijetnju, istražuju se kvantno otporni algoritmi koji bi bili sigurni i u eri kvantnih računala, ali ta tehnologija još nije široko dostupna."
             }
           ],
+          "gameType": "dragDrop",
           "game": [
             {
               "id": 1,
@@ -81,6 +82,7 @@
               "answer": "Blockchain koristi hash funkcije kako bi osigurao nepromjenjivost podataka i zaštitu od manipulacija. Svaki blok sadrži hash prethodnog bloka, čineći lanac sigurnim jer bi promjena jednog bloka zahtijevala izmjenu svih sljedećih. Osim toga, transakcije unutar bloka se grupiraju pomoću Merkle stabala, gdje se svaki sloj podataka hashira dok se ne dobije jedinstveni 'root hash'. Ova struktura omogućuje brzu provjeru integriteta podataka, čineći blockchain otpornim na lažiranje i napade."
             }
           ],
+          "gameType": "memoryCards",
           "game": [
             {
               "id": 1,
@@ -131,28 +133,29 @@
               "answer": "Dodavanje slučajne vrijednosti (salta) prije hashiranja lozinke sprječava napade unaprijed izračunatim tablicama (rainbow tables). Bez salta, napadači mogu koristiti unaprijed izračunate hash vrijednosti kako bi brzo razbili lozinke. Kada se svakom hashiranju doda jedinstveni salt, čak i identične lozinke daju različite hashove, čineći takve napade neučinkovitima. Sigurni sustavi koriste metode poput bcrypt, scrypt ili Argon2, koji uključuju salt i iteracije kako bi dodatno otežali razbijanje lozinki."
             }
           ],
-          "game": [
-            {
-              "id": 1,
-              "term": "Bočni kanali",
-              "description": "Napadi koji koriste fizičke karakteristike uređaja."
-            },
-            {
-              "id": 2,
-              "term": "Salt",
-              "description": "Slučajna vrijednost dodana prije hashiranja lozinke."
-            },
-            {
-              "id": 3,
-              "term": "Shorov algoritam",
-              "description": "Kvantni algoritam koji ugrožava RSA enkripciju."
-            },
-            {
-              "id": 4,
-              "term": "Rainbow tables",
-              "description": "Unaprijed izračunate tablice za napade na lozinke."
-            }
-          ]
+          "gameType": "findVulnerability",
+          "vulnerabilities": {
+            "code": "Python kod za enkripciju:\nfrom Crypto.Cipher import AES\nimport os\n\ndef encrypt(plaintext):\n    key = os.urandom(16)\n    iv = 'static_iv_12345678' # Problem 1\n    cipher = AES.new(key, AES.MODE_CBC, iv)\n    return cipher.encrypt(plaintext)\n\n# Problem 2: ECB mode\ncipher2 = AES.new(key, AES.MODE_ECB)",
+            "types": [
+              "Static IV",
+              "ECB Mode",
+              "Weak Key",
+              "Timing Attack"
+            ],
+            "solutions": [
+              {
+                "line": 5,
+                "type": "Static IV",
+                "description": "Inicijalizacijski vektor (IV) ne smije biti statičan"
+              },
+              {
+                "line": 9,
+                "type": "ECB Mode",
+                "description": "ECB način rada nije siguran za enkripciju"
+              }
+            ],
+            "total": 2
+          }
         }
       ]
     },
@@ -187,28 +190,29 @@
               "answer": "Nepravilno upravljanje sesijama može omogućiti napadačima krađu korisničkih sesija i preuzimanje računa. Ako aplikacija ne koristi sigurnosne kolačiće, ne postavlja pravilna ograničenja sesije ili ne koristi token za autentifikaciju, napadači mogu iskoristiti napade poput session fixation ili session hijacking. Sigurnosne mjere poput Secure i HttpOnly kolačića, regeneracije sesijskog ID-a i isticanja sesija pomažu u zaštiti korisnika."
             }
           ],
-          "game": [
-            {
-              "id": 1,
-              "term": "SQL injekcija",
-              "description": "Napad koji omogućuje izvršavanje proizvoljnih SQL upita."
-            },
-            {
-              "id": 2,
-              "term": "XSS",
-              "description": "Ubacivanje zlonamjernog JavaScript koda u web stranice."
-            },
-            {
-              "id": 3,
-              "term": "CSRF",
-              "description": "Napad koji iskorištava autentifikaciju korisnika."
-            },
-            {
-              "id": 4,
-              "term": "OWASP",
-              "description": "Organizacija koja definira najkritičnije web ranjivosti."
-            }
-          ]
+          "gameType": "findVulnerability",
+          "vulnerabilities": {
+            "code": "<?php\n// Login funkcija\n$user = $_POST['username'];\n$pass = $_POST['password'];\n\n$query = \"SELECT * FROM users WHERE username = '$user' AND password = '$pass';\";\n\n// XSS ranjivost\necho \"<div>Welcome, \" . $_GET['name'] . \"!</div>\";\n\n// CSRF zaštita nedostaje\nfunction transferMoney($amount, $toAccount) {\n    // Nema CSRF tokena\n    bankTransfer($amount, $toAccount);\n}",
+            "types": [
+              "SQL Injection",
+              "XSS",
+              "CSRF",
+              "Insecure Direct Object Reference"
+            ],
+            "solutions": [
+              {
+                "line": 4,
+                "type": "SQL Injection",
+                "description": "Nefiltrirani korisnički unos u SQL upit"
+              },
+              {
+                "line": 7,
+                "type": "XSS",
+                "description": "Nefiltrirani korisnički unos u HTML izlaz"
+              }
+            ],
+            "total": 2
+          }
         },
         {
           "id": 202,
@@ -237,6 +241,7 @@
               "answer": "Ograničavanjem neuspjelih prijava može se spriječiti brute-force napade, gdje napadači sustavno pokušavaju razne kombinacije lozinki dok ne pronađu ispravnu."
             }
           ],
+          "gameType": "memoryCards",
           "game": [
             {
               "id": 1,
@@ -287,6 +292,7 @@
               "answer": "Penetracijsko testiranje simulira stvarne napade kako bi se identificirale ranjivosti u sustavu prije nego što ih napadači mogu iskoristiti, omogućujući pravovremene sigurnosne popravke."
             }
           ],
+          "gameType": "dragDrop",
           "game": [
             {
               "id": 1,
@@ -343,6 +349,7 @@
               "answer": "Najčešće korišteni alati uključuju Autopsy i The Sleuth Kit za analizu diskova, FTK Imager za rad s diskovnim slikama, EnCase za dubinsku analizu datotečnih sustava i Wireshark za analizu mrežnog prometa. Svaki od ovih alata omogućuje forenzičarima prikupljanje i analizu digitalnih dokaza na način koji čuva njihovu vjerodostojnost."
             }
           ],
+          "gameType": "dragDrop",
           "game": [
             {
               "id": 1,
@@ -393,28 +400,29 @@
               "answer": "Da, steganografija se može primijeniti na audio datoteke pomoću metoda poput Echo Hiding i Phase Coding, gdje se skriveni podaci ugrađuju u neslušljive dijelove zvuka. Na ovaj način, napadači mogu prenijeti tajne informacije kroz audio datoteke bez izazivanja sumnje kod slušatelja."
             }
           ],
-          "game": [
-            {
-              "id": 1,
-              "term": "LSB",
-              "description": "Least Significant Bit - metoda skrivanja podataka u slikama."
-            },
-            {
-              "id": 2,
-              "term": "ExifTool",
-              "description": "Alat za analizu metapodataka u datotekama."
-            },
-            {
-              "id": 3,
-              "term": "StegExpose",
-              "description": "Alat za detekciju steganografije u slikama."
-            },
-            {
-              "id": 4,
-              "term": "Binarni editor",
-              "description": "Alat za ručnu analizu strukture datoteka."
-            }
-          ]
+          "gameType": "findVulnerability",
+          "vulnerabilities": {
+            "code": "Analiza slike 'cat.jpg':\n\nEXIF podaci:\n- GPS: 45.8128, 15.9775\n- Datum: 2023-06-15 14:32:11\n- Komentar: U2FsdGVkX1/3xgJ8O6Rd4Q== (Base64)\n\nHex dump (prvih 16 bajta):\nFF D8 FF E0 00 10 4A 46 49 46 00 01 01 00 00 01",
+            "types": [
+              "EXIF Leak",
+              "Base64 Secret",
+              "LSB Steganography",
+              "File Signature"
+            ],
+            "solutions": [
+              {
+                "line": 3,
+                "type": "EXIF Leak",
+                "description": "GPS koordinate u EXIF podacima otkrivaju lokaciju"
+              },
+              {
+                "line": 4,
+                "type": "Base64 Secret",
+                "description": "Base64 kodirani sadržaj koji može biti šifrirana poruka"
+              }
+            ],
+            "total": 2
+          }
         },
         {
           "id": 303,
@@ -443,6 +451,7 @@
               "answer": "‘Fileless’ malware ne ostavlja tragove na disku, već se izvršava iz memorije, što otežava detekciju klasičnim antivirusnim alatima. Forenzičari koriste napredne metode analize memorije pomoću alata poput Volatility kako bi identificirali neobične procese, sumnjive skripte u RAM-u i neovlaštene mrežne konekcije koje ukazuju na prisutnost ‘fileless’ prijetnji."
             }
           ],
+          "gameType": "memoryCards",
           "game": [
             {
               "id": 1,
@@ -499,6 +508,7 @@
               "answer": "Šifriranje prometa pomoću HTTPS-a, VPN-a ili TLS-a sprječava neovlašteni pristup podacima tijekom prijenosa. Također, korištenje sigurnih protokola poput SSH umjesto Telnet-a i redovito nadgledanje mrežnog prometa mogu pomoći u detekciji i prevenciji napada."
             }
           ],
+          "gameType": "dragDrop",
           "game": [
             {
               "id": 1,
@@ -549,28 +559,29 @@
               "answer": "Napadači postavljaju lažni Wi-Fi hotspot s nazivom sličnim legitimnom, a kada se korisnici spoje, sav njihov promet prolazi kroz napadačev uređaj. To omogućuje presretanje lozinki, kreditnih kartica i drugih osjetljivih podataka."
             }
           ],
-          "game": [
-            {
-              "id": 1,
-              "term": "ARP spoofing",
-              "description": "Lažiranje ARP odgovora za preusmjeravanje prometa."
-            },
-            {
-              "id": 2,
-              "term": "SSL stripping",
-              "description": "Napad koji prisiljava korisnike na nešifrirane veze."
-            },
-            {
-              "id": 3,
-              "term": "Rogue AP",
-              "description": "Lažni Wi-Fi pristupni punkt za presretanje prometa."
-            },
-            {
-              "id": 4,
-              "term": "tcpdump",
-              "description": "Alat za snimanje mrežnog prometa u terminalu."
-            }
-          ]
+          "gameType": "findVulnerability",
+          "vulnerabilities": {
+            "code": "Wireshark capture (snippet):\n1. 00:11:22:33:44:55 -> ff:ff:ff:ff:ff:ff ARP Who has 192.168.1.1? Tell 192.168.1.100\n2. 00:aa:bb:cc:dd:ee -> 00:11:22:33:44:55 ARP 192.168.1.1 is at 00:aa:bb:cc:dd:ee\n3. 192.168.1.100 -> 192.168.1.1 HTTP GET /login.php?user=admin&pass=secret\n4. 00:11:22:33:44:55 -> 00:aa:bb:cc:dd:ee SSLv3 Client Hello",
+            "types": [
+              "ARP Spoofing",
+              "HTTP Credential Leak",
+              "SSL Strip",
+              "DNS Poisoning"
+            ],
+            "solutions": [
+              {
+                "line": 2,
+                "type": "ARP Spoofing",
+                "description": "Lažni ARP odgovor za 192.168.1.1 s MAC adresom napadača"
+              },
+              {
+                "line": 3,
+                "type": "HTTP Credential Leak",
+                "description": "Lozinka šalje se nešifrirano preko HTTP-a"
+              }
+            ],
+            "total": 2
+          }
         },
         {
           "id": 403,
@@ -599,6 +610,7 @@
               "answer": "Firewalli analiziraju mrežne pakete i odlučuju hoće li ih propustiti ili blokirati na temelju unaprijed definiranih pravila. Na primjer, mogu blokirati dolazne veze s poznatih zlonamjernih IP adresa ili spriječiti neovlaštene pokušaje pristupa internim serverima. Napredni firewalli, poput Next-Generation Firewall (NGFW) sustava, mogu analizirati aplikacijski promet i prepoznati prijetnje na temelju ponašanja, sprječavajući složenije napade poput Command and Control (C2) komunikacija zlonamjernog softvera."
             }
           ],
+          "gameType": "memoryCards",
           "game": [
             {
               "id": 1,
@@ -655,6 +667,7 @@
               "answer": "Programi često koriste zaštitne mehanizme poput anti-debugging tehnika, obfuskacije koda i packera koji kompresiraju ili šifriraju izvršne datoteke. Ove metode otežavaju analizu disassemblera i decompilera. Reverzni inženjeri koriste dinamičku analizu, manualnu rekonstrukciju koda i specijalizirane alate poput Unpacker-a za zaobilaženje takvih prepreka i dobivanje originalnog binarnog koda."
             }
           ],
+          "gameType": "memoryCards",
           "game": [
             {
               "id": 1,
@@ -705,28 +718,29 @@
               "answer": "Alati kao što su IDA Pro, Ghidra i Radare2 koriste se za statičku analizu binarnih datoteka. IDA Pro i Radare2 su disassembleri koji prevode binarni kod u asembler, dok Ghidra omogućuje i dekompilaciju i analizu viših razina koda. Za dinamičku analizu koriste se alati poput GDB-a i x64dbg-a koji omogućuju praćenje izvršavanja programa i inspekciju memorije u stvarnom vremenu."
             }
           ],
-          "game": [
-            {
-              "id": 1,
-              "term": "Obfuskacija",
-              "description": "Namjerno zamućivanje koda kako bi se otežala analiza."
-            },
-            {
-              "id": 2,
-              "term": "Packer",
-              "description": "Alat za kompresiju/šifriranje izvršnih datoteka."
-            },
-            {
-              "id": 3,
-              "term": "Radare2",
-              "description": "Framework za analizu binarnih datoteka."
-            },
-            {
-              "id": 4,
-              "term": "Unpacker",
-              "description": "Alat za dekompresiju pakiranih izvršnih datoteka."
-            }
-          ]
+          "gameType": "findVulnerability",
+          "vulnerabilities": {
+            "code": "Disassembled malware snippet:\n0x401000: push ebp\n0x401001: mov ebp, esp\n0x401003: sub esp, 0x20\n0x401006: call 0x401200 ; GetCurrentProcessId\n0x40100B: mov [ebp-0x4], eax\n0x40100E: cmp eax, 0xDEADBEEF ; Anti-debug check\n0x401013: jz 0x401050 ; Terminate if debugged\n0x401015: call 0x401300 ; InternetOpenA\n0x40101A: mov [ebp-0x8], eax\n0x40101D: push 0x00402000 ; C2 URL\n0x401022: call 0x401350 ; InternetConnectA",
+            "types": [
+              "Anti-Debugging",
+              "C2 Communication",
+              "Process Injection",
+              "Persistence"
+            ],
+            "solutions": [
+              {
+                "line": 6,
+                "type": "Anti-Debugging",
+                "description": "Provjera za debugger pomoću hardcodirane vrijednosti 0xDEADBEEF"
+              },
+              {
+                "line": 9,
+                "type": "C2 Communication",
+                "description": "Povezivanje na Command and Control server"
+              }
+            ],
+            "total": 2
+          }
         },
         {
           "id": 503,
@@ -755,6 +769,7 @@
               "answer": "Za analizu obfuskiranih datoteka koriste se alati poput deobfuscators koji pomažu u vraćanju obfuskiranog koda u njegovu čitljiviju formu. Također se koristi i statička analiza uz alate kao što su Ghidra ili IDA Pro koji omogućuju razgradnju i analizu binarnih datoteka."
             }
           ],
+          "gameType": "dragDrop",
           "game": [
             {
               "id": 1,
@@ -811,6 +826,7 @@
               "answer": "Najbolji načini zaštite uključuju edukaciju korisnika o opasnostima socijalnog inženjeringa, implementaciju višefaktorske autentifikacije, redovite sigurnosne provjere, te obučavanje zaposlenika kako prepoznati i prijaviti sumnjive aktivnosti."
             }
           ],
+          "gameType": "memoryCards",
           "game": [
             {
               "id": 1,
@@ -861,28 +877,29 @@
               "answer": "Za zaštitu od ovih napada, ključno je uvijek provoditi provjere autentičnosti putem službenih kanala, koristiti višefaktorsku autentifikaciju i biti oprezan pri otvaranju e-mailova i pozivima od nepoznatih osoba. Također, redovito educirajte sebe i kolege o najnovijim prijetnjama i tehnikama socijalnog inženjeringa."
             }
           ],
-          "game": [
-            {
-              "id": 1,
-              "term": "Spear phishing",
-              "description": "Personalizirani phishing napad na određenu osobu."
-            },
-            {
-              "id": 2,
-              "term": "Smishing",
-              "description": "Phishing putem SMS poruka."
-            },
-            {
-              "id": 3,
-              "term": "CEO fraud",
-              "description": "Pretexting gdje se napadač predstavlja kao visoki rukovodilac."
-            },
-            {
-              "id": 4,
-              "term": "HTTPS spoofing",
-              "description": "Lažiranje sigurne veze u phishing napadima."
-            }
-          ]
+          "gameType": "findVulnerability",
+          "vulnerabilities": {
+            "code": "Email sadržaj:\nFrom: support@yourbank.com\nSubject: Urgent: Account Verification Required\n\nDear Customer,\n\nWe detected unusual activity on your account. To prevent suspension, verify your identity by clicking:\n\nhttp://your-bank-security.com/login?redirect=phishingsite.com\n\nThis is required within 24 hours.\n\nBank Security Team",
+            "types": [
+              "Fake Sender",
+              "Urgency",
+              "Suspicious Link",
+              "Typosquatting"
+            ],
+            "solutions": [
+              {
+                "line": 1,
+                "type": "Fake Sender",
+                "description": "Email adresa može biti lažirana (spoofed)"
+              },
+              {
+                "line": 6,
+                "type": "Suspicious Link",
+                "description": "Link sadrži redirect na phishing stranicu"
+              }
+            ],
+            "total": 2
+          }
         },
         {
           "id": 603,
@@ -911,6 +928,7 @@
               "answer": "Organizacije mogu spriječiti napade temeljenje na manipulaciji povjerenjem implementiranjem jasnih politika sigurnosti koje uključuju procese verifikacije i provjere identiteta. Također, važno je educirati zaposlenike o tehnikama socijalnog inženjeringa kako bi postali oprezniji i prepoznali pokušaje manipulacije."
             }
           ],
+          "gameType": "dragDrop",
           "game": [
             {
               "id": 1,
