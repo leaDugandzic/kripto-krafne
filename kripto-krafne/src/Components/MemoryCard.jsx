@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const MemoryCardGame = ({ gameData }) => {
+const MemoryCardGame = ({ gameData, currentLevelId }) => {
     const [cards, setCards] = useState([]);
     const [flipped, setFlipped] = useState([]);
     const [matched, setMatched] = useState([]);
     const [moves, setMoves] = useState(0);
+    const navigate = useNavigate();
 
     // Inicijalizacija kartica
     useEffect(() => {
@@ -69,11 +71,9 @@ const MemoryCardGame = ({ gameData }) => {
                     </div>
                 ))}
             </div>
-
+            {/* 🎉 Bravo! Riješili ste igru u {moves} pokušaja! */}
             {matched.length === gameData.length && (
-                <div className="alert alert-success mt-6">
-                    <span>🎉 Bravo! Riješili ste igru u {moves} pokušaja!</span>
-                </div>
+                navigate(`/donut-level/${currentLevelId}`)
             )}
         </div>
     );

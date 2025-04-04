@@ -3,7 +3,6 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import DraggableItem from "./DraggableItem";
 import DroppableBox from "./DroppableBox";
-
 import { useNavigate } from "react-router-dom";
 
 const DragDropGame = ({ gameData, currentLevelId }) => {
@@ -22,9 +21,6 @@ const DragDropGame = ({ gameData, currentLevelId }) => {
     }, [gameData]);
 
     useEffect(() => {
-        console.log("Items state:", items);
-        console.log("Matched Items state:", matchedItems);
-
         if (items.length > 0 && matchedItems.length === items.length) {
             navigate(`/donut-level/${currentLevelId}`);
         }
@@ -35,10 +31,6 @@ const DragDropGame = ({ gameData, currentLevelId }) => {
             setMatchedItems((prev) => [...prev, item.id]);
         }
     };
-
-    if (items.length === 0 || boxes.length === 0) {
-        return <p>Loading game data...</p>;
-    }
 
     return (
         <DndProvider backend={HTML5Backend}>
