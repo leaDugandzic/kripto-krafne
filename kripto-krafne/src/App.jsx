@@ -18,6 +18,7 @@ import Menu from './KraljestvoKrafni/Menu';
 import Kolo from './KraljestvoKrafni/Kolo';
 import Footer from "./Components/Footer";
 import DragDrop from '../src/KraljestvoKrafni/DragDrop';
+import ReverseEngineeringChallenge from './KraljestvoKrafni/ReverseEngineering';
 function App() {
   const [stylepfp, setStylepfp] = useState("none");
   const [stylebtn, setStylebtn] = useState("flex");
@@ -100,6 +101,9 @@ function App() {
           <Route path="/images" element={<Images />}></Route>
           <Route path="/kolo" element={<Kolo></Kolo>}></Route>
           <Route path="/dragdrop" element={<DragDrop />}></Route>
+          <Route path="/reverse" element={<ReverseEngineeringChallenge />}></Route>
+
+
 
 
           <Route path="/box/:id" element={<Level levels={levels} />} />
