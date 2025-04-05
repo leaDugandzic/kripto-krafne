@@ -43,3 +43,10 @@
     transform: translateY(-50px);
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
+#game {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}

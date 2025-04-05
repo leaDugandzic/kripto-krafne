@@ -118,7 +118,7 @@ export default function DonutGame() {
     };
 
     return (
-        <div className="relative w-full h-screen bg-[#ffceea] flex items-center justify-center overflow-hidden">
+        <div id="game" className="relative w-full h-screen bg-[#ffceea] flex items-center justify-center overflow-hidden">
             <img
                 src="../src/assets/img/castle.png"
                 alt="Castle"

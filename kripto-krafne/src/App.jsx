@@ -19,6 +19,8 @@ import Kolo from './KraljestvoKrafni/Kolo';
 import Footer from "./Components/Footer";
 import DragDrop from '../src/KraljestvoKrafni/DragDrop';
 import ReverseEngineeringChallenge from './KraljestvoKrafni/ReverseEngineering';
+import DonutGame from './KraljestvoKrafni/DonutGame';
+
 function App() {
   const [stylepfp, setStylepfp] = useState("none");
   const [stylebtn, setStylebtn] = useState("flex");
@@ -95,6 +97,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
           <Route path="/radnici" element={<Radnici></Radnici>}></Route>
           <Route path="/glazba" element={<Glazba></Glazba>}></Route>
           <Route path="/menu" element={<Menu></Menu>}></Route>
@@ -102,14 +105,12 @@ function App() {
           <Route path="/kolo" element={<Kolo></Kolo>}></Route>
           <Route path="/dragdrop" element={<DragDrop />}></Route>
           <Route path="/reverse" element={<ReverseEngineeringChallenge />}></Route>
-
-
-
+          <Route path="/ctf-game" element={<DonutGame />} />
 
           <Route path="/box/:id" element={<Level levels={levels} />} />
           <Route path="/donut-level/:id" element={<DonutLevel levels={levels} />} />
         </Routes>
-      <Footer></Footer>
+        <Footer></Footer>
 
       </Router>
     </div>
