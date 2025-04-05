@@ -24,12 +24,11 @@ body {
 #logo {
     display: flex;
     align-items: center;
+   
 }
 
 #logo img {
-    width: 50px;
-    height: 50px;
-    rotate: 30deg;
+    height: 120px;
     margin-right: 10px;
 }
 
@@ -144,8 +143,12 @@ nav ul li a:hover {
 }
 
 @media (max-width: 1024px) {
+    #logo{
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+    }
     #logo img {
-        width: 45px;
         height: 45px;
     }
 
@@ -246,10 +249,7 @@ nav ul li a:hover {
 }
 
 .naslov {
-    font-family: "Luckiest Guy", cursive, sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    color: #fb008a;
+    color: white;
     font-size: 40px;
 }
 
@@ -1353,6 +1353,7 @@ footer {
 }
 
 .footerDiv {
+    margin-top: 150px;
     display: block;
 }
 
@@ -1374,6 +1375,7 @@ footer {
 
 .footerLogo {
     height: 80px;
+    width:100%;
 }
 
 .footerPartOne img:hover {

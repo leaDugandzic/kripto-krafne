@@ -16,6 +16,7 @@ import Radnici from './KraljestvoKrafni/Radnici';
 import Glazba from './KraljestvoKrafni/Glazba';
 import Menu from './KraljestvoKrafni/Menu';
 import Kolo from './KraljestvoKrafni/Kolo';
+import Footer from "./Components/Footer";
 function App() {
   const [stylepfp, setStylepfp] = useState("none");
   const [stylebtn, setStylebtn] = useState("flex");
@@ -101,6 +102,8 @@ function App() {
           <Route path="/box/:id" element={<Level levels={levels} />} />
           <Route path="/donut-level/:id" element={<DonutLevel levels={levels} />} />
         </Routes>
+      <Footer></Footer>
+
       </Router>
     </div>
   )
