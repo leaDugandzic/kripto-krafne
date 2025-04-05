@@ -13,14 +13,27 @@ function Radnici() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    axios.get('localhost/kripto-krafne/kripto-krafne/src/backend/cookies.php', { withCredentials: true })
-      .then(response => {
-        setIsAdmin(response.data.isAdmin); 
-        console.log(isAdmin);
-      })
-      .catch(error => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/cookies.php", {
+          method: "GET", // GET method is used for retrieving data
+          credentials: "include", // Include cookies in the request
+        });
+
+        const data = await response.json(); // Parse the JSON response
+        console.log(data);  // Log the response to inspect its content
+
+        if (data && data.isAdmin !== undefined) {
+          setIsAdmin(data.isAdmin);  // Set the admin status based on the response
+        } else {
+          console.error('isAdmin not found in response');
+        }
+      } catch (error) {
         console.error("There was an error fetching the admin status:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
