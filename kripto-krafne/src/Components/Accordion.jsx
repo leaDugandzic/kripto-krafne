@@ -4,17 +4,24 @@ const Accordion = ({ title, content }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="mb-2 w-300 mx-auto">
+        <div className="mb-3 w-full">
             <button
-                className="w-full bg-pink-400 text-white text-left px-4 py-2 rounded-lg flex justify-between items-center"
+                className={`w-full text-left px-5 py-3 rounded-lg flex justify-between items-center
+        transition-all duration-200 ${isOpen ?
+                        'bg-pink-400 text-white' :
+                        'bg-pink-300 text-white hover:bg-pink-400 active:bg-pink-500 focus:bg-pink-300'}`}
                 onClick={() => setIsOpen(!isOpen)}
             >
-                {title}
-                <span>{isOpen ? "▲" : "▼"}</span>
+                <span className="font-medium">{title}</span>
+                <span className="text-sm ml-2">{isOpen ? "▲" : "▼"}</span>
             </button>
-            {isOpen && <div className="p-4 bg-white text-gray-800 border rounded-lg">{content}</div>}
+            {isOpen && (
+                <div className="px-5 py-3 mt-1 bg-pink-100 text-gray-700 rounded-b-lg border border-t-0 border-pink-300">
+                    {content}
+                </div>
+            )}
         </div>
     );
 };
 
-export default Accordion
+export default Accordion;

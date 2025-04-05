@@ -1,6 +1,6 @@
 import { useDrop } from "react-dnd";
 
-const DroppableBox = ({ box, onDrop }) => {
+const DroppableBox = ({ box, onDrop, isMatched }) => {
     const [{ isOver }, drop] = useDrop(() => ({
         accept: "ITEM",
         drop: (item) => onDrop(item, box),
@@ -12,9 +12,21 @@ const DroppableBox = ({ box, onDrop }) => {
     return (
         <div
             ref={drop}
-            className={`p-4 border-2 rounded-md m-2 ${isOver ? "bg-purple-300" : "bg-pink-400"}`}
+            className={`
+                p-4 rounded-lg transition-all duration-150
+                ${isMatched ? 
+                    'bg-green-200 border-2 border-green-500' : 
+                    isOver ? 
+                        'bg-pink-200 border-2 border-dashed border-pink-500' : 
+                        'bg-white border-2 border-pink-400'}
+            `}
         >
-            <p>{box.text}</p>
+            <p className={`font-medium ${isMatched ? 'text-green-800 font-bold' : 'text-gray-800'}`}>
+                {box.text}
+            </p>
+            {isMatched && (
+                <div className="text-green-600 font-bold text-right mt-1">✓ TOČNO!</div>
+            )}
         </div>
     );
 };
