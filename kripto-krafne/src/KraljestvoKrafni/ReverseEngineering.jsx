@@ -56,13 +56,7 @@ export default function ReverseEngineeringChallenge() {
           <h3 className="font-mono text-pink-600 mb-2">Savjet:</h3>
           <p className="italic">"Ponekad najjednostavniji alati mogu otkriti najvažnije tragove."</p>
         </div>
-        {/* const binaryBase64 = `
-      UEsDBBQAAAAIAEh5NVUYnXj3FgAAABYAAAAIABwAZGVidWdtZVVUCQADj1bWY49W1mN1eAsA
-      AQT1AQAABAAAAABzZWNyZXRfcGFzc3dvcmRQSwECFAMUAAAACABIeTVVGJ149xYAAAAWAAAA
-      CAAYAAAAAAABAAAAtIEAAAAAZGVidWdtZVVUBQADj1bWY3V4CwABBPUBAAAEAAAAAFBLAQIU
-      AxQAAAAIAEh5NVUYnXj3FgAAABYAAAAIABgAAAAAAAEAAAC0gQAAAABkZWJ1Z21lVVQFAAPP
-      VtZjdXgLAAEE9QEAAAQAAAAAUEsFBgAAAAACAAIAwAAAANIAAAAAAA==
-    `; */}
+
         <div className="flex items-center gap-4">
           <input
             type="text"
