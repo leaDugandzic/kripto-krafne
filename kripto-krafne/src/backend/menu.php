@@ -1,7 +1,8 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 $servername = "localhost";
 $username = "root";
@@ -12,22 +13,23 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 $conn->set_charset("utf8mb4");
 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['search'])) {
-        $search = '%' . $_GET['search'] . '%';
-        $stmt = $conn->prepare("SELECT * FROM krafne WHERE ime LIKE ?");
-        $stmt->bind_param('s', $search);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $items = $result->fetch_all(MYSQLI_ASSOC);
-        echo json_encode($items);
-    } else {
-        $result = $conn->query("SELECT * FROM krafne");
-        $items = $result->fetch_all(MYSQLI_ASSOC);
-        echo json_encode($items);
-    }
+$row_count_result = mysqli_query($conn, "SELECT COUNT(*) as total FROM krafne");
+$row_count = mysqli_fetch_assoc($row_count_result)['total'];
+
+$limit = $row_count - 1;
+
+$upit = "SELECT * FROM krafne ORDER BY id ASC LIMIT $limit";
+$rezultat = mysqli_query($conn, $upit);
+
+if ($rezultat && mysqli_num_rows($rezultat) > 0) {
+    $items = mysqli_fetch_all($rezultat, MYSQLI_ASSOC); 
+    echo json_encode($items); 
+} else {
+    echo json_encode(["error" => "No data found in krafne table"]);
 }
+
+$conn->close();
 ?>

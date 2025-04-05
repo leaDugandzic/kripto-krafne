@@ -13,7 +13,7 @@ function Radnici() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    axios.get('http://localhost/kriptoKrafne/kripto-krafne/kripto-krafne/src/backend/cookies.php', { withCredentials: true })
+    axios.get('localhost/kripto-krafne/kripto-krafne/src/backend/cookies.php', { withCredentials: true })
       .then(response => {
         setIsAdmin(response.data.isAdmin); 
         console.log(isAdmin);

@@ -14,8 +14,8 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import Images from './KraljestvoKrafni/Images'
 import Radnici from './KraljestvoKrafni/Radnici';
 import Glazba from './KraljestvoKrafni/Glazba';
-import { Menu } from 'lucide-react';
-
+import Menu from './KraljestvoKrafni/Menu';
+import Kolo from './KraljestvoKrafni/Kolo';
 function App() {
   const [stylepfp, setStylepfp] = useState("none");
   const [stylebtn, setStylebtn] = useState("flex");
@@ -96,6 +96,8 @@ function App() {
           <Route path="/glazba" element={<Glazba></Glazba>}></Route>
           <Route path="/menu" element={<Menu></Menu>}></Route>
           <Route path="/images" element={<Images />}></Route>
+          <Route path="/kolo" element={<Kolo></Kolo>}></Route>
+
           <Route path="/box/:id" element={<Level levels={levels} />} />
           <Route path="/donut-level/:id" element={<DonutLevel levels={levels} />} />
         </Routes>
