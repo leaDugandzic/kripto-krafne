@@ -18,7 +18,7 @@ const Footer = () => {
               <div className="footerLogo">
                 <Link to="/" className="w-[600px]">
                   <div id="logo">
-                    <img src={Logo} alt="logo"  />
+                    <img src={Logo} alt="logo" />
                     <h1 className="naslov font-bold italic">Kripto Krafne</h1>
                   </div>
                 </Link>
@@ -37,7 +37,7 @@ const Footer = () => {
                     </li>
                     <li>
                       <h3>
-                        E-mail: <a href="mailto:kraljevstvoKrafni@gmail.com">kraljevstvoKrafni@gmail.com</a>
+                        E-mail: <a href="mailto:kraljevstvoKrafni@gmail.com">kriptokrafne@gmail.com</a>
                       </h3>
                     </li>
                     <li>
@@ -52,7 +52,7 @@ const Footer = () => {
                         <a href="https://www.facebook.com/share/1B9ZmJ2u8b/">
                           <img className="youtube" src={Facebook} alt="Facebook" />
                         </a>
-                      
+
                         <a href="https://www.tiktok.com/@kriptokrafne?_t=ZN-8vHDTaFgsI2&_r=1">
                           <img className="pinterest" src={Tiktok} alt="Tiktok" />
                         </a>

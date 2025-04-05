@@ -17,7 +17,6 @@ const DonutLevel = () => {
         <div className="flex items-center justify-center min-h-screen p-4">
             <div className="bg-pink-300 p-8 rounded-3xl shadow-xl max-w-md w-full">
                 <div className="flex flex-col items-center">
-                    {/* Donut Progress Indicator */}
                     <div className="flex justify-center items-center mb-6">
                         <div className={`relative ${id % 100 >= 1 ? "" : "opacity-50"}`}>
                             <img src={Krafna} alt="Donut" className="w-20 h-20" />
@@ -63,7 +62,6 @@ const DonutLevel = () => {
                         </div>
                     </div>
 
-                    {/* Congratulations Message */}
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-bold text-white mb-2">Bravo!</h2>
                         <p className="text-pink-700 font-medium text-lg">
@@ -72,12 +70,11 @@ const DonutLevel = () => {
                         </p>
                     </div>
 
-                    {/* Navigation Button */}
                     <button
                         onClick={handleNavigation}
                         className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
                     >
-                        {isLastLevel ? "🏠 Početna" : `Level ${nextLevelId} →`}
+                        {isLastLevel ? "🏠 Početna" : `Level ${nextLevelId % 100} →`}
                     </button>
                 </div>
             </div>
