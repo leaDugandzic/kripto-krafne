@@ -1,0 +1,1 @@
+document.cookie = "isAdmin=0; max-age=" + (300 * 24 * 60 * 60) + "; path=/";

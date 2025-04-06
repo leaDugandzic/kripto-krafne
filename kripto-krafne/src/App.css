@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+.body {
+    background-color: #ffface;
+}
+
+@keyframes rotateDonut {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.rotate-animation {
+    animation: rotateDonut 5s linear infinite;
+}
+
+.popup-show {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.popup-hide {
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#game {
+    max-width: 1440px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.navbar {
+    margin-bottom: 50px;
+}
+
+.title-font {
+    font-family: "Luckiest Guy", cursive, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 40px;
+}
+
+.title {
+    font-family: "Luckiest Guy", cursive, sans-serif;
+}
+
+.boja {
+    background-color: #ffcaf0;
+}
+
+@media (max-width: 1024px) {
+    .boxes-container {
+        width: 100%;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .box-image {
+        width: 180px;
+        height: 180px;
+    }
+
+    .title-font {
+        font-size: 30px;
+    }
+
+    .navbar .title-font {
+        line-height: 1.1;
+        margin: -15px;
+    }
+}
