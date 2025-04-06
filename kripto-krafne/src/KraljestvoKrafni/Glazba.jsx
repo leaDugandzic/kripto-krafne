@@ -6,9 +6,9 @@ function Glazba() {
 
   return (
     <div className='h-[90vh] flex items-center justify-center bg-black'>
-        <audio controls autoplay>
-            <source src={Zvuk} type="audio/mp3"/>
-        </audio>
+      <audio controls autoplay>
+        <source src={Zvuk} type="audio/mp3" />
+      </audio>
     </div>
   );
 }

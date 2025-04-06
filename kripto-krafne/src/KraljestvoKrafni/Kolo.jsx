@@ -58,7 +58,7 @@ const Kolo = () => {
 
             setIsSpinning(false);
             if (showSecretCode) {
-                setPopupMessage('Nova šifra: Heksametar');
+                setPopupMessage('Nova šifra: krafna{c1nnam0n_r0ll}');
                 setTimeout(() => setPopupMessage(''), 3000);
                 return;
             }
@@ -102,14 +102,15 @@ const Kolo = () => {
                     </ul>
                     <button type="button"></button>
                 </fieldset>
+                <span id='secret'>skrivamSe=izaKola</span>
                 <button id="spin" onClick={spinWheel} disabled={isSpinning}>
                     Zavrti kolo
                 </button>
             </div>
 
-            <div className="tableText p-12 bg-pink-200 rounded-xl">
+            <div className="tableText p-5 rounded-xl border-3 border-pink-300 shadow-lg shadow-pink-300">
                 <h1 className="text-pink-500 title-font pb-3 border-b-3 border-pink-300 mb-10">Zavrti kolo i otkrij pravi promo kod</h1>
-                <ul className="space-y-3 ">
+                <ul className="space-y-3 pl-5">
                     {Object.entries(resultMessages).map(([color, msg]) => (
                         <li key={color} className="flex items-center gap-2">
                             <div
@@ -138,6 +139,7 @@ const Kolo = () => {
                     </div>
                 </div>
             )}
+
         </div>
     );
 };

@@ -5,19 +5,6 @@
     background-color: #ffface;
 }
 
-@media (max-width: 1024px) {
-    .boxes-container {
-        width: 100%;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-
-    .box-image {
-        width: 180px;
-        height: 180px;
-    }
-}
-
 @keyframes rotateDonut {
     0% {
         transform: rotate(0deg);
@@ -63,4 +50,26 @@
 
 .boja {
     background-color: #ffcaf0;
+}
+
+@media (max-width: 1024px) {
+    .boxes-container {
+        width: 100%;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .box-image {
+        width: 180px;
+        height: 180px;
+    }
+
+    .title-font {
+        font-size: 30px;
+    }
+
+    .navbar .title-font {
+        line-height: 1.1;
+        margin: -15px;
+    }
 }

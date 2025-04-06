@@ -4,12 +4,9 @@ body {
     color: #3d2a26;
 }
 
-
-
 #logo {
     display: flex;
     align-items: center;
-
 }
 
 #logo img {
@@ -130,12 +127,12 @@ nav ul li a:hover {
 @media (max-width: 1024px) {
     #logo {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
     }
 
     #logo img {
-        height: 45px;
+        height: 100px;
     }
 
     .navigation {
@@ -195,6 +192,10 @@ nav ul li a:hover {
     .text p {
         text-align: center;
         margin: 10px auto;
+    }
+
+    .footerBottomContent {
+        text-align: center;
     }
 }
 
@@ -888,6 +889,14 @@ nav ul li a:hover {
     height: auto;
     border-radius: 50%;
     border: 7px solid #fff;
+    margin: 0px auto;
+}
+
+.back {
+    color: #ff47a6;
+    font-size: 35px;
+    padding: 1px 8px;
+    border-radius: 10px;
 }
 
 .profile-name {
@@ -1427,7 +1436,7 @@ footer hr {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 260px;
+    width: 200px;
 }
 
 .footerMainTop h2 {
@@ -1459,6 +1468,11 @@ footer a {
 .footerBottomTwo a:hover,
 .footerSocialMedia a:hover {
     transform: scale(1.04);
+}
+
+#secret {
+    position: absolute;
+    display: none;
 }
 
 @media screen and (max-width: 1100px) {

@@ -56,30 +56,6 @@ export default function ReverseEngineeringChallenge() {
           <h3 className="font-mono text-pink-600 mb-2">Savjet:</h3>
           <p className="italic">"Ponekad najjednostavniji alati mogu otkriti najvažnije tragove."</p>
         </div>
-
-        <div className="flex items-center gap-4">
-          <input
-            type="text"
-            value={flag}
-            onChange={(e) => setFlag(e.target.value)}
-            placeholder="Unesite flag u formatu FLAG{...}"
-            className="flex-1 px-4 py-2 bg-white border border-pink-300 rounded focus:ring-2 focus:ring-pink-500"
-          />
-          <button
-            onClick={checkFlag}
-            className="px-4 py-2 bg-pink-600 hover:bg-pink-700 rounded text-white"
-          >
-            Provjeri
-          </button>
-        </div>
-
-        {isCorrect !== null && (
-          <div className={`mt-3 p-3 rounded border ${isCorrect ? 'bg-green-100 text-green-800 border-green-200' : 'bg-red-100 text-red-800 border-red-200'}`}>
-            {isCorrect
-              ? 'Točno! Pronašli ste ispravan flag.'
-              : 'Flag nije točan. Pokušajte ponovno ili detaljnije analizirajte datoteku.'}
-          </div>
-        )}
       </div>
     </div>
   );

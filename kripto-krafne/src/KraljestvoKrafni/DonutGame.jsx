@@ -6,42 +6,42 @@ const donuts = [
     {
         id: 1,
         src: "../src/assets/img/yellow-donut.webp",
-        code: "1",
+        code: "krafna{gl4z3d_s3cur1ty}",
         position: { top: "60%", left: "15%" },
         route: "/radnici"
     },
     {
         id: 2,
         src: "../src/assets/img/brown-drizzle-donut.webp",
-        code: "5",
+        code: "krafna{d0ughnut_h4x}",
         position: { top: "50%", left: "42%" },
         route: "/reverse"
     },
     {
         id: 3,
         src: "../src/assets/img/white-dotted-donut.webp",
-        code: "6",
+        code: "krafna{3ncrypt3d_j3ly}",
         position: { top: "60%", left: "70%" },
         route: "/menu"
     },
     {
         id: 4,
         src: "../src/assets/img/blue-donut.webp",
-        code: "4",
+        code: "krafna{5ug4r_5pr1nkl3}",
         position: { top: "15%", left: "83%" },
         route: "/dragdrop"
     },
     {
         id: 5,
         src: "../src/assets/img/plain-donut.webp",
-        code: "3",
+        code: "krafna{c1nnam0n_r0ll}",
         position: { top: "5%", left: "50%" },
         route: "/kolo"
     },
     {
         id: 6,
         src: "../src/assets/img/green-donut.webp",
-        code: "2",
+        code: "krafna{f1ll3d_w1th_fl4g}",
         position: { top: "20%", left: "20%" },
         route: "/images"
     },

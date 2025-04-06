@@ -6,6 +6,8 @@ import Radnik2 from "../assets/radnici/radnik3.jpeg";
 import Radnik3 from "../assets/radnici/radnik4.jpg";
 import Radnik4 from "../assets/radnici/radnik5.jpg";
 import Radnik5 from "../assets/radnici/radnik6.jpg";
+import Radnik8 from "../assets/radnici/radnik8.jpg";
+import Radnik7 from "../assets/radnici/radnik7.jpg";
 import TopSecret from "../assets/radnici/topsecret.jpg";
 import axios from 'axios';
 
@@ -15,7 +17,7 @@ function Radnici() {
   useEffect(() => {
     axios.get('localhost/kripto-krafne/kripto-krafne/src/backend/cookies.php', { withCredentials: true })
       .then(response => {
-        setIsAdmin(response.data.isAdmin); 
+        setIsAdmin(response.data.isAdmin);
         console.log(isAdmin);
       })
       .catch(error => {
@@ -79,6 +81,28 @@ function Radnici() {
               <p className="profile-bio">Informacija moguće isključivo admistratoru</p>
             </div>
           )}
+
+          <div className="radnik">
+            <img
+              className="profile-pic"
+              src={Radnik7}
+              alt="Kristina Ugrin"
+            />
+            <h1 className="profile-name">Kristina Ugrin</h1>
+            <h3 className="profile-posao">Marketing menadžer</h3>
+            <p className="profile-bio">Stručnjakinja za tradicionalne recepte krafni s 15 godina iskustva u pekarstvu.</p>
+          </div>
+
+          <div className="radnik">
+            <img
+              className="profile-pic"
+              src={Radnik8}
+              alt="Marin Zoranić"
+            />
+            <h1 className="profile-name">Marin Zoranić</h1>
+            <h3 className="profile-posao">Šef kuhinje za inovativne okuse</h3>
+            <p className="profile-bio">Kreator jedinstvenih kombinacija okusa koji će vas iznenaditi.</p>
+          </div>
         </div>
       </div>
     </div>
