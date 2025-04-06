@@ -48,6 +48,10 @@
     font-size: 40px;
 }
 
+.title {
+    font-family: "Luckiest Guy", cursive, sans-serif;
+}
+
 .boja {
     background-color: #ffcaf0;
 }

@@ -66,7 +66,7 @@ const DonutChallengeComponent = () => {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-[#ffface] p-20 relative">
-            <h1 className="text-7xl mb-8 text-[#ff10a2] font-bold animate-bounce">🍩 Slatki Izazov! 🍩</h1>
+            <h1 className="mb-8 text-[#ff10a2] title text-7xl animate-bounce">🍩 Slatki Izazov! 🍩</h1>
             <p className="text-3xl text-[#ff10a2] mb-10">Pokušajte složiti slagalicu u što kraćem vremenu!</p>
             <h2 className="text-4xl mb-8 text-[#ff10a2] animate-pulse">
                 Vrijeme: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}

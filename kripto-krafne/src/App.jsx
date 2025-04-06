@@ -16,6 +16,7 @@ import Radnici from './KraljestvoKrafni/Radnici';
 import Glazba from './KraljestvoKrafni/Glazba';
 import Menu from './KraljestvoKrafni/Menu';
 import Kolo from './KraljestvoKrafni/Kolo';
+import DonutRecipe from './KraljestvoKrafni/DonutRecipe';
 import Footer from "./Components/Footer";
 import DragDrop from '../src/KraljestvoKrafni/DragDrop';
 import ReverseEngineeringChallenge from './KraljestvoKrafni/ReverseEngineering';
@@ -104,7 +105,7 @@ function App() {
           <Route path="/images" element={<Images />}></Route>
           <Route path="/kolo" element={<Kolo></Kolo>}></Route>
           <Route path="/dragdrop" element={<DragDrop />}></Route>
-          <Route path="/reverse" element={<ReverseEngineeringChallenge />}></Route>
+          <Route path="/recipe/:id" element={<DonutRecipe />}></Route>
           <Route path="/ctf-game" element={<DonutGame />} />
 
           <Route path="/box/:id" element={<Level levels={levels} />} />
