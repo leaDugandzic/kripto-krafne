@@ -15,7 +15,7 @@ const donuts = [
         src: "../src/assets/img/brown-drizzle-donut.webp",
         code: "krafna{d0ughnut_h4x}",
         position: { top: "50%", left: "42%" },
-        route: "/reverse"
+        route: "/recipe/1"
     },
     {
         id: 3,
