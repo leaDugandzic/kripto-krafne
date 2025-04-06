@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Eye, EyeOff } from "lucide-react";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider,signInWithPopup } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
@@ -61,12 +61,9 @@ export default function LoginForm() {
 
 
     return (
-        <div className="flex items-center justify-center mt-10">
+        <div className="flex items-center justify-center mt-25">
             <div className="bg-pink-300 p-10 rounded-3xl shadow-lg flex flex-col items-center w-[500px]">
-                <h2 className="text-3xl font-bold text-700 text-center">Ulogiraj se</h2>
-                <p className="text-pink-700 text-sm mt-2 text-center">
-                    Kripto Krafne nezaboravno putovanje kroz svijet kibernetičke sigurnosti
-                </p>
+                <h2 className="text-3xl font-bold text-pink-500 text-center title-font">Ulogiraj se</h2>
                 <div className="bg-beige p-8 rounded-xl w-full flex flex-col items-center">
                     <input
                         type="email"

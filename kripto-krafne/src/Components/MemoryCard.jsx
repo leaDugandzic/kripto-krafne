@@ -10,14 +10,14 @@ const MemoryCardGame = ({ gameData, currentLevelId }) => {
 
     useEffect(() => {
         const cardPairs = gameData.flatMap(item => [
-            { 
+            {
                 id: item.id,
                 type: 'term',
                 content: item.term,
                 pairId: `${item.id}-term`,
                 matchId: `${item.id}-def`
             },
-            { 
+            {
                 id: item.id,
                 type: 'definition',
                 content: item.description,
@@ -65,8 +65,8 @@ const MemoryCardGame = ({ gameData, currentLevelId }) => {
 
     return (
         <div className="p-6 max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-pink-700 mb-2 text-center">
-                Memory Card Challenge
+            <h2 className="text-3xl font-bold text-pink-700 mb-2 text-center title-font">
+                Spoji Memori Kartice
                 <div className="w-32 h-1.5 bg-purple-500 mx-auto mt-3 rounded-full"></div>
             </h2>
 
@@ -91,21 +91,18 @@ const MemoryCardGame = ({ gameData, currentLevelId }) => {
                         <div
                             key={card.uniqueId}
                             onClick={() => handleCardClick(card.uniqueId)}
-                            className={`h-32 cursor-pointer rounded-xl shadow-lg transition-all duration-300 relative ${
-                                isMatched ? 'border-green-500' : 'border-white'
-                            } border-2`}
+                            className={`h-32 cursor-pointer rounded-xl shadow-lg transition-all duration-300 relative ${isMatched ? 'border-green-500' : 'border-white'
+                                } border-2`}
                         >
                             {/* Card Front (Gradient Back) */}
-                            <div className={`absolute inset-0 flex items-center justify-center rounded-xl ${
-                                !isFlipped && !isMatched ? 'opacity-100' : 'opacity-0'
-                            } transition-opacity duration-300 bg-gradient-to-br from-pink-400 to-purple-400`}>
+                            <div className={`absolute inset-0 flex items-center justify-center rounded-xl ${!isFlipped && !isMatched ? 'opacity-100' : 'opacity-0'
+                                } transition-opacity duration-300 bg-gradient-to-br from-pink-400 to-purple-400`}>
                                 <p className="text-white text-4xl font-bold">?</p>
                             </div>
-                            
+
                             {/* Card Back (Content) */}
-                            <div className={`absolute inset-0 flex items-center justify-center p-4 rounded-xl ${
-                                isFlipped || isMatched ? 'opacity-100 bg-white' : 'opacity-0'
-                            } transition-opacity duration-300`}>
+                            <div className={`absolute inset-0 flex items-center justify-center p-4 rounded-xl ${isFlipped || isMatched ? 'opacity-100 bg-white' : 'opacity-0'
+                                } transition-opacity duration-300`}>
                                 <div className="text-center">
                                     <p className="font-bold text-gray-800 mb-1">{card.content}</p>
                                     {isMatched && (

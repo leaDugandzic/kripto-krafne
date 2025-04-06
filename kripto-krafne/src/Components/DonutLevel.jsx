@@ -63,10 +63,10 @@ const DonutLevel = () => {
                     </div>
 
                     <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold text-white mb-2">Bravo!</h2>
-                        <p className="text-pink-700 font-medium text-lg">
+                        <h2 className="text-3xl font-bold text-pink-700 mb-2 title-font">Bravo!</h2>
+                        <p className="text-white font-semibold text-lg">
                             Možeš li doći do svih<br />
-                            <span className="text-white font-bold">Kripto Krafni</span>?
+                            <span className="text-pink-700 font-bold">Kripto Krafni</span>?
                         </p>
                     </div>
 

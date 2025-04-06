@@ -14,8 +14,8 @@ const DragDropGame = ({ gameData, currentLevelId }) => {
     useEffect(() => {
         if (gameData) {
             setItems(gameData);
-            setBoxes(gameData.map(item => ({ 
-                id: item.id, 
+            setBoxes(gameData.map(item => ({
+                id: item.id,
                 text: item.description,
                 matched: false
             })));
@@ -31,8 +31,8 @@ const DragDropGame = ({ gameData, currentLevelId }) => {
     const handleDrop = (item, box) => {
         if (item.description === box.text) {
             setMatchedItems((prev) => [...prev, item.id]);
-            setBoxes(prev => prev.map(b => 
-                b.id === box.id ? {...b, matched: true} : b
+            setBoxes(prev => prev.map(b =>
+                b.id === box.id ? { ...b, matched: true } : b
             ));
         }
     };
@@ -41,11 +41,11 @@ const DragDropGame = ({ gameData, currentLevelId }) => {
         <DndProvider backend={HTML5Backend}>
             <div className="p-6">
                 <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl font-bold mb-8 text-pink-600 text-center">
+                    <h2 className="text-3xl font-bold mb-8 text-pink-600 text-center title-font">
                         Povuci pojmove do ispravnih tvrdnji
                         <div className="w-32 h-1 bg-pink-500 mx-auto mt-3"></div>
                     </h2>
-                    
+
                     <div className="flex flex-col lg:flex-row gap-6">
                         {/* Draggable Items */}
                         <div className="lg:w-2/5 p-5 rounded-xl bg-pink-50 border-2 border-pink-200">
@@ -56,15 +56,15 @@ const DragDropGame = ({ gameData, currentLevelId }) => {
                                 ))}
                             </div>
                         </div>
-                        
+
                         {/* Droppable Boxes */}
                         <div className="lg:w-3/5 p-5 rounded-xl bg-pink-50 border-2 border-pink-200">
                             <h3 className="text-xl font-bold text-pink-600 mb-4">TVRDNJE</h3>
                             <div className="grid grid-cols-1 gap-4 min-h-[300px]">
                                 {boxes.map(box => (
-                                    <DroppableBox 
-                                        key={box.id} 
-                                        box={box} 
+                                    <DroppableBox
+                                        key={box.id}
+                                        box={box}
                                         onDrop={handleDrop}
                                         isMatched={box.matched}
                                     />
@@ -72,7 +72,7 @@ const DragDropGame = ({ gameData, currentLevelId }) => {
                             </div>
                         </div>
                     </div>
-                    
+
                     {matchedItems.length === items.length && items.length > 0 && (
                         <div className="mt-6 p-4 bg-green-200 border-2 border-green-400 rounded-lg text-center">
                             <p className="text-green-800 font-bold">✓ BRAVO! SVE TOČNO!</p>

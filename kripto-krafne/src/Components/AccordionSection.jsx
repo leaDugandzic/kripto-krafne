@@ -13,12 +13,12 @@ const AccordionSection = () => {
 
     return (
         <div className="max-w-6xl mx-auto my-8 px-4">
-            <h2 className="text-2xl font-bold text-pink-700 mb-6 pb-3 border-b-2 border-dashed border-pink-400">
+            <h2 className="text-2xl font-bold text-pink-700 mb-6 pb-3 border-b-2 border-dashed border-pink-400 title-font">
                 Zanimljivosti
             </h2>
             <div className="space-y-3 w-full">
                 {level.fun_facts.map((fact, index) => (
-                    <Accordion 
+                    <Accordion
                         key={index}
                         title={fact.question}
                         content={fact.answer}

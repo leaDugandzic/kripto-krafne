@@ -1,42 +1,49 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const donuts = [
     {
         id: 1,
         src: "../src/assets/img/yellow-donut.webp",
         code: "1",
-        position: { top: "70%", left: "15%" },
+        position: { top: "60%", left: "15%" },
+        route: "/radnici"
     },
     {
         id: 2,
         src: "../src/assets/img/brown-drizzle-donut.webp",
         code: "5",
-        position: { top: "55%", left: "42%" },
+        position: { top: "50%", left: "42%" },
+        route: "/reverse"
     },
     {
         id: 3,
         src: "../src/assets/img/white-dotted-donut.webp",
         code: "6",
-        position: { top: "65%", left: "70%" },
+        position: { top: "60%", left: "70%" },
+        route: "/menu"
     },
     {
         id: 4,
         src: "../src/assets/img/blue-donut.webp",
         code: "4",
-        position: { top: "20%", left: "85%" },
+        position: { top: "15%", left: "83%" },
+        route: "/dragdrop"
     },
     {
         id: 5,
         src: "../src/assets/img/plain-donut.webp",
         code: "3",
-        position: { top: "15%", left: "50%" },
+        position: { top: "5%", left: "50%" },
+        route: "/kolo"
     },
     {
         id: 6,
         src: "../src/assets/img/green-donut.webp",
         code: "2",
-        position: { top: "30%", left: "20%" },
+        position: { top: "20%", left: "20%" },
+        route: "/images"
     },
 ];
 
@@ -44,21 +51,21 @@ const lines = [
     {
         id: "1and5",
         src: "../src/assets/img/1and5.png",
-        position: { top: "60%", left: "23%" },
+        position: { top: "55%", left: "23%" },
         width: "22vw",
         // height: "5vh",
     },
     {
         id: "two",
         src: "../src/assets/img/two.png",
-        position: { top: "51%", left: "50%" },
+        position: { top: "46%", left: "50%" },
         width: "25vw",
         // height: "5vh",
     },
     {
         id: "three",
         src: "../src/assets/img/three.png",
-        position: { top: "40%", left: "70%" },
+        position: { top: "35%", left: "70%" },
         width: "25vw",
         // height: "5vh",
         transform: "scaleY(-1) rotate(90deg)",
@@ -66,7 +73,7 @@ const lines = [
     {
         id: "four",
         src: "../src/assets/img/four.png",
-        position: { top: "10%", left: "61%" },
+        position: { top: "5%", left: "61%" },
         width: "27vw",
         // height: "5vh",
         transform: " rotate(230deg)",
@@ -74,7 +81,7 @@ const lines = [
     {
         id: "five",
         src: "../src/assets/img/two.png",
-        position: { top: "15%", left: "28%" },
+        position: { top: "10%", left: "28%" },
         width: "26vw",
         // height: "5vh",
         transform: "scaleY(-1) ",
@@ -82,14 +89,14 @@ const lines = [
     {
         id: "six",
         src: "../src/assets/img/six.png",
-        position: { top: "35%", left: "8%" },
+        position: { top: "25%", left: "8%" },
         width: "16vw",
         // height: "5vh",
         transform: "scaleY(-1) ",
     },
 ];
 
-const castlePosition = { top: "5%", left: "5%", width: "10vw", zIndex: 4 };
+const castlePosition = { top: "5%", left: "6%", width: "10vw", zIndex: 4 };
 
 export default function DonutGame() {
     const [inputs, setInputs] = useState(Array(6).fill(""));
@@ -118,7 +125,7 @@ export default function DonutGame() {
     };
 
     return (
-        <div id="game" className="relative w-full h-screen bg-[#ffceea] flex items-center justify-center overflow-hidden">
+        <div id="game" className="relative w-full h-screen bg-[#ffface] flex items-center justify-center overflow-hidden">
             <img
                 src="../src/assets/img/castle.png"
                 alt="Castle"
@@ -151,13 +158,15 @@ export default function DonutGame() {
                     className="absolute flex flex-col items-center"
                     style={{ top: donut.position.top, left: donut.position.left }}
                 >
-                    <motion.img
-                        src={donut.src}
-                        alt="Donut"
-                        className="w-28 md:w-38"
-                        animate={validated[index] ? { rotate: 360 } : {}}
-                        transition={{ duration: 1 }}
-                    />
+                    <Link to={donut.route}>
+                        <motion.img
+                            src={donut.src}
+                            alt="Donut"
+                            className="w-28 md:w-38"
+                            animate={validated[index] ? { rotate: 360 } : {}}
+                            transition={{ duration: 1 }}
+                        />
+                    </Link>
                     <div className="flex items-center bg-white p-2 md:p-3 rounded-full border-4 border-[#ff0080] shadow-md mt-2">
                         <motion.input
                             type="text"

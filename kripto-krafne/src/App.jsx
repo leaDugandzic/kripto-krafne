@@ -66,7 +66,7 @@ function App() {
         <div className="navbar bg-pink-300 p-2 flex flex-row justify-between items-center shadow-md">
           <div className="flex items-center gap-2">
             <img src={Logo} alt="Logo" className="w-22 h-18" />
-            <Link to="/" className="text-white font-bold italic text-lg">Kripto Krafne</Link>
+            <Link to="/" className="text-white font-bold title-font small">Kripto Krafne</Link>
           </div>
 
           <div className="flex flex-row gap-4" id="buttons" style={{ display: stylebtn }}>

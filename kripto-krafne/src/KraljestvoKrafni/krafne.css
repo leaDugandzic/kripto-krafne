@@ -1,30 +1,15 @@
-
-
 body {
     font-family: "Poppins", sans-serif;
     background: #ffface;
     color: #3d2a26;
 }
 
-.navigation {
-    color: #fb008a;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #ffface;
-    z-index: 1000;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
+
 
 #logo {
     display: flex;
     align-items: center;
-   
+
 }
 
 #logo img {
@@ -143,11 +128,12 @@ nav ul li a:hover {
 }
 
 @media (max-width: 1024px) {
-    #logo{
-        display:flex;
+    #logo {
+        display: flex;
         flex-direction: row;
         justify-content: center;
     }
+
     #logo img {
         height: 45px;
     }
@@ -308,10 +294,10 @@ nav ul li a:hover {
     /* display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     gap: 18px; */
-    display:flex;
+    display: flex;
     flex-wrap: wrap;
-    flex-direction:row;
-    gap:20px;
+    flex-direction: row;
+    gap: 20px;
     justify-content: center;
 }
 
@@ -543,7 +529,7 @@ nav ul li a:hover {
 }
 
 
-.game {
+#game {
     width: 100%;
     height: 750px;
     display: flex;
@@ -551,6 +537,7 @@ nav ul li a:hover {
     justify-content: space-around;
     align-items: center;
     margin-bottom: 80px;
+    margin-top: 80px;
 }
 
 .wheel-container {
@@ -630,36 +617,43 @@ nav ul li a:hover {
 
 .tableText td {
     padding: 20px;
+    border: 1px black solid;
 }
 
 .boje {
-    width: 20px;
+    width: 25px;
     border-radius: 50%;
     box-sizing: content-box;
 }
 
 #hotpink {
     background-color: #fb008a;
+    border: none;
 }
 
 #violet {
     background-color: violet;
+    border: none;
 }
 
 #pink {
     background-color: pink;
+    border: none;
 }
 
 #purple {
     background-color: #c77ae8;
+    border: none;
+}
+
+#midpurple {
+    background-color: #a60ee7;
+    border: none;
 }
 
 #darkpurple {
-    background-color: #a60ee7;
-}
-
-#lightpink {
-    background-color: #ffceea;
+    background-color: rgb(141, 10, 158);
+    border: none;
 }
 
 :where(.ui-wheel-of-fortune) {
@@ -1329,13 +1323,14 @@ nav ul li a:hover {
 }
 
 :root {
-    --primary-: #fd7fc0;
-    --secondary-: #ffe6d4;
-    --tertiary-: pink;
+    --primary-: #fda5d6;
+    --secondary-: #e60076;
+    --tertiary-: #ffface;
 }
 
 .footerMainTop h2 {
     color: var(--secondary-);
+    font-size: 20px;
 }
 
 footer {
@@ -1349,11 +1344,11 @@ footer {
 
 .footerMainBottom h3 {
     color: var(--secondary-);
-
+    font-weight: bold;
 }
 
 .footerDiv {
-    margin-top: 150px;
+    margin-top: 80px;
     display: block;
 }
 
@@ -1375,7 +1370,7 @@ footer {
 
 .footerLogo {
     height: 80px;
-    width:100%;
+    width: 100%;
 }
 
 .footerPartOne img:hover {
@@ -1410,7 +1405,7 @@ footer ul {
 }
 
 footer hr {
-    border: var(--secondary-) solid 2px;
+    border: #fb0789 solid 2px;
 
 }
 
@@ -1424,6 +1419,8 @@ footer hr {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    border-top: 3px dashed #ff6abc;
+    padding-top: 20px;
 }
 
 .footerBottomTwo {
@@ -1438,8 +1435,8 @@ footer hr {
 }
 
 .footerSocialMedia img {
-    height: 35px;
-    width: 35px;
+    height: 40px;
+    width: 40px;
     border-radius: 10px;
     margin: 10px;
 }
@@ -1459,7 +1456,8 @@ footer a {
 }
 
 .footerContent li:hover,
-.footerBottomTwo a:hover {
+.footerBottomTwo a:hover,
+.footerSocialMedia a:hover {
     transform: scale(1.04);
 }
 

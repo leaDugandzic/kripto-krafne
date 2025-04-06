@@ -4,11 +4,11 @@ import { useSearchParams } from 'react-router-dom';
 
 const resultMessages = {
     hotpink: '2 besplatne Kakao Krafne',
-    darkpurple: 'Upsi, ništa za tebe :(',
-    lightpink: '3 besplatne Kokos Krafne',
-    pink: '5% popusta za iduću kupnju',
-    violet: 'Upsi, ništa za tebe :(',
-    purple: 'Besplatna dostava tjedan dana',
+    darkpurple: 'Nažalost, ništa za tebe :(',
+    midpurple: '3 besplatne Kokos Krafne',
+    pink: '5% popusta na sve krafne',
+    violet: 'Nažalost, ništa za tebe :(',
+    purple: 'Iduća dostava besplatna',
 };
 
 const Kolo = () => {
@@ -60,8 +60,8 @@ const Kolo = () => {
             if (showSecretCode) {
                 setPopupMessage('Nova šifra: Heksametar');
                 setTimeout(() => setPopupMessage(''), 3000);
-                return; 
-              }
+                return;
+            }
 
             const result = getResultsAtTop();
             if (result && resultMessages[result]) {
@@ -75,7 +75,7 @@ const Kolo = () => {
 
 
     return (
-        <div className="game" id="game">
+        <div className="game md-10" id="game">
             <div className="wheel-container">
                 <fieldset
                     className="ui-wheel-of-fortune"
@@ -86,13 +86,13 @@ const Kolo = () => {
                         {[
                             'hotpink',
                             'darkpurple',
-                            'lightpink',
+                            'midpurple',
                             'pink',
                             'violet',
                             'purple',
                             'hotpink',
                             'darkpurple',
-                            'lightpink',
+                            'midpurple',
                             'pink',
                             'violet',
                             'purple',
@@ -107,18 +107,26 @@ const Kolo = () => {
                 </button>
             </div>
 
-            <div className="tableText">
-                <h1 className="naslov">Zavrti kolo i otkrij pravi promo kod</h1>
-                <table>
-                    <tbody>
-                        {Object.entries(resultMessages).map(([color, msg]) => (
-                            <tr key={color} className='bojice' >
-                                <td className="boje"  id={color}></td>
-                                <td>{msg}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            <div className="tableText p-12 bg-pink-200 rounded-xl">
+                <h1 className="text-pink-500 title-font pb-3 border-b-3 border-pink-300 mb-10">Zavrti kolo i otkrij pravi promo kod</h1>
+                <ul className="space-y-3 ">
+                    {Object.entries(resultMessages).map(([color, msg]) => (
+                        <li key={color} className="flex items-center gap-2">
+                            <div
+                                id={color}
+                                className={`w-15 h-15 rounded-full ${color === 'hotpink' ? 'bg-[#fb008a]' :
+                                    color === 'violet' ? 'bg-violet-400' :
+                                        color === 'pink' ? 'bg-pink-300' :
+                                            color === 'purple' ? 'bg-[#c77ae8]' :
+                                                color === 'midpurple' ? 'bg-[#a60ee7]' :
+                                                    color === 'darkpurple' ? 'bg-[#8d0a9e]' :
+                                                        'bg-gray-100'
+                                    }`}
+                            ></div>
+                            <span className="text-gray-700">{msg}</span>
+                        </li>
+                    ))}
+                </ul>
             </div>
 
             {popupMessage && (

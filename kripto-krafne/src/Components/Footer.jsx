@@ -1,8 +1,6 @@
 import "../KraljestvoKrafni/krafne.css";
 import Logo from "../assets/img/logo.png";
 import Youtube from "../assets/img/footerimg/youtube.png";
-import X from "../assets/img/footerimg/x.png";
-import Pinterest from "../assets/img/footerimg/pinterest.png";
 import Instagram from "../assets/img/footerimg/instagram.png";
 import Facebook from "../assets/img/footerimg/facebook.png";
 import Tiktok from "../assets/img/footerimg/images.png";
@@ -10,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="footerDiv bg-pink-300">
+    <div className="footerDiv">
       <footer>
         <div className="footerMain">
           <div className="footerMainTop">
@@ -19,7 +17,7 @@ const Footer = () => {
                 <Link to="/" className="w-[600px]">
                   <div id="logo">
                     <img src={Logo} alt="logo" />
-                    <h1 className="naslov font-bold italic">Kripto Krafne</h1>
+                    <h1 className="naslov title-font">Kripto Krafne</h1>
                   </div>
                 </Link>
               </div>
@@ -40,8 +38,9 @@ const Footer = () => {
                         E-mail: <a href="mailto:kraljevstvoKrafni@gmail.com">kriptokrafne@gmail.com</a>
                       </h3>
                     </li>
+                    <li style={{ color: '#fda5d6' }}>dfg</li>
                     <li>
-                      <h2>ZAPRATITE NAS</h2>
+                      <h2 className="footerTitle">ZAPRATITE NAS</h2>
                       <div className="footerSocialMedia">
                         <a href="https://www.instagram.com/kriptokrafne?igsh=MTFuZHdsbXVkeG51bA==">
                           <img className="instagram" src={Instagram} alt="Instagram" />
@@ -58,6 +57,7 @@ const Footer = () => {
                         </a>
                       </div>
                     </li>
+                    <li style={{ color: '#fda5d6' }}>dfg</li>
                   </ul>
                 </div>
               </div>
@@ -65,11 +65,9 @@ const Footer = () => {
           </div>
 
           <div className="footerMainBottom">
-            <hr />
-            <br />
             <div className="footerBottomContent">
               <div className="footerBottomOne">
-                <h3>© 2024 Izradile Lea Dugandžić, Ana Čikeš i Ana Šimović uz mentorstvo nastavnice Nikoline Smilović</h3>
+                <h3 style={{ color: '#fff' }}>© 2024 Izradile Lea Dugandžić, Ana Čikeš i Ana Šimović uz mentorstvo nastavnice Nikoline Smilović</h3>
               </div>
               <div className="footerBottomTwo">
                 <a href="https://policies.google.com/terms?hl=en-US">
