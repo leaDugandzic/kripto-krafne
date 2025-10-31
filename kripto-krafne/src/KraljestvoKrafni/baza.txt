@@ -39,4 +39,18 @@ INSERT INTO recepti (ime, slika, tijesto, nadjev, priprema, vrijeme_pripreme) VA
 ('Jagodica krafna', '../assets/img/krafne/krafna3.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od jagode sa šarenim mrvicama', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '50 minuta'),
 ('Cimet krafna', '../assets/img/krafne/krafna4.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od cimeta i lješnjaka sa cvijetovima badema', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '55 minuta'),
 ('Kokos krafna', '../assets/img/krafne/krafna5.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od kokosa s ', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '60 minuta'),
-('Šifrirana krafna', '../assets/img/krafne/flag.png', 'Koliko dobro čitaš nule i jedinice?' ,'00110110 01100010 00100000 00110111 00110010 00100000 00110110 00110001 00100000 00110110 00110110 00100000 00110110 01100101 00100000 00110110 00110001 00100000 00110111 01100010 00100000 00110110 00110100 00100000 00110011 00110000 00100000 00110111 00110101 00100000 00110110 00110111 00100000 00110110 00111000 00100000 00110110 01100101 00100000 00110111 00110101 00100000 00110111 00110100 00100000 00110101 01100110 00100000 00110110 00111000 00100000 00110011 00110100 00100000 00110111 00111000 00100000 00110111 01100100');
+('Šifrirana krafna', '../assets/img/krafne/flag.png', 'Koliko dobro čitaš nule i jedinice?' ,'00110110 01100010 00100000 00110111 00110010 00100000 00110110 00110001 00100000 00110110 00110110 00100000 00110110 01100101 00100000 00110110 00110001 00100000 00110111 01100010 00100000 00110110 00110100 00100000 00110011 00110000 00100000 00110111 00110101 00100000 00110110 00110111 00100000 00110110 00111000 00100000 00110110 01100101 00100000 00110111 00110101 00100000 00110111 00110100 00100000 00110101 01100110 00100000 00110110 00111000 00100000 00110011 00110100 00100000 00110111 00111000 00100000 00110111 01100100', '', '');
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ime VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    lozinka VARCHAR(255) NOT NULL
+);
+CREATE TABLE IF NOT EXISTS ljestvica (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    bodovi INT DEFAULT 0,
+    datum_zadnje_aktivnosti TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
