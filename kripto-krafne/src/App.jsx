@@ -9,8 +9,6 @@ import Signup from './Components/Signup';
 import { useState, useEffect } from 'react';
 import Krafnapfp from "./assets/img/krafna.png";
 import levels from './library/levels.json';
-import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import Images from './KraljestvoKrafni/Images'
 import Radnici from './KraljestvoKrafni/Radnici';
 import Glazba from './KraljestvoKrafni/Glazba';
@@ -27,38 +25,23 @@ function App() {
   const [stylebtn, setStylebtn] = useState("flex");
 
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyByUrAiofLLSbiUip7FgU2Dm56gj2amon4",
-    authDomain: "kripto-krafne.firebaseapp.com",
-    projectId: "kripto-krafne",
-    storageBucket: "kripto-krafne.firebasestorage.app",
-    messagingSenderId: "952913949861",
-    appId: "1:952913949861:web:1b1bb619d7e12eaf28c94c"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth();
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setStylepfp("block");
-        setStylebtn("none");
-      } else {
-        setStylepfp("none");
-        setStylebtn("flex");
-      }
-    });
-
+  
+ useEffect(() => {
+    fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/session.php", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.loggedIn) {
+          setStylepfp("block");
+          setStylebtn("none");
+        }
+      })
+      .catch((err) => console.error("Session check error:", err));
   }, []);
 
-  function handleLogout() {
-    signOut(auth).then(() => {
-      setStylepfp("none");
-      setStylebtn("flex");
-    }).catch((error) => {
-      setError("Error: " + error.message);
-    });
-  }
+
 
   return (
     <div className='body'>
@@ -87,7 +70,7 @@ function App() {
                 </div>
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content bg-pink-500 rounded-box z-1 mt-3 w-52 p-2 text-[15px] font-bold shadow">
-                <li><a onClick={handleLogout}>Logout</a></li>
+                <li><a >Logout</a></li>
               </ul>
             </div>
           </div>
