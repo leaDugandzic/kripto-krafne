@@ -10,52 +10,50 @@ export default function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [ime, setIme] = useState("");
-
-    const [error, setError] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
     const handleSumbit = (e) => {
         e.preventDefault();
-        if (!email || !password) {
-            setError('Please fill in all fields');
-            return;
-        }
+
 
         let apiSignup = "http://localhost/kripto-krafne/kripto-krafne/src/backend/signup.php";
-        let headers={
+        let headers = {
             "Accept": "application/json",
-            "Content-Type":"application/json"
+            "Content-Type": "application/json"
         }
 
-        let data ={
+        let data = {
             Ime: ime,
             Password: password,
-            Email:email
+            Email: email,
+            ConfirmPass: confirmPassword
         }
 
-        fetch(apiSignup,{
-            method:"POST",
-            headers:headers,
-            body:JSON.stringify(data)
+        fetch(apiSignup, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(data)
         })
-        .then(async response => {
-    const text = await response.text(); // always read as text first
-    try {
-        const json = JSON.parse(text);
-        return json;
-    } catch (e) {
-        console.error("Backend returned non-JSON:", text);
-        throw new Error("Invalid JSON response from backend");
-    }
-})
-        .then((data)=>{
-            if(data.success){
-                alert("Signup successful!");
-            }
-            else{
-                  alert( "Signup failed!");
-            }
-        })
+            .then(async response => {
+                const text = await response.text();
+                try {
+                    const json = JSON.parse(text);
+                    return json;
+                } catch (e) {
+                    console.error("Backend returned non-JSON:", text);
+                    throw new Error("Invalid JSON response from backend");
+                }
+            })
+            .then((data) => {
+                if (data.success) {
+                    alert("Signup successful!");
+                }
+                else {
+                    setMessage(data.message);
+                }
+            })
 
     }
 
@@ -71,7 +69,7 @@ export default function Signup() {
                         value={ime}
                         onChange={(e) => setIme(e.target.value)}
                         className="text-black w-full p-3 rounded-md border border-gray-300 mb-4 focus:outline-none bg-white"
-                        />
+                    />
                     <h4 className="float-left">Unesite e-mail:</h4>
 
                     <input
@@ -95,13 +93,25 @@ export default function Signup() {
                         >
                             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </span>
-                        {error}
                     </div>
-                  
+                    <h4 className="float-left ">Ponovite lozinku:</h4>
+                    <div className="">
+                        <input
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            className=" text-black w-full p-3 rounded-md border border-gray-300 mb-4 focus:outline-none bg-white"
+                        />
+
+                    </div>
+                    {message && (
+                        <p className="text-red-500 text-m mt-2 text-left">{message}</p>
+                    )}
 
                     <button onClick={handleSumbit} className="w-full bg-pink-300 text-white py-3 rounded-md mt-4 font-semibold hover:bg-purple-600">
                         Submit
                     </button>
+
                 </div>
             </div>
         </div>
