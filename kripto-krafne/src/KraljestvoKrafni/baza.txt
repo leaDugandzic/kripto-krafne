@@ -110,45 +110,6 @@ CREATE TABLE vulnerability_solutions (
     FOREIGN KEY (vulnerability_id) REFERENCES vulnerabilities(id)
 );
 
-INSERT INTO categories (id, name) VALUES
-(1, 'kriptografija'),
-(2, 'web sigurnost'),
-(3, 'digitalna forenzika'),
-(4, 'mrežna sigurnost'),
-(5, 'reverzno inženjerstvo'),
-(6, 'socijalni inženjering');
-
-INSERT INTO levels (id, category_id, name, lesson, video, game_type) VALUES
-(101, 1, 'Osnove simetrične i asimetrične kriptografije', 
- 'Kriptografija je temeljna komponenta sigurnosti u digitalnom svijetu...',
- 'https://www.youtube.com/embed/vYF8fWiV0vI?si=xho99JLMj6o_J_JR',
- 'dragDrop'),
-
-(201, 2, 'Osnove web sigurnosti i uobičajene ranjivosti (OWASP Top 10)',
- 'Web sigurnost ključna je za zaštitu aplikacija od napada...',
- 'https://www.youtube.com/embed/hryt-rCLJUA?si=hCyYCC-8daBsNs02',
- 'findVulnerability'),
-
-(301, 3, 'Osnove digitalne forenzike i metode prikupljanja dokaza',
- 'Digitalna forenzika je grana forenzike koja se bavi identifikacijom...',
- 'https://www.youtube.com/embed/w2xItujdLag?si=Ko-v3iDEkQx7nrza',
- 'dragDrop'),
-
-(401, 4, 'Osnove mrežnih protokola i analiza prometa',
- 'Razumijevanje mrežnih protokola ključno je za analizu mrežnog prometa...',
- 'https://www.youtube.com/embed/1zVZ9cWFnCc?si=XJohdrjBunUpH42G',
- 'dragDrop'),
-
-(501, 5, 'Osnove reverznog inženjerstva: disassembleri, decompileri i debugging',
- 'Reverzno inženjerstvo je postupak analize softvera bez izvornog koda...',
- 'https://www.youtube.com/embed/WxoakeEnOf8?si=Z4QvFk0M_QQaJcC1',
- 'memoryCards'),
-
-(601, 6, 'Uvod u socijalni inženjering: Metode i tehnike napada',
- 'Socijalni inženjering je oblik napada u kojem napadači koriste psihološke trikove...',
- 'https://www.youtube.com/embed/v7VTJhkJUUY?si=gmk60QMvk24SSid6',
- 'memoryCards');
-
 INSERT INTO fun_facts (level_id, question, answer) VALUES
 (101, 'Tko je otac moderne kriptografije?', 'Otac moderne kriptografije smatra se Claude Shannon...'),
 (101, 'Koja je razlika između simetrične i asimetrične kriptografije?', 'Simetrična kriptografija koristi isti ključ za enkripciju i dekripciju...'),
