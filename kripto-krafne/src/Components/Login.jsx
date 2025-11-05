@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Eye, EyeOff } from "lucide-react";
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -12,19 +11,40 @@ export default function LoginForm() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyByUrAiofLLSbiUip7FgU2Dm56gj2amon4",
-        authDomain: "kripto-krafne.firebaseapp.com",
-        projectId: "kripto-krafne",
-        storageBucket: "kripto-krafne.firebasestorage.app",
-        messagingSenderId: "952913949861",
-        appId: "1:952913949861:web:1b1bb619d7e12eaf28c94c"
-    };
+    const handleGoogleSuccess = async (credentialResponse) => {
+    const token = credentialResponse.credential;
+    const userInfo = jwt_decode(token);
+    console.log("User info:", userInfo);
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-    const provider = new GoogleAuthProvider();
+    try {
+      const res = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/login.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        body: JSON.stringify({ token }),
+      });
 
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.error("Backend returned non-JSON:", text);
+        setError("Server returned invalid data");
+        return;
+      }
+
+      if (data.success) {
+        alert("Google login successful!");
+        navigate("/");
+      } else {
+        setError(data.message || "Google login failed.");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("Network or server error");
+    }
+  };
 
     const handleSumbit = (e) => {
         e.preventDefault();
@@ -32,37 +52,45 @@ export default function LoginForm() {
             setError('Please fill in all fields');
             return;
         }
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                navigate('/');
+        let data = {
+            Email: email,
+            Password: password
+        }
+        let apiLogin = "http://localhost/kripto-krafne/kripto-krafne/src/backend/login.php";
+        let headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+        fetch(apiLogin, {
+            method: "POST",
+            headers: headers,
+              credentials: "include",
+            body: JSON.stringify(data)
+        })
+            .then(async response => {
+                const text = await response.text();
+                try {
+                    const json = JSON.parse(text);
+                    return json;
+                } catch (e) {
+                    console.error("Backend returned non-JSON:", text);
+                    throw new Error("Invalid JSON response from backend");
+                }
+
             })
-            .catch((error) => {
-                setError(error.message);
-            });
+            .then((data) => {
+                if (data.success) {
+                    alert("Login successful!");
+                }
+                else {
+                    setMessage(data.message);
+                }
+            })
     }
-    const handleGoogleSignIn = () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                const user = result.user;
-                navigate('/');
-
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                const email = error.customData.email;
-                const credential = GoogleAuthProvider.credentialFromError(error);
-            });
-    };
-
-
 
     return (
         <div className="flex items-center justify-center mt-25">
-            <div className="bg-pink-300 p-10 rounded-3xl shadow-lg flex flex-col items-center w-[500px]">
+            <div className="bg-white p-10 rounded-3xl shadow-lg flex flex-col items-center w-[500px]">
                 <h2 className="text-3xl font-bold text-pink-500 text-center title-font">Ulogiraj se</h2>
                 <div className="bg-beige p-8 rounded-xl w-full flex flex-col items-center">
                     <input
@@ -89,9 +117,8 @@ export default function LoginForm() {
                         {error}
                     </div>
                     <p className="text-gray-500 text-sm mt-4 text-center">or continue with</p>
-                    <button onClick={handleGoogleSignIn} className="flex items-center text-black justify-center gap-2 bg-white w-[200px] px-4 py-2 rounded-md shadow mt-3 border border-gray-300 hover:bg-gray-100">
-                        <FcGoogle size={20} /> Google
-                    </button>
+                    <GoogleLogin onSuccess={handleGoogleSuccess} className="flex items-center text-black justify-center gap-2 bg-white w-[200px] px-4 py-2 rounded-md shadow mt-3 border border-gray-300 hover:bg-gray-100">
+                    </GoogleLogin>
 
                     <button onClick={handleSumbit} className="w-full bg-purple-500 text-white py-3 rounded-md mt-4 font-semibold hover:bg-purple-600">
                         Submit

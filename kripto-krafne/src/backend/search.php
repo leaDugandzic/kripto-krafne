@@ -12,7 +12,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 $conn->set_charset("utf8mb4");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search']) && !empty(trim($_POST['search']))) {
-    $searchQuery = $_POST['search']; // UNSAFE: no escaping of user input
+    $searchQuery = $_POST['search'];
     
     $sql = "SELECT * FROM krafne WHERE ime LIKE '%$searchQuery%'"; 
     

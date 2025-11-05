@@ -20,7 +20,7 @@ INSERT INTO krafne (ime, cijena, nadjev, slika) VALUES
 ('Kokos Krafna', 3.00, 'Kokos', '../assets/img/krafne/krafna5.png'),
 ('Karamela Krafna', 2.50, 'Karamela', '../assets/img/krafne/krafna6.png'),
 ('Pistacija Krafna', 3.50, 'Pistacija', '../assets/img/krafne/krafna7.png'),
-('Pronašao si bazu', 85.00, '@UXRsDJ*A', '../assets/img/krafne/flag.png');
+('Pronašao si bazu', 85.00, 'CN<iqDIIlJDI[^4E-*mH?YVB5H$o', '../assets/img/krafne/flag.png');
 
 
 CREATE TABLE IF NOT EXISTS recepti (
@@ -39,4 +39,100 @@ INSERT INTO recepti (ime, slika, tijesto, nadjev, priprema, vrijeme_pripreme) VA
 ('Jagodica krafna', '../assets/img/krafne/krafna3.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od jagode sa šarenim mrvicama', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '50 minuta'),
 ('Cimet krafna', '../assets/img/krafne/krafna4.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od cimeta i lješnjaka sa cvijetovima badema', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '55 minuta'),
 ('Kokos krafna', '../assets/img/krafne/krafna5.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od kokosa s ', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '60 minuta'),
-('Šifrirana krafna', '../assets/img/krafne/flag.png', 'Koliko dobro čitaš nule i jedinice?' ,'00110110 01100010 00100000 00110111 00110010 00100000 00110110 00110001 00100000 00110110 00110110 00100000 00110110 01100101 00100000 00110110 00110001 00100000 00110111 01100010 00100000 00110110 00110100 00100000 00110011 00110000 00100000 00110111 00110101 00100000 00110110 00110111 00100000 00110110 00111000 00100000 00110110 01100101 00100000 00110111 00110101 00100000 00110111 00110100 00100000 00110101 01100110 00100000 00110110 00111000 00100000 00110011 00110100 00100000 00110111 00111000 00100000 00110111 01100100');
+('Šifrirana krafna', '../assets/img/krafne/flag.png', 'Koliko dobro čitaš nule i jedinice?' ,'00110110 01100010 00100000 00110111 00110010 00100000 00110110 00110001 00100000 00110110 00110110 00100000 00110110 01100101 00100000 00110110 00110001 00100000 00110111 01100010 00100000 00110110 00110100 00100000 00110011 00110000 00100000 00110111 00110101 00100000 00110110 00110111 00100000 00110110 00111000 00100000 00110110 01100101 00100000 00110111 00110101 00100000 00110111 00110100 00100000 00110101 01100110 00100000 00110110 00111000 00100000 00110011 00110100 00100000 00110111 00111000 00100000 00110111 01100100', '', '');
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ime VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    lozinka VARCHAR(255) NOT NULL
+);
+CREATE TABLE IF NOT EXISTS ljestvica (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    bodovi INT DEFAULT 0,
+    datum_zadnje_aktivnosti TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE categories (
+    id INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE levels (
+    id INT PRIMARY KEY,
+    category_id INT,
+    name VARCHAR(255) NOT NULL,
+    lesson TEXT,
+    video VARCHAR(500),
+    game_type VARCHAR(50),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+CREATE TABLE fun_facts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    level_id INT,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    FOREIGN KEY (level_id) REFERENCES levels(id)
+);
+
+CREATE TABLE game_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    level_id INT,
+    term VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    FOREIGN KEY (level_id) REFERENCES levels(id)
+);
+
+CREATE TABLE vulnerabilities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    level_id INT,
+    code TEXT,
+    total INT,
+    FOREIGN KEY (level_id) REFERENCES levels(id)
+);
+
+CREATE TABLE vulnerability_types (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vulnerability_id INT,
+    type_name VARCHAR(100) NOT NULL,
+    FOREIGN KEY (vulnerability_id) REFERENCES vulnerabilities(id)
+);
+
+CREATE TABLE vulnerability_solutions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vulnerability_id INT,
+    line_number INT,
+    type VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    FOREIGN KEY (vulnerability_id) REFERENCES vulnerabilities(id)
+);
+
+INSERT INTO fun_facts (level_id, question, answer) VALUES
+(101, 'Tko je otac moderne kriptografije?', 'Otac moderne kriptografije smatra se Claude Shannon...'),
+(101, 'Koja je razlika između simetrične i asimetrične kriptografije?', 'Simetrična kriptografija koristi isti ključ za enkripciju i dekripciju...'),
+(101, 'Koji je najpoznatiji algoritam asimetrične kriptografije?', 'Jedan od najpoznatijih algoritama asimetrične kriptografije je RSA...'),
+(101, 'Što je hash funkcija u kriptografiji?', 'Hash funkcija je matematički algoritam koji pretvara ulazni podatak...'),
+(101, 'Kako se kvantna računala mogu odraziti na kriptografiju?', 'Kvantna računala predstavljaju prijetnju postojećim kriptografskim sustavima...');
+
+INSERT INTO game_items (level_id, term, description) VALUES
+(101, 'AES', 'Simetrični algoritam visokih performansi.'),
+(101, 'RSA', 'Najpoznatiji asimetrični algoritam.'),
+(101, 'Hash funkcija', 'Koristi se za provjeru integriteta podataka.'),
+(101, 'Kvantna računala', 'Mogu ugroziti postojeće kriptografske sustave.');
+
+INSERT INTO vulnerabilities (level_id, code, total) VALUES
+(201, '<?php\n// Login funkcija\n$user = $_POST[''username''];\n$pass = $_POST[''password''];\n\n$query = \"SELECT * FROM users WHERE username = ''$user'' AND password = ''$pass'';\";\n\necho \"<div>Welcome, \" . $_GET[''name''] . \"!</div>\";\n\nfunction transferMoney($amount, $toAccount) {\n  bankTransfer($amount, $toAccount);\n}', 3);
+
+INSERT INTO vulnerability_types (vulnerability_id, type_name) VALUES
+(1, 'XSS'),
+(1, 'CSRF'),
+(1, 'SQL Injection'),
+(1, 'Insecure Direct Object Reference');
+
+INSERT INTO vulnerability_solutions (vulnerability_id, line_number, type, description) VALUES
+(1, 5, 'SQL Injection', 'Nefiltrirani korisnički unos u SQL upit'),
+(1, 7, 'XSS', 'Nefiltrirani korisnički unos u HTML izlaz'),
+(1, 10, 'CSRF', 'Funkcija za transfer novca nema CSRF zaštitu (token)'); 

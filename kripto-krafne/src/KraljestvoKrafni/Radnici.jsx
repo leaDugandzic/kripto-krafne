@@ -9,20 +9,32 @@ import Radnik5 from "../assets/radnici/radnik6.jpg";
 import Radnik8 from "../assets/radnici/radnik8.jpg";
 import Radnik7 from "../assets/radnici/radnik7.jpg";
 import TopSecret from "../assets/radnici/topsecret.jpg";
-import axios from 'axios';
 
 function Radnici() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    axios.get('localhost/kripto-krafne/kripto-krafne/src/backend/cookies.php', { withCredentials: true })
-      .then(response => {
-        setIsAdmin(response.data.isAdmin);
-        console.log(isAdmin);
-      })
-      .catch(error => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/cookies.php", {
+          method: "GET",
+          credentials: "include", 
+        });
+
+        const data = await response.json(); 
+        console.log(data); 
+
+        if (data && data.isAdmin !== undefined) {
+          setIsAdmin(data.isAdmin); 
+        } else {
+          console.error('isAdmin not found in response');
+        }
+      } catch (error) {
         console.error("There was an error fetching the admin status:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
