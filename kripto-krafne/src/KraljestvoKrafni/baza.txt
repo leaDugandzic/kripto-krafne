@@ -54,3 +54,124 @@ CREATE TABLE IF NOT EXISTS ljestvica (
     datum_zadnje_aktivnosti TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE categories (
+    id INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE levels (
+    id INT PRIMARY KEY,
+    category_id INT,
+    name VARCHAR(255) NOT NULL,
+    lesson TEXT,
+    video VARCHAR(500),
+    game_type VARCHAR(50),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+CREATE TABLE fun_facts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    level_id INT,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    FOREIGN KEY (level_id) REFERENCES levels(id)
+);
+
+CREATE TABLE game_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    level_id INT,
+    term VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    FOREIGN KEY (level_id) REFERENCES levels(id)
+);
+
+CREATE TABLE vulnerabilities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    level_id INT,
+    code TEXT,
+    total INT,
+    FOREIGN KEY (level_id) REFERENCES levels(id)
+);
+
+CREATE TABLE vulnerability_types (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vulnerability_id INT,
+    type_name VARCHAR(100) NOT NULL,
+    FOREIGN KEY (vulnerability_id) REFERENCES vulnerabilities(id)
+);
+
+CREATE TABLE vulnerability_solutions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vulnerability_id INT,
+    line_number INT,
+    type VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    FOREIGN KEY (vulnerability_id) REFERENCES vulnerabilities(id)
+);
+
+INSERT INTO categories (id, name) VALUES
+(1, 'kriptografija'),
+(2, 'web sigurnost'),
+(3, 'digitalna forenzika'),
+(4, 'mrežna sigurnost'),
+(5, 'reverzno inženjerstvo'),
+(6, 'socijalni inženjering');
+
+INSERT INTO levels (id, category_id, name, lesson, video, game_type) VALUES
+(101, 1, 'Osnove simetrične i asimetrične kriptografije', 
+ 'Kriptografija je temeljna komponenta sigurnosti u digitalnom svijetu...',
+ 'https://www.youtube.com/embed/vYF8fWiV0vI?si=xho99JLMj6o_J_JR',
+ 'dragDrop'),
+
+(201, 2, 'Osnove web sigurnosti i uobičajene ranjivosti (OWASP Top 10)',
+ 'Web sigurnost ključna je za zaštitu aplikacija od napada...',
+ 'https://www.youtube.com/embed/hryt-rCLJUA?si=hCyYCC-8daBsNs02',
+ 'findVulnerability'),
+
+(301, 3, 'Osnove digitalne forenzike i metode prikupljanja dokaza',
+ 'Digitalna forenzika je grana forenzike koja se bavi identifikacijom...',
+ 'https://www.youtube.com/embed/w2xItujdLag?si=Ko-v3iDEkQx7nrza',
+ 'dragDrop'),
+
+(401, 4, 'Osnove mrežnih protokola i analiza prometa',
+ 'Razumijevanje mrežnih protokola ključno je za analizu mrežnog prometa...',
+ 'https://www.youtube.com/embed/1zVZ9cWFnCc?si=XJohdrjBunUpH42G',
+ 'dragDrop'),
+
+(501, 5, 'Osnove reverznog inženjerstva: disassembleri, decompileri i debugging',
+ 'Reverzno inženjerstvo je postupak analize softvera bez izvornog koda...',
+ 'https://www.youtube.com/embed/WxoakeEnOf8?si=Z4QvFk0M_QQaJcC1',
+ 'memoryCards'),
+
+(601, 6, 'Uvod u socijalni inženjering: Metode i tehnike napada',
+ 'Socijalni inženjering je oblik napada u kojem napadači koriste psihološke trikove...',
+ 'https://www.youtube.com/embed/v7VTJhkJUUY?si=gmk60QMvk24SSid6',
+ 'memoryCards');
+
+INSERT INTO fun_facts (level_id, question, answer) VALUES
+(101, 'Tko je otac moderne kriptografije?', 'Otac moderne kriptografije smatra se Claude Shannon...'),
+(101, 'Koja je razlika između simetrične i asimetrične kriptografije?', 'Simetrična kriptografija koristi isti ključ za enkripciju i dekripciju...'),
+(101, 'Koji je najpoznatiji algoritam asimetrične kriptografije?', 'Jedan od najpoznatijih algoritama asimetrične kriptografije je RSA...'),
+(101, 'Što je hash funkcija u kriptografiji?', 'Hash funkcija je matematički algoritam koji pretvara ulazni podatak...'),
+(101, 'Kako se kvantna računala mogu odraziti na kriptografiju?', 'Kvantna računala predstavljaju prijetnju postojećim kriptografskim sustavima...');
+
+INSERT INTO game_items (level_id, term, description) VALUES
+(101, 'AES', 'Simetrični algoritam visokih performansi.'),
+(101, 'RSA', 'Najpoznatiji asimetrični algoritam.'),
+(101, 'Hash funkcija', 'Koristi se za provjeru integriteta podataka.'),
+(101, 'Kvantna računala', 'Mogu ugroziti postojeće kriptografske sustave.');
+
+INSERT INTO vulnerabilities (level_id, code, total) VALUES
+(201, '<?php\n// Login funkcija\n$user = $_POST[''username''];\n$pass = $_POST[''password''];\n\n$query = \"SELECT * FROM users WHERE username = ''$user'' AND password = ''$pass'';\";\n\necho \"<div>Welcome, \" . $_GET[''name''] . \"!</div>\";\n\nfunction transferMoney($amount, $toAccount) {\n  bankTransfer($amount, $toAccount);\n}', 3);
+
+INSERT INTO vulnerability_types (vulnerability_id, type_name) VALUES
+(1, 'XSS'),
+(1, 'CSRF'),
+(1, 'SQL Injection'),
+(1, 'Insecure Direct Object Reference');
+
+INSERT INTO vulnerability_solutions (vulnerability_id, line_number, type, description) VALUES
+(1, 5, 'SQL Injection', 'Nefiltrirani korisnički unos u SQL upit'),
+(1, 7, 'XSS', 'Nefiltrirani korisnički unos u HTML izlaz'),
+(1, 10, 'CSRF', 'Funkcija za transfer novca nema CSRF zaštitu (token)'); 
