@@ -1,43 +1,76 @@
-import { useState, useEffect } from 'react';
-import levelsData from '../library/levels.json';
+
+import { useState, useEffect, useCallback } from 'react';
+import jsonData from '../library/levels.json'; 
 
 const useData = () => {
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        try {
-            setCategories(levelsData.categories);
-            setLoading(false);
-        } catch (error) {
-            setError("Failed to load data.");
-            console.error("Greška pri učitavanju podataka:", error);
-            setLoading(false);
-        }
-    }, []);
+  const API_BASE = 'http://localhost/kripto-krafne/kripto-krafne/src/backend';
 
-    const getCategoryById = (id) => {
-        if (!categories || !Array.isArray(categories)) {
-            console.error("categories nije učitan ili nije array");
-            return null;
-        }
-        const category = categories.find(category => category.id === Number(id));
-        return category;
-    };
-
-    const getLevelById = (id) => {
-        for (const category of categories) {
-            const levelFound = category.levels.find(level => level.id === Number(id));
-            if (levelFound) {
-                return levelFound;
-            }
-        }
-        console.error("Level nije pronađen za id:", id);
+  const fetchSQLData = async (levelId) => {
+    try {
+      const res = await fetch(`${API_BASE}/level.php?id=${levelId}`);
+      if (!res.ok) throw new Error(`Network response not ok: ${res.status}`);
+      const result = await res.json();
+      if (!result.success) {
+        console.warn('SQL API Warning:', result.message);
         return null;
-    };
+      }
+      return result.data;
+    } catch (err) {
+      console.error('SQL API Error:', err);
+      return null;
+    }
+  };
 
-    return { categories, loading, error, getCategoryById, getLevelById };
+  const getLevelFromJSON = useCallback((id) => {
+    return jsonData.categories
+      .map(category => category.levels).flat()
+      .find(level => level.id === parseInt(id, 10)) || null;
+  }, []);
+
+  const getLevelById = useCallback(async (id) => {
+    if (!id) return null;
+    const jsonLevel = getLevelFromJSON(id);
+    if (!jsonLevel) return null;
+
+    const sqlData = await fetchSQLData(id);
+    if (sqlData) {
+      return {
+        ...jsonLevel,
+        game: sqlData.game ?? jsonLevel.game,
+        vulnerabilities: sqlData.vulnerabilities ?? {}
+      };
+    }
+    return jsonLevel;
+  }, [getLevelFromJSON]);
+
+  useEffect(() => {
+    setLoading(true);
+    try {
+      setData({
+        categories: jsonData.categories,
+        levels: jsonData.categories.map(c => c.levels).flat()
+
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  return {
+    data,
+    loading,
+    error,
+    getLevelById,
+    getCategories: () => jsonData.categories,
+    getAllLevels: () => jsonData.categories.map(c => c.levels).flat()
+
+  };
 };
 
 export default useData;
