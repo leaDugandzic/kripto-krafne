@@ -83,7 +83,7 @@ export default function LoginForm() {
                     alert("Login successful!");
                 }
                 else {
-                    setMessage(data.message);
+                    alert(data.message);
                 }
             })
     }

@@ -65,11 +65,11 @@ function App() {
           <div id="buttons" style={{ display: stylepfp }}>
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
-                  <img className="w-[50px]" src={Krafnapfp}></img>
+                <div className="w-15 rounded-full">
+                  <img className="w-[150px]" src={Krafnapfp}></img>
                 </div>
               </div>
-              <ul tabIndex={0} className="menu menu-sm dropdown-content bg-pink-500 rounded-box z-1 mt-3 w-52 p-2 text-[15px] font-bold shadow">
+              <ul tabIndex={0} className="menu menu-sm dropdown-content text-white bg-pink-500 rounded-box z-1 mt-3 w-52 p-2 text-[20px] font-bold shadow">
                 <li><a >Logout</a></li>
               </ul>
             </div>
