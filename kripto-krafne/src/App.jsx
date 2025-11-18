@@ -19,7 +19,7 @@ import Footer from "./Components/Footer";
 import DragDrop from '../src/KraljestvoKrafni/DragDrop';
 import ReverseEngineeringChallenge from './KraljestvoKrafni/ReverseEngineering';
 import DonutGame from './KraljestvoKrafni/DonutGame';
-
+import AIChatbot from './Components/AiChatbot';
 function App() {
   const [stylepfp, setStylepfp] = useState("none");
   const [stylebtn, setStylebtn] = useState("flex");
@@ -45,6 +45,7 @@ function App() {
 
   return (
     <div className='body'>
+
       <Router>
 
         <div className="navbar bg-pink-300 p-2 flex flex-row justify-between items-center shadow-md">
@@ -75,13 +76,13 @@ function App() {
             </div>
           </div>
         </div>
-
+        {/* <AIChatbot></AIChatbot> */}
 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
+<Route path="/chat" element={<AIChatbot />} />
           <Route path="/radnici" element={<Radnici></Radnici>}></Route>
           <Route path="/glazba" element={<Glazba></Glazba>}></Route>
           <Route path="/menu" element={<Menu></Menu>}></Route>
