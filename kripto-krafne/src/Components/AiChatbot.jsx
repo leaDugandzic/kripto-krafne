@@ -154,101 +154,101 @@ const sendMessage = async (messageText = input) => {
   };
 
   return (
-    <div className="chatbot-container">
-      <div className="chatbot-header bg-pink-300" >
-        <div className="header-content">
-          <h1>KriptoKrafne AI Asistent</h1>
-          <p>Edukativna platforma za kibernetičku sigurnost</p>
-        </div>
-        <button className="clear-button" onClick={clearChat} type="button">
-          Očisti chat
-        </button>
-      </div>
-
-      <div className="chat-content">
-        <div className="categories-sidebar">
-          <h3>CTF Kategorije</h3>
-          <div className="categories-list">
-            {categories.map(category => (
-              <button
-                key={category.id}
-                className="category-card"
-                onClick={() => handleCategoryClick(category)}
-                type="button"
-              >
-                <div className="category-icon">{category.icon}</div>
-                <div className="category-info">
-                  <div className="category-name">{category.name}</div>
-                  <div className="category-desc">{category.description}</div>
-                </div>
-              </button>
-            ))}
+      <div className="chatbot-container ">
+        <div className="chatbot-header bg-pink-300" >
+          <div className="header-content">
+            <h1>KriptoKrafne AI Asistent</h1>
+            <p>Edukativna platforma za kibernetičku sigurnost</p>
           </div>
+          <button className="clear-button" onClick={clearChat} type="button">
+            Očisti chat
+          </button>
         </div>
 
-        <div className="chat-main">
-          <div className="messages-container">
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`message ${message.role} ${message.isError ? 'error' : ''}`}
-              >
-                <div className="message-content">
-                  {message.content}
-                </div>
-                {message.timestamp && (
-                  <div className="message-time">
-                    {new Date(message.timestamp).toLocaleTimeString('hr-HR', {
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
+        <div className="chat-content">
+          <div className="categories-sidebar">
+            <h3>CTF Kategorije</h3>
+            <div className="categories-list">
+              {categories.map(category => (
+                <button
+                  key={category.id}
+                  className="category-card"
+                  onClick={() => handleCategoryClick(category)}
+                  type="button"
+                >
+                  <div className="category-icon">{category.icon}</div>
+                  <div className="category-info">
+                    <div className="category-name">{category.name}</div>
+                    <div className="category-desc">{category.description}</div>
                   </div>
-                )}
-              </div>
-            ))}
-            {loading && (
-              <div className="message assistant typing">
-                <div className="message-content">
-                  <div className="typing-indicator">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-            
-
-            
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="input-container">
-            <div className="input-wrapper">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Unesite pitanje o kibernetičkoj sigurnosti..."
-                disabled={loading}
-              />
-              <button 
-                onClick={handleSendClick}
-                type="button"
-                disabled={loading || !input.trim()}
-                className="send-button"
-              >
-                {loading ? (
-                  <div className="loading-spinner"></div>
-                ) : (
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                  </svg>
-                )}
-              </button>
+
+          <div className="chat-main">
+            <div className="messages-container">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`message ${message.role} ${message.isError ? 'error' : ''}`}
+                >
+                  <div className="message-content">
+                    {message.content}
+                  </div>
+                  {message.timestamp && (
+                    <div className="message-time">
+                      {new Date(message.timestamp).toLocaleTimeString('hr-HR', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </div>
+                  )}
+                </div>
+              ))}
+              {loading && (
+                <div className="message assistant typing">
+                  <div className="message-content">
+                    <div className="typing-indicator">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+              
+
+              
+            </div>
+            <div className="input-container">
+              <div className="input-wrapper">
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Unesite pitanje o kibernetičkoj sigurnosti..."
+                  disabled={loading}
+                />
+                <button 
+                  onClick={handleSendClick}
+                  type="button"
+                  disabled={loading || !input.trim()}
+                  className="send-button"
+                >
+                  {loading ? (
+                    <div className="loading-spinner"></div>
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }

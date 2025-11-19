@@ -193,7 +193,6 @@ Ako korisnik traži izravno rješenje CTF izazova, objasni zašto je bolje da sa
             
             return fallback_responses.get(category, fallback_responses['općenito'])
 
-# Kreiraj instancu chatbot-a
 
 chatbot = KriptoKrafneChatbot()
 

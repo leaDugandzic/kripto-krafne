@@ -1,10 +1,11 @@
 .chatbot-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f5f7fa;
-  min-height: 100vh;
+  min-height: none;
+  border-radius: 10px;
 }
 
 .chatbot-header {

@@ -20,10 +20,11 @@ import DragDrop from '../src/KraljestvoKrafni/DragDrop';
 import ReverseEngineeringChallenge from './KraljestvoKrafni/ReverseEngineering';
 import DonutGame from './KraljestvoKrafni/DonutGame';
 import AIChatbot from './Components/AiChatbot';
+import chatbotIcon from "./assets/img/chatbotIcon.png";
 function App() {
   const [stylepfp, setStylepfp] = useState("none");
   const [stylebtn, setStylebtn] = useState("flex");
-
+  const[chatbotClick, setChatboxClick] = useState(false);
 
   
  useEffect(() => {
@@ -76,7 +77,23 @@ function App() {
             </div>
           </div>
         </div>
-        {/* <AIChatbot></AIChatbot> */}
+
+        <div onClick={()=>setChatboxClick(true)}className='fixed bottom-0 right-0 flex items-center justify-center p-[20px] hover:scale-110 transition-transform duration-300 ease-in-out'>
+          <img src={chatbotIcon} className='w-[100px]'></img>
+        </div>
+           {chatbotClick && (
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#0000004f]">
+    <div className="relative">
+      <button 
+        onClick={() => setChatboxClick(false)}
+        className="absolute right-0 top-0  bg-white text-gray-800 text-4xl rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-200 transition-colors z-10 shadow-lg"
+      >
+        ×
+      </button>
+      <AIChatbot onClose={() => setChatboxClick(false)} />
+    </div>
+  </div>
+)}
 
         <Routes>
           <Route path="/" element={<Home />} />
