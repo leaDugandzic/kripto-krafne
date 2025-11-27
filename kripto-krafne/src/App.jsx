@@ -22,6 +22,7 @@ import DonutGame from './KraljestvoKrafni/DonutGame';
 import AIChatbot from './Components/AiChatbot';
 import chatbotIcon from "./assets/img/chatbotIcon.png";
 import Navbar from './Components/Navbar';
+import Post from './Components/Forum/Post';
 function App() {
   
   const[chatbotClick, setChatboxClick] = useState(false);
@@ -64,7 +65,7 @@ function App() {
           <Route path="/dragdrop" element={<DragDrop />}></Route>
           <Route path="/recipe/:id" element={<DonutRecipe />}></Route>
           <Route path="/ctf-game" element={<DonutGame />} />
-
+          <Route path="/post" element={<Post/>}></Route>
           <Route path="/box/:id" element={<Level levels={levels} />} />
           <Route path="/donut-level/:id" element={<DonutLevel levels={levels} />} />
         </Routes>
