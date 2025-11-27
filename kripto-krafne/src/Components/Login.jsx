@@ -82,6 +82,8 @@ export default function LoginForm() {
             .then((data) => {
                 if (data.success) {
                     alert("Login successful!");
+                    window.location.href = '/';
+
                 }
                 else {
                     setMessage(data.message);
