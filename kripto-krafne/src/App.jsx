@@ -23,6 +23,7 @@ import AIChatbot from './Components/AiChatbot';
 import chatbotIcon from "./assets/img/chatbotIcon.png";
 import Navbar from './Components/Navbar';
 import Post from './Components/Forum/Post';
+import Forums from './Components/Forum/Forums';
 function App() {
   
   const[chatbotClick, setChatboxClick] = useState(false);
@@ -39,7 +40,7 @@ function App() {
           <img src={chatbotIcon} className='w-[100px]'></img>
         </div>
            {chatbotClick && (
-      <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#0000004f]">
+      <div className="fixed inset-0 flex items-center justify-center z-10 0 bg-[#0000004f]">
     <div className="relative">
       <button 
         onClick={() => setChatboxClick(false)}
@@ -66,6 +67,7 @@ function App() {
           <Route path="/recipe/:id" element={<DonutRecipe />}></Route>
           <Route path="/ctf-game" element={<DonutGame />} />
           <Route path="/post" element={<Post/>}></Route>
+          <Route path="forums" element={<Forums></Forums>}></Route>
           <Route path="/box/:id" element={<Level levels={levels} />} />
           <Route path="/donut-level/:id" element={<DonutLevel levels={levels} />} />
         </Routes>

@@ -18,6 +18,11 @@ const Post = () => {
     }, []);
 
     const handleObjavi = () => {
+        if (!naslov.trim() || !opis.trim() || !kategorija) {
+            alert("Molimo popunite sva polja!");
+            return;
+        }
+
         let apiPost = "http://localhost/kripto-krafne/kripto-krafne/src/backend/post.php";
 
         let data = {
@@ -41,73 +46,102 @@ const Post = () => {
                     return JSON.parse(text);
                 } catch {
                     console.error("Backend vratio:", text);
-                    alert("Greška!");
+                    alert("Greška pri objavljivanju!");
                 }
             })
             .then((data) => {
                 if (data?.success) {
                     alert("Uspješno objavljeno!");
+                    // Reset form
+                    setNaslov("");
+                    setOpis("");
+                    setKategorija("");
                 }
             });
     };
 
     return (
-        <div className="flex justify-center mt-10">
-            <div className="flex flex-col gap-4 p-6 max-w-2xl w-full bg-white rounded-lg shadow-md">
-
-                <label>Naslov:</label>
-                <input
-                    type="text"
-                    className="text-black w-full p-3 rounded-md border border-gray-300"
-                    value={naslov}
-                    onChange={(e) => setNaslov(e.target.value)}
-                />
-
-                <div className="dropdown">
-                    <div
-                        tabIndex={0}
-                        role="button"
-                        className="btn bg-white text-black border w-full justify-between"
-                    >
-                        {kategorija
-                            ? kategorije.find(k => k.id === kategorija)?.category_name
-                            : "Odaberi kategoriju"}
-                    </div>
-
-                    <ul
-                        tabIndex={-1}
-                        className="dropdown-content menu bg-white rounded-box z-10 w-52 p-2 shadow-sm"
-                    >
-                        {kategorije.map((k) => (
-                            <li key={k.id}>
-                                <a
-                                    onClick={() => {
-                                        setKategorija(k.id);
-                                        document.activeElement.blur(); 
-                                    }}
-                                >
-                                    {k.category_name}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+        <div className="max-w-4xl mx-auto px-4 py-8">
+            <div className="bg-white rounded-lg shadow-md p-8">
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold text-pink-500 text-center title-font">Novi post</h1>
+                    <p className="text-gray-600 mt-2">Podijelite svoje misli s kripto zajednicom</p>
                 </div>
 
-                <label>Opis:</label>
-                <textarea
-                    rows="5"
-                    className="text-black w-full p-3 rounded-md border border-gray-300"
-                    value={opis}
-                    onChange={(e) => setOpis(e.target.value)}
-                />
+                <div className="space-y-6">
+                    <div>
+                        <label className="block text-xl font-bold text-pink-300 text-gray-700 mb-2">
+                            Naslov objave:
+                        </label>
+                        <input
+                            type="text"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                            placeholder="Unesite naslov..."
+                            value={naslov}
+                            onChange={(e) => setNaslov(e.target.value)}
+                        />
+                    </div>
 
-                <button
-                    className="bg-pink-500 text-white italic px-6 py-2 rounded-full shadow-md hover:bg-pink-600 transition-all"
-                    onClick={handleObjavi}
-                >
-                    Objavi
-                </button>
+                    <div>
+                        <label className="block text-xl font-bold text-pink-300 text-gray-700 mb-2">
+                            Kategorija:
+                        </label>
+                        <div className="dropdown">
+                            <div
+                                tabIndex={0}
+                                role="button"
+                                className="btn bg-white text-gray-700 border border-gray-300 w-full justify-between px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                            >
+                                {kategorija
+                                    ? kategorije.find(k => k.id === kategorija)?.category_name
+                                    : "Odaberi kategoriju"}
+                                <span>▼</span>
+                            </div>
 
+                            <ul
+                                tabIndex={-1}
+                                className="dropdown-content menu bg-white rounded-lg z-10 w-full p-2 shadow-lg border border-gray-200 mt-1"
+                            >
+                                {kategorije.map((k) => (
+                                    <li key={k.id}>
+                                        <a
+                                            className="px-4 py-3 hover:bg-gray-100 rounded-md transition-colors"
+                                            onClick={() => {
+                                                setKategorija(k.id);
+                                                document.activeElement.blur(); 
+                                            }}
+                                        >
+                                            {k.category_name}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-xl font-bold text-pink-300 text-gray-700 mb-2">
+                            Sadržaj objave: 
+                        </label>
+                        <textarea
+                            rows="8"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-vertical"
+                            placeholder="Napišite sadržaj vašeg posta..."
+                            value={opis}
+                            onChange={(e) => setOpis(e.target.value)}
+                        />
+                    </div>
+
+                    {/* Gumb za objavu */}
+                    <div className="flex justify-center pt-4">
+                        <button
+                            className="bg-pink-500 text-white font-semibold px-8 py-3 rounded-full shadow-md hover:bg-pink-600 transition-all transform hover:scale-105"
+                            onClick={handleObjavi}
+                        >
+                            Objavi
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
