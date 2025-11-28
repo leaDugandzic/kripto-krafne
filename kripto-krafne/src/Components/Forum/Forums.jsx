@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-
+import PostLayout from "./PostLayout";
+import { Link } from "react-router-dom";
 const Forums = () => {
     const [posts, setPosts] = useState([]);
     const [kategorije, setKategorije] = useState([]);
@@ -13,20 +14,20 @@ const Forums = () => {
     const ucitajPodatke = async () => {
         try {
             setUcitavaSe(true);
-            
+
             const kategorijeRes = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/getCategories.php", {
                 method: "GET",
                 credentials: "include",
             });
             const kategorijeData = await kategorijeRes.json();
-            setKategorije(kategorijeData.categories || kategorijeData); 
+            setKategorije(kategorijeData.categories || kategorijeData);
 
             const postoviRes = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/getPosts.php", {
                 method: "GET",
                 credentials: "include",
             });
             const postoviData = await postoviRes.json();
-            setPosts(postoviData.posts || postoviData); 
+            setPosts(postoviData.posts || postoviData);
 
         } catch (err) {
             console.error("Greška pri učitavanju:", err);
@@ -35,8 +36,8 @@ const Forums = () => {
         }
     };
 
-    const filtriraniPostovi = odabranaKategorija === "sve" 
-        ? posts 
+    const filtriraniPostovi = odabranaKategorija === "sve"
+        ? posts
         : posts.filter(post => post.category_id == odabranaKategorija);
 
     const formatirajDatum = (datumString) => {
@@ -69,28 +70,26 @@ const Forums = () => {
                 <div className="lg:w-1/4">
                     <div className="bg-white rounded-lg shadow-md p-6 sticky top-6">
                         <h2 className="text-xl font-bold text-gray-900 mb-4">Kategorije</h2>
-                        
+
                         <div className="space-y-2">
                             <button
                                 onClick={() => setOdabranaKategorija("sve")}
-                                className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
-                                    odabranaKategorija === "sve" 
-                                        ? "bg-pink-500 text-white" 
+                                className={`w-full text-left px-4 py-3 rounded-lg transition-all ${odabranaKategorija === "sve"
+                                        ? "bg-pink-500 text-white"
                                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                                }`}
+                                    }`}
                             >
                                 🗂️ Sve kategorije
                             </button>
-                            
+
                             {kategorije.map((kategorija) => (
                                 <button
                                     key={kategorija.id}
                                     onClick={() => setOdabranaKategorija(kategorija.id)}
-                                    className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
-                                        odabranaKategorija == kategorija.id
+                                    className={`w-full text-left px-4 py-3 rounded-lg transition-all ${odabranaKategorija == kategorija.id
                                             ? "bg-pink-500 text-white"
                                             : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                                    }`}
+                                        }`}
                                 >
                                     {kategorija.category_name}
                                 </button>
@@ -104,8 +103,8 @@ const Forums = () => {
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                             <div>
                                 <h2 className="text-xl font-bold text-gray-900">
-                                    {odabranaKategorija === "sve" 
-                                        ? "Svi postovi" 
+                                    {odabranaKategorija === "sve"
+                                        ? "Svi postovi"
                                         : kategorije.find(k => k.id == odabranaKategorija)?.category_name
                                     }
                                 </h2>
@@ -122,8 +121,8 @@ const Forums = () => {
                                 <div className="text-6xl mb-4">📝</div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-2">Nema postova</h3>
                                 <p className="text-gray-600">
-                                    {odabranaKategorija === "sve" 
-                                        ? "Još nema objavljenih postova. Budite prvi!" 
+                                    {odabranaKategorija === "sve"
+                                        ? "Još nema objavljenih postova. Budite prvi!"
                                         : "Nema postova u ovoj kategoriji."
                                     }
                                 </p>
@@ -142,7 +141,7 @@ const Forums = () => {
                                                         {post.category_name || "Nepoznato"}
                                                     </span>
                                                     <span>•</span>
-                                                    <span>Autor: {post.user_id || "Anoniman"}</span> 
+                                                    <span>Autor: {post.user_id || "Anoniman"}</span>
                                                     <span>•</span>
                                                     <span>{formatirajDatum(post.publish_date)}</span>
                                                 </div>
@@ -166,9 +165,12 @@ const Forums = () => {
                                                     <span>Sviđa mi se</span>
                                                 </button>
                                             </div>
-                                            <button className="text-pink-500 hover:text-pink-600 font-medium text-sm">
+                                            <Link
+                                                to={`/forums/${post.id}`}
+                                                className="text-pink-500 hover:text-pink-600 font-medium text-sm"
+                                            >
                                                 Pročitaj više →
-                                            </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
