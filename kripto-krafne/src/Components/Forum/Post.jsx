@@ -6,7 +6,6 @@ const Post = () => {
     const [kategorija, setKategorija] = useState("");
     const [kategorije, setKategorije] = useState([]);
 
-    // Učitaj kategorije iz backend-a
     useEffect(() => {
         fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/getCategories.php", {
             method: "GET",
@@ -52,7 +51,6 @@ const Post = () => {
             .then((data) => {
                 if (data?.success) {
                     alert("Uspješno objavljeno!");
-                    // Reset form
                     setNaslov("");
                     setOpis("");
                     setKategorija("");
@@ -132,7 +130,6 @@ const Post = () => {
                         />
                     </div>
 
-                    {/* Gumb za objavu */}
                     <div className="flex justify-center pt-4">
                         <button
                             className="bg-pink-500 text-white font-semibold px-8 py-3 rounded-full shadow-md hover:bg-pink-600 transition-all transform hover:scale-105"

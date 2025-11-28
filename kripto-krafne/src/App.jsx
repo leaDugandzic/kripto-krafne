@@ -24,6 +24,7 @@ import chatbotIcon from "./assets/img/chatbotIcon.png";
 import Navbar from './Components/Navbar';
 import Post from './Components/Forum/Post';
 import Forums from './Components/Forum/Forums';
+import PostLayout from './Components/Forum/PostLayout';
 function App() {
   
   const[chatbotClick, setChatboxClick] = useState(false);
@@ -70,6 +71,7 @@ function App() {
           <Route path="forums" element={<Forums></Forums>}></Route>
           <Route path="/box/:id" element={<Level levels={levels} />} />
           <Route path="/donut-level/:id" element={<DonutLevel levels={levels} />} />
+          <Route path="/forums/:postid" element={<PostLayout></PostLayout>}></Route>
         </Routes>
         <Footer></Footer>
 

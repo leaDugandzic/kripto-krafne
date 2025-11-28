@@ -19,14 +19,14 @@ const Forums = () => {
                 credentials: "include",
             });
             const kategorijeData = await kategorijeRes.json();
-            setKategorije(kategorijeData);
+            setKategorije(kategorijeData.categories || kategorijeData); 
 
             const postoviRes = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/getPosts.php", {
                 method: "GET",
                 credentials: "include",
             });
             const postoviData = await postoviRes.json();
-            setPosts(postoviData);
+            setPosts(postoviData.posts || postoviData); 
 
         } catch (err) {
             console.error("Greška pri učitavanju:", err);
@@ -60,14 +60,12 @@ const Forums = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {/* Naslov */}
             <div className="text-center mb-8">
                 <h1 className="text-3xl font-bold text-pink-500 text-center title-font">KriptoKrafne Forum</h1>
                 <p className="text-gray-600 mt-2">Raspravljajte s našom zajednicom!</p>
             </div>
 
             <div className="flex flex-col lg:flex-row gap-8">
-                {/* Sidebar s kategorijama - lijevo na desktopu, gore na mobilnim */}
                 <div className="lg:w-1/4">
                     <div className="bg-white rounded-lg shadow-md p-6 sticky top-6">
                         <h2 className="text-xl font-bold text-gray-900 mb-4">Kategorije</h2>
@@ -98,8 +96,6 @@ const Forums = () => {
                                 </button>
                             ))}
                         </div>
-
-                        
                     </div>
                 </div>
 
@@ -117,8 +113,6 @@ const Forums = () => {
                                     Prikazano {filtriraniPostovi.length} od {posts.length} postova
                                 </p>
                             </div>
-                            
-                        
                         </div>
                     </div>
 
@@ -141,23 +135,23 @@ const Forums = () => {
                                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
                                             <div className="flex-1">
                                                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                                    {post.naslov}
+                                                    {post.title}
                                                 </h3>
                                                 <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600">
                                                     <span className="bg-pink-100 text-pink-800 px-2 py-1 rounded-full text-xs">
-                                                        {kategorije.find(k => k.id == post.category_id)?.category_name || "Nepoznato"}
+                                                        {post.category_name || "Nepoznato"}
                                                     </span>
                                                     <span>•</span>
-                                                    <span>Autor: {post.author_name || "Anoniman"}</span>
+                                                    <span>Autor: {post.user_id || "Anoniman"}</span> 
                                                     <span>•</span>
-                                                    <span>{formatirajDatum(post.created_at)}</span>
+                                                    <span>{formatirajDatum(post.publish_date)}</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="prose max-w-none mb-4">
                                             <p className="text-gray-700 leading-relaxed">
-                                                {post.opis}
+                                                {post.content}
                                             </p>
                                         </div>
 
@@ -181,22 +175,6 @@ const Forums = () => {
                             ))
                         )}
                     </div>
-
-                    {filtriraniPostovi.length > 0 && (
-                        <div className="mt-8 flex justify-center">
-                            <div className="bg-white rounded-lg shadow-md px-4 py-3">
-                                <div className="flex items-center space-x-2">
-                                    <button className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 transition-colors">
-                                        ← Prethodna
-                                    </button>
-                                    <span className="px-3 py-1 bg-pink-500 text-white rounded">1</span>
-                                    <button className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 transition-colors">
-                                        Sljedeća →
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
         </div>
