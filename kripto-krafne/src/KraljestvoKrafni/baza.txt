@@ -115,11 +115,25 @@ CREATE TABLE blog_posts (
     user_id VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     publish_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    likes INT DEFAULT 0,
     category_id INT,
     FOREIGN KEY (category_id) REFERENCES category(id)
         ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    FOREIGN KEY (comments_id) REFERENCES comments(id)
+        ON DELETE SET NULL
         ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES blog_posts(id)
+        ON DELETE CASCADE
+);
 
     CREATE TABLE category (
         id INT AUTO_INCREMENT PRIMARY KEY,
