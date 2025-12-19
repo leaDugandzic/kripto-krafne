@@ -58,6 +58,41 @@ const Forums = () => {
             </div>
         );
     }
+    const likePost = async (postId) => {
+        try {
+            const response = await fetch(
+                "http://localhost/kripto-krafne/kripto-krafne/src/backend/likePost.php",
+                {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        post_id: postId
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.success) {
+                setPosts(prevPosts =>
+                    prevPosts.map(post =>
+                        post.id === postId
+                            ? {
+                                ...post,
+                                likes: data.likes,
+                                liked: data.action === "liked"
+                            }
+                            : post
+                    )
+                );
+            }
+        } catch (err) {
+            console.error("Greška kod like-a:", err);
+        }
+    };
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -75,8 +110,8 @@ const Forums = () => {
                             <button
                                 onClick={() => setOdabranaKategorija("sve")}
                                 className={`w-full text-left px-4 py-3 rounded-lg transition-all ${odabranaKategorija === "sve"
-                                        ? "bg-pink-500 text-white"
-                                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                    ? "bg-pink-500 text-white"
+                                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                                     }`}
                             >
                                 🗂️ Sve kategorije
@@ -87,8 +122,8 @@ const Forums = () => {
                                     key={kategorija.id}
                                     onClick={() => setOdabranaKategorija(kategorija.id)}
                                     className={`w-full text-left px-4 py-3 rounded-lg transition-all ${odabranaKategorija == kategorija.id
-                                            ? "bg-pink-500 text-white"
-                                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                        ? "bg-pink-500 text-white"
+                                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                                         }`}
                                 >
                                     {kategorija.category_name}
@@ -160,9 +195,13 @@ const Forums = () => {
                                                     <span>💬</span>
                                                     <Link to={`/forums/${post.id}`}><a>Komentiraj</a></Link>
                                                 </button>
-                                                <button className="flex items-center space-x-1 hover:text-pink-500 transition-colors">
-                                                    <span>❤️</span>
-                                                    <span>Sviđa mi se</span>
+                                                <button
+                                                    onClick={() => likePost(post.id)}
+                                                    className={`flex items-center space-x-1 transition-colors ${post.liked ? "text-pink-500" : "hover:text-pink-500"
+                                                        }`}
+                                                >
+                                                    <span>{post.liked ? "❤️" : "🤍"}</span>
+                                                    <span>{post.likes ?? 0}</span>
                                                 </button>
                                             </div>
                                             <Link

@@ -9,6 +9,8 @@ const PostLayout = () => {
     const [greska, setGreska] = useState(null);
     const [comment, setComment] = useState("");
     const [comments, setComments] = useState([]);
+    const [likes, setLikes] = useState(0);
+    const [liked, setLiked] = useState(false);
 
     useEffect(() => {
         ucitajPost();
@@ -70,6 +72,35 @@ const PostLayout = () => {
                 }
             });
     }
+    const handleLike = async () => {
+        try {
+            const res = await fetch(
+                "http://localhost/kripto-krafne/kripto-krafne/src/backend/likePost.php",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        post_id: postid,
+                    }),
+                }
+            );
+
+            const data = await res.json();
+
+            if (data.success) {
+                setLikes(data.likes);
+                setLiked(data.action === "liked");
+            } else {
+                alert(data.message || "Greška kod lajkanja");
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const ucitajPost = async () => {
         try {
             setUcitavaSe(true);
@@ -84,6 +115,9 @@ const PostLayout = () => {
 
             if (data.success) {
                 setPost(data.post);
+                setLikes(data.post.likes ?? 0);
+                setLiked(Boolean(data.post.liked)); 
+
             } else {
                 setGreska(data.message || "Post nije pronađen");
             }
@@ -191,11 +225,15 @@ const PostLayout = () => {
                 <div className="border-t border-gray-200 p-6 bg-gray-50">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-center space-x-4 text-sm text-gray-600 mb-4 sm:mb-0">
-                            <button className="flex items-center space-x-1 hover:text-pink-500 transition-colors">
-                                <span>❤️</span>
-                                <span>Sviđa mi se</span>
+                            <button
+                                onClick={handleLike}
+                                className={`flex items-center space-x-1 transition-colors ${liked ? "text-pink-500" : "hover:text-pink-500"
+                                    }`}
+                            >
+                                <span>{liked ? "❤️" : "🤍"}</span>
+                                <span>{likes}</span>
                             </button>
-                           
+
 
                         </div>
 
