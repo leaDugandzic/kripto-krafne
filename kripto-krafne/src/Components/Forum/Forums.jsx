@@ -158,7 +158,7 @@ const Forums = () => {
                                             <div className="flex items-center space-x-4 text-sm text-gray-600">
                                                 <button className="flex items-center space-x-1 hover:text-pink-500 transition-colors">
                                                     <span>💬</span>
-                                                    <span>Komentiraj</span>
+                                                    <Link to={`/forums/${post.id}`}><a>Komentiraj</a></Link>
                                                 </button>
                                                 <button className="flex items-center space-x-1 hover:text-pink-500 transition-colors">
                                                     <span>❤️</span>

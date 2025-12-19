@@ -7,7 +7,7 @@ require_once "./dbConnection.php";
 
 $result = $conn->query("SELECT id, category_name FROM category ORDER BY id ASC");
 
-$rows = $result->fetch_all(MYSQLI_ASSOC);
+$rows = $result->fetch_all(MYSQLI_ASSOC);   
 
 echo json_encode($rows);
 exit;

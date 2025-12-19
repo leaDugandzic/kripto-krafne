@@ -19,7 +19,6 @@ $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : 
 
 $offset = ($page - 1) * $limit;
 
-// Build WHERE clause
 $whereConditions = [];
 $params = [];
 $types = "";
@@ -57,7 +56,6 @@ try {
         $totalPosts = $countResult->fetch_assoc()['total'];
     }
     
-    // Get posts
     $sql = "SELECT 
                 bp.id,
                 bp.title,
