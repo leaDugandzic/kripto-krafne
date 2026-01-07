@@ -1,0 +1,60 @@
+/* CodeScreen.css */
+.code-screen {
+    width: 250px;
+    height: 150px;
+    background-color: black;
+    border: 3px solid #ff66c4;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255, 102, 196, 0.8);
+  }
+  
+  .code-display {
+    font-size: 3rem;
+    padding: 1rem;
+  }
+  /* Pixel grid overlay */
+  .screen-pixels {
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(255, 102, 196, 0.2) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 102, 196, 0.2) 1px, transparent 1px);
+    background-size: 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Glitchy code text */
+  .code-display {
+    color: #ff66c4;
+    font-family: 'Courier New', monospace;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 
+      0 0 5px #ff66c4,
+      0 0 10px #ff66c4;
+    position: relative;
+  }
+  
+  /* LED indicator */
+  .led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  .led-red { background-color: #ff3e3e; box-shadow: 0 0 5px #ff3e3e; }
+  
+  /* Animation */
+  @keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 22%, 24%, 55% { opacity: 0.5; }
+  }
+  .animate-flicker {
+    animation: flicker 2s infinite;
+  }
