@@ -102,30 +102,63 @@ CREATE TABLE vulnerability_solutions (
     description TEXT NOT NULL,
     FOREIGN KEY (vulnerability_game_id) REFERENCES vulnerability_games(id)
 );
--- Insert game levels
-INSERT INTO game_levels (id, category_id, name, game_type) VALUES
-(101, 1, 'Osnove simetrične i asimetrične kriptografije', 'dragDrop'),
-(102, 1, 'Hash funkcije i digitalni potpisi', 'memoryCards'),
-(103, 1, 'Napredni napadi na kriptografske sustave i zaštita od njih', 'findVulnerability'),
-(201, 2, 'Osnove web sigurnosti i uobičajene ranjivosti (OWASP Top 10)', 'findVulnerability'),
-(202, 2, 'Sigurnosni propusti u autentifikaciji i upravljanju sesijama', 'memoryCards'),
-(203, 2, 'Napadi na web aplikacije i strategije obrane', 'dragDrop'),
-(301, 3, 'Osnove digitalne forenzike i metode prikupljanja dokaza', 'dragDrop'),
-(302, 3, 'Analiza datoteka, skrivenih podataka i steganografije', 'findVulnerability'),
-(303, 3, 'Forenzika mrežnog prometa i analiza zlonamjernog softvera', 'memoryCards'),
-(401, 4, 'Osnove mrežnih protokola i analiza prometa', 'dragDrop'),
-(402, 4, 'Napadi na mreže: sniffing, spoofing i MITM', 'findVulnerability'),
-(403, 4, 'Zaštita mreža: enkripcija, firewalli i IDS/IPS sustavi', 'memoryCards'),
-(501, 5, 'Osnove reverznog inženjerstva: disassembleri, decompileri i debugging', 'memoryCards'),
-(502, 5, 'Analiza binarnih izvršnih datoteka i detekcija zaštitnih mehanizama', 'findVulnerability'),
-(503, 5, 'Tehnike zaobilaženja zaštita i obfuscation u reverznom inženjerstvu', 'dragDrop'),
-(601, 6, 'Uvod u socijalni inženjering: Metode i tehnike napada', 'memoryCards'),
-(602, 6, 'Phishing, vishing i pretexting: Kako prepoznati i obraniti se', 'findVulnerability'),
-(603, 6, 'Manipulacija povjerenjem: Korištenje psihologije u socijalnom inženjeringu', 'dragDrop');
+CREATE TABLE blog_posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    publish_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    category_id INT,
+    FOREIGN KEY (category_id) REFERENCES category(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    FOREIGN KEY (comments_id) REFERENCES comments(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Drag & Drop Games
-INSERT INTO drag_drop_games (level_id, term, description) VALUES
--- Kriptografija (101)
+CREATE TABLE likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE KEY unique_like (post_id, user_id),
+    FOREIGN KEY (post_id) REFERENCES blog_posts(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES blog_posts(id)
+        ON DELETE CASCADE
+);
+
+    CREATE TABLE category (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        category_name VARCHAR(100)
+    );
+    INSERT INTO category (category_name) VALUES
+    ("Kriptografija"),
+    ("Web sigurnost"),
+    ("Digitalna Forenzika"),
+    ("Mrežna sigurnost"),
+    ("Reverzno inženjerstvo"),
+    ("Socijalni inženjering"),
+    ("Općenito");
+
+INSERT INTO fun_facts (level_id, question, answer) VALUES
+(101, 'Tko je otac moderne kriptografije?', 'Otac moderne kriptografije smatra se Claude Shannon...'),
+(101, 'Koja je razlika između simetrične i asimetrične kriptografije?', 'Simetrična kriptografija koristi isti ključ za enkripciju i dekripciju...'),
+(101, 'Koji je najpoznatiji algoritam asimetrične kriptografije?', 'Jedan od najpoznatijih algoritama asimetrične kriptografije je RSA...'),
+(101, 'Što je hash funkcija u kriptografiji?', 'Hash funkcija je matematički algoritam koji pretvara ulazni podatak...'),
+(101, 'Kako se kvantna računala mogu odraziti na kriptografiju?', 'Kvantna računala predstavljaju prijetnju postojećim kriptografskim sustavima...');
+
+INSERT INTO game_items (level_id, term, description) VALUES
 (101, 'AES', 'Simetrični algoritam visokih performansi.'),
 (101, 'RSA', 'Najpoznatiji asimetrični algoritam.'),
 (101, 'Hash funkcija', 'Koristi se za provjeru integriteta podataka.'),

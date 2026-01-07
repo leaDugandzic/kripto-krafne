@@ -49,6 +49,8 @@ export default function Signup() {
             .then((data) => {
                 if (data.success) {
                     alert("Signup successful!");
+                    window.location.href = '/login'
+
                 }
                 else {
                     setMessage(data.message);

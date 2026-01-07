@@ -1,0 +1,8 @@
+ py -3 -m venv venv
+
+ venv\Scripts\Activate.ps1 -- aktiviranje onog venv
+
+  pip install -r svePotrebno.txt 
+   uvicorn main:app --reload --port 5000
+
+   pip install flask-cors

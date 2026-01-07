@@ -10,6 +10,7 @@ export default function LoginForm() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const [message, setMessage] = useState("");
 
     const handleGoogleSuccess = async (credentialResponse) => {
     const token = credentialResponse.credential;
@@ -81,6 +82,8 @@ export default function LoginForm() {
             .then((data) => {
                 if (data.success) {
                     alert("Login successful!");
+                    window.location.href = '/';
+
                 }
                 else {
                     alert(data.message);
@@ -115,6 +118,7 @@ export default function LoginForm() {
                             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </span>
                         {error}
+                        {message && <p className="text-red-500 text-sm mt-2">{message}</p>}
                     </div>
                     <p className="text-gray-500 text-sm mt-4 text-center">or continue with</p>
                     <GoogleLogin onSuccess={handleGoogleSuccess} className="flex items-center text-black justify-center gap-2 bg-white w-[200px] px-4 py-2 rounded-md shadow mt-3 border border-gray-300 hover:bg-gray-100">
