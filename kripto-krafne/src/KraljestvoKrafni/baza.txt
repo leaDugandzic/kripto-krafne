@@ -317,3 +317,78 @@ INSERT INTO vulnerability_solutions (vulnerability_game_id, line_number, type, d
 -- Socijalni Inženjering (602)
 (6, 1, 'Fake Sender', 'Email adresa može biti lažirana (spoofed)'),
 (6, 8, 'Suspicious Link', 'Link sadrži redirect na phishing stranicu');oken)'); 
+
+
+MOJEEE 
+-- 1. Add admin column to users table
+ALTER TABLE users ADD COLUMN is_admin BOOLEAN DEFAULT FALSE;
+
+-- Make yourself admin (replace 1 with your user ID)
+UPDATE users SET is_admin = TRUE WHERE id = 1;
+
+-- 2. Create teams table
+CREATE TABLE teams (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    score INT DEFAULT 0,
+    last_solved TIMESTAMP NULL,
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+-- 3. Create team_members table (max 4 per team)
+CREATE TABLE team_members (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    team_id INT NOT NULL,
+    user_id INT NOT NULL,
+    is_captain BOOLEAN DEFAULT FALSE,
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_team_user (team_id, user_id)
+);
+
+-- 4. Create invitations table
+CREATE TABLE invitations (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    team_id INT NOT NULL,
+    from_user_id INT NOT NULL,
+    to_user_id INT NOT NULL,
+    status ENUM('pending', 'accepted', 'declined') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL 7 DAY),
+    FOREIGN KEY (team_id) REFERENCES teams(id),
+    FOREIGN KEY (from_user_id) REFERENCES users(id),
+    FOREIGN KEY (to_user_id) REFERENCES users(id),
+    UNIQUE KEY unique_active_invite (team_id, to_user_id, status)
+);
+
+-- 5. Create team_progress table
+CREATE TABLE team_progress (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    team_id INT NOT NULL,
+    task_number INT NOT NULL,
+    solved_by_user_id INT,
+    solved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    code VARCHAR(50),
+    FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
+    FOREIGN KEY (solved_by_user_id) REFERENCES users(id),
+    UNIQUE KEY unique_team_task (team_id, task_number)
+);
+
+-- 6. Create competition_settings table
+CREATE TABLE competition_settings (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    is_active BOOLEAN DEFAULT FALSE,
+    start_time DATETIME NULL,
+    end_time DATETIME NULL,
+    duration_hours INT DEFAULT 24,
+    max_team_size INT DEFAULT 4,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by_admin_id INT,
+    FOREIGN KEY (created_by_admin_id) REFERENCES users(id)
+);
+
+-- Insert default competition settings
+INSERT INTO competition_settings (max_team_size, created_by_admin_id) 
+VALUES (4, 1);

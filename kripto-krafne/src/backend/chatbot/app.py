@@ -125,7 +125,7 @@ Ako korisnik traži izravno rješenje CTF izazova, objasni zašto je bolje da sa
             response = requests.post(
                 f"{self.ollama_url}/api/chat",
                 json=payload,
-                timeout=30
+                timeout=180
             )
             
             print(f"Ollama odgovor status: {response.status_code}")  # DEBUG

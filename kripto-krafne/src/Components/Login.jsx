@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
@@ -12,84 +11,115 @@ export default function LoginForm() {
     const navigate = useNavigate();
     const [message, setMessage] = useState("");
 
+    // Helper function to decode JWT (you might need to install jwt-decode)
+    const decodeJWT = (token) => {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            console.error('Error decoding JWT:', e);
+            return null;
+        }
+    };
+
     const handleGoogleSuccess = async (credentialResponse) => {
-    const token = credentialResponse.credential;
-    const userInfo = jwt_decode(token);
-    console.log("User info:", userInfo);
+        const token = credentialResponse.credential;
+        const userInfo = decodeJWT(token);
+        console.log("User info:", userInfo);
 
-    try {
-      const res = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/login.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        body: JSON.stringify({ token }),
-      });
+        try {
+            const res = await fetch("http://localhost/backend/login.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ token }),
+            });
 
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        console.error("Backend returned non-JSON:", text);
-        setError("Server returned invalid data");
-        return;
-      }
+            const text = await res.text();
+            console.log("Raw response:", text);
+            
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch {
+                console.error("Backend returned non-JSON:", text);
+                setError("Server returned invalid data. Check console for details.");
+                return;
+            }
 
-      if (data.success) {
-        alert("Google login successful!");
-        navigate("/");
-      } else {
-        setError(data.message || "Google login failed.");
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      setError("Network or server error");
-    }
-  };
+            if (data.success) {
+                setMessage("Google login successful!");
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            } else {
+                setError(data.message || "Google login failed.");
+            }
+        } catch (err) {
+            console.error("Login error:", err);
+            setError("Network or server error");
+        }
+    };
 
-    const handleSumbit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+        setMessage('');
+        
         if (!email || !password) {
             setError('Please fill in all fields');
             return;
         }
-        let data = {
+
+        const data = {
             Email: email,
             Password: password
-        }
-        let apiLogin = "http://localhost/kripto-krafne/kripto-krafne/src/backend/login.php";
-        let headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        }
-        fetch(apiLogin, {
-            method: "POST",
-            headers: headers,
-              credentials: "include",
-            body: JSON.stringify(data)
-        })
-            .then(async response => {
-                const text = await response.text();
-                try {
-                    const json = JSON.parse(text);
-                    return json;
-                } catch (e) {
-                    console.error("Backend returned non-JSON:", text);
-                    throw new Error("Invalid JSON response from backend");
-                }
+        };
 
-            })
-            .then((data) => {
-                if (data.success) {
-                    alert("Login successful!");
+        try {
+            const response = await fetch("http://localhost/backend/login.php", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify(data)
+            });
+
+            const text = await response.text();
+            console.log("Raw response:", text);
+
+            let jsonData;
+            try {
+                jsonData = JSON.parse(text);
+            } catch (e) {
+                console.error("Backend returned non-JSON:", text);
+                setError("Server error - check console for details");
+                return;
+            }
+
+            if (jsonData.success) {
+                setMessage("Login successful!");
+                setError('');
+                // Give user a moment to see the success message
+                setTimeout(() => {
+                    // Use window.location to force a full page reload
+                    // This will trigger the navbar's useEffect to check session
                     window.location.href = '/';
-
-                }
-                else {
-                    alert(data.message);
-                }
-            })
-    }
+                }, 1000);
+            } else {
+                setError(jsonData.message || "Login failed");
+            }
+        } catch (err) {
+            console.error("Network error:", err);
+            setError("Network error - make sure XAMPP is running");
+        }
+    };
 
     return (
         <div className="flex items-center justify-center mt-25">
@@ -101,7 +131,7 @@ export default function LoginForm() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="E-mail"
-                        className=" text-black w-full p-3 rounded-md border border-gray-300 mb-4 focus:outline-none bg-white"
+                        className="text-black w-full p-3 rounded-md border border-gray-300 mb-4 focus:outline-none bg-white"
                     />
                     <div className="relative w-full">
                         <input
@@ -110,6 +140,7 @@ export default function LoginForm() {
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Password"
                             className="w-full p-3 text-black rounded-md border border-gray-300 mb-4 focus:outline-none bg-white"
+                            onKeyPress={(e) => e.key === 'Enter' && handleSubmit(e)}
                         />
                         <span
                             className="absolute right-3 top-3 cursor-pointer"
@@ -117,16 +148,32 @@ export default function LoginForm() {
                         >
                             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </span>
-                        {error}
-                        {message && <p className="text-red-500 text-sm mt-2">{message}</p>}
                     </div>
+                    
+                    {error && (
+                        <p className="text-red-500 text-sm mb-2 text-center w-full">{error}</p>
+                    )}
+                    {message && (
+                        <p className="text-green-500 text-sm mb-2 text-center w-full">{message}</p>
+                    )}
+                    
                     <p className="text-gray-500 text-sm mt-4 text-center">or continue with</p>
-                    <GoogleLogin onSuccess={handleGoogleSuccess} className="flex items-center text-black justify-center gap-2 bg-white w-[200px] px-4 py-2 rounded-md shadow mt-3 border border-gray-300 hover:bg-gray-100">
-                    </GoogleLogin>
+                    <GoogleLogin 
+                        onSuccess={handleGoogleSuccess}
+                        onError={() => setError("Google login failed")}
+                        className="mt-3"
+                    />
 
-                    <button onClick={handleSumbit} className="w-full bg-purple-500 text-white py-3 rounded-md mt-4 font-semibold hover:bg-purple-600">
+                    <button 
+                        onClick={handleSubmit} 
+                        className="w-full bg-purple-500 text-white py-3 rounded-md mt-4 font-semibold hover:bg-purple-600 transition-colors"
+                    >
                         Submit
                     </button>
+                    
+                    <p className="text-gray-500 text-sm mt-4 text-center">
+                        Don't have an account? <a href="/signup" className="text-purple-500 hover:underline">Sign up</a>
+                    </p>
                 </div>
             </div>
         </div>

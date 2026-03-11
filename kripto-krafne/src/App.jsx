@@ -25,9 +25,13 @@ import Navbar from './Components/Navbar';
 import Post from './Components/Forum/Post';
 import Forums from './Components/Forum/Forums';
 import PostLayout from './Components/Forum/PostLayout';
+import TeamFormation from './Components/teams/TeamFormation';
+import TeamDashboard from './Components/teams/TeamDashBoard';
+import Leaderboard from './Components/Leaderboard';
+import AdminPanel from './Components/admin/AdminPanel';
 function App() {
-  
-  const[chatbotClick, setChatboxClick] = useState(false);
+
+  const [chatbotClick, setChatboxClick] = useState(false);
 
 
 
@@ -35,30 +39,30 @@ function App() {
     <div className='body'>
 
       <Router>
-      <Navbar></Navbar>
-      
-        <div onClick={()=>setChatboxClick(true)}className='fixed bottom-0 right-0 flex items-center justify-center p-[20px] hover:scale-110 transition-transform duration-300 ease-in-out'>
+        <Navbar></Navbar>
+
+        <div onClick={() => setChatboxClick(true)} className='fixed bottom-0 right-0 flex items-center justify-center p-[20px] hover:scale-110 transition-transform duration-300 ease-in-out'>
           <img src={chatbotIcon} className='w-[100px]'></img>
         </div>
-           {chatbotClick && (
-      <div className="fixed inset-0 flex items-center justify-center z-10 0 bg-[#0000004f]">
-    <div className="relative">
-      <button 
-        onClick={() => setChatboxClick(false)}
-        className="absolute right-0 top-0  bg-white text-gray-800 text-4xl rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-200 transition-colors z-10 shadow-lg"
-      >
-        ×
-      </button>
-      <AIChatbot onClose={() => setChatboxClick(false)} />
-    </div>
-  </div>
-)}
+        {chatbotClick && (
+          <div className="fixed inset-0 flex items-center justify-center z-10 0 bg-[#0000004f]">
+            <div className="relative">
+              <button
+                onClick={() => setChatboxClick(false)}
+                className="absolute right-0 top-0  bg-white text-gray-800 text-4xl rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-200 transition-colors z-10 shadow-lg"
+              >
+                ×
+              </button>
+              <AIChatbot onClose={() => setChatboxClick(false)} />
+            </div>
+          </div>
+        )}
 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-        <Route path="/chat" element={<AIChatbot />} />
+          <Route path="/chat" element={<AIChatbot />} />
           <Route path="/radnici" element={<Radnici></Radnici>}></Route>
           <Route path="/glazba" element={<Glazba></Glazba>}></Route>
           <Route path="/menu" element={<Menu></Menu>}></Route>
@@ -67,11 +71,15 @@ function App() {
           <Route path="/dragdrop" element={<DragDrop />}></Route>
           <Route path="/recipe/:id" element={<DonutRecipe />}></Route>
           <Route path="/ctf-game" element={<DonutGame />} />
-          <Route path="/post" element={<Post/>}></Route>
+          <Route path="/post" element={<Post />}></Route>
           <Route path="forums" element={<Forums></Forums>}></Route>
           <Route path="/box/:id" element={<Level levels={levels} />} />
           <Route path="/donut-level/:id" element={<DonutLevel levels={levels} />} />
           <Route path="/forums/:postid" element={<PostLayout></PostLayout>}></Route>
+          <Route path="/teams" element={<TeamFormation />} />
+          <Route path="/team-dashboard" element={<TeamDashboard />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
         <Footer></Footer>
 
