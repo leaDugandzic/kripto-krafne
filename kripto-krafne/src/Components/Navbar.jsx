@@ -12,7 +12,7 @@ function Navbar() {
     }, []);
 
     const checkSession = () => {
-        fetch("http://localhost/backend/session.php", {
+        fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/session.php", {
             method: "GET",
             credentials: "include",
         })
@@ -39,7 +39,7 @@ function Navbar() {
     };
 
     const handleLogout = () => {
-        fetch("http://localhost/backend/logout.php", {
+        fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/logout.php", {
             method: "POST",
             credentials: "include",
         })

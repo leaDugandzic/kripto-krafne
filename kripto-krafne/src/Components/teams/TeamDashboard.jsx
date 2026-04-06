@@ -10,7 +10,7 @@ const TeamDashboard = () => {
 
     const fetchTeamData = async () => {
         try {
-            const response = await fetch('http://localhost/backend/teams/get_user_team.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/get_user_team.php', {
                 credentials: 'include'
             });
             const data = await response.json();

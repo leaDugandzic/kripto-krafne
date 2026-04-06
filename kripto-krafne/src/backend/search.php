@@ -26,7 +26,7 @@ if (strlen($q) < 2) {
     echo json_encode(['success' => true, 'users' => []]);
     exit;
 }
-
+$team=trim($_GET['team'] ?? '');
 $like = '%' . $q . '%';
 
 // Return users who are not already in a team and are not the current user
@@ -36,10 +36,16 @@ $stmt = $conn->prepare("
     WHERE u.ime LIKE ?
       AND u.id != ?
       AND u.is_admin = FALSE
-      AND u.id NOT IN (SELECT user_id FROM team_members)
+     AND u.id NOT IN (SELECT user_id FROM team_members
+	  WHERE team_id = (
+		  SELECT id
+		  FROM teams
+		  WHERE name = ?
+	  )
+  )
     LIMIT 10
 ");
-$stmt->bind_param("si", $like, $userId);
+$stmt->bind_param("sis", $like, $userId, $team);
 $stmt->execute();
 $users = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 

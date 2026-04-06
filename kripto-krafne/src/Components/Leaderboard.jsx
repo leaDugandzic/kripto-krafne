@@ -23,7 +23,7 @@ const Leaderboard = () => {
 
     const fetchLeaderboard = async () => {
         try {
-            const response = await fetch('http://localhost/backend/leaderboard.php?limit=20', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/leaderboard.php?limit=20', {
                 credentials: 'include'
             });
             const data = await response.json();

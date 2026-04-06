@@ -18,7 +18,7 @@ const TeamFormation = () => {
 
     const checkUserRole = async () => {
         try {
-            const response = await fetch('http://localhost/backend/session.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/session.php', {
                 credentials: 'include'
             });
             const data = await response.json();
@@ -35,7 +35,7 @@ const TeamFormation = () => {
 
     const fetchUserTeam = async () => {
         try {
-            const response = await fetch('http://localhost/backend/teams/get_user_team.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/get_user_team.php', {
                 credentials: 'include'
             });
             const responseText = await response.text();
@@ -79,7 +79,7 @@ const TeamFormation = () => {
         if (!teamName.trim()) { setMessage('Please enter a team name'); return; }
         setLoading(true);
         try {
-            const response = await fetch('http://localhost/backend/teams/create_team.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/create_team.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -96,7 +96,7 @@ const TeamFormation = () => {
         if (!searchUsername.trim()) return;
         try {
             const response = await fetch(
-                `http://localhost/backend/search.php?q=${encodeURIComponent(searchUsername)}`,
+                `http://localhost/kripto-krafne/kripto-krafne/src/backend/search.php?q=${encodeURIComponent(searchUsername)}`,
                 { credentials: 'include' }
             );
             const data = await response.json();
@@ -107,7 +107,7 @@ const TeamFormation = () => {
 
     const handleInvite = async (username) => {
         try {
-            const response = await fetch('http://localhost/backend/teams/invite.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/invite.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -122,7 +122,7 @@ const TeamFormation = () => {
     const handleInvitationResponse = async (invitationId, accept) => {
         setPendingInvite(null); // close popup
         try {
-            const response = await fetch('http://localhost/backend/teams/accept_invitation.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/accept_invitation.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -137,7 +137,7 @@ const TeamFormation = () => {
     const handleLeaveTeam = async () => {
         if (!confirm('Are you sure you want to leave the team?')) return;
         try {
-            const response = await fetch('http://localhost/backend/teams/leave_team.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/leave_team.php', {
                 method: 'POST',
                 credentials: 'include'
             });

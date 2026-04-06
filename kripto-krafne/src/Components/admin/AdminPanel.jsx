@@ -20,7 +20,7 @@ const AdminPanel = () => {
 
     const checkAdminAccess = async () => {
         try {
-            const response = await fetch('http://localhost/backend/session.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/session.php', {
                 credentials: 'include'
             });
             const data = await response.json();
@@ -43,7 +43,7 @@ const AdminPanel = () => {
 
     const fetchCompetitionStatus = async () => {
         try {
-            const response = await fetch('http://localhost/backend/competition_status.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/competition_status.php', {
                 credentials: 'include'
             });
             const data = await response.json();
@@ -56,7 +56,7 @@ const AdminPanel = () => {
     const fetchAllTeams = async () => {
         setTeamsLoading(true);
         try {
-            const response = await fetch('http://localhost/backend/admin_teams.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/admin_teams.php', {
                 credentials: 'include'
             });
             const data = await response.json();
@@ -73,7 +73,7 @@ const AdminPanel = () => {
         setLoading(true);
         setMessage('');
         try {
-            const response = await fetch('http://localhost/backend/teams/start_competition.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/start_competition.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -94,7 +94,7 @@ const AdminPanel = () => {
         setLoading(true);
         setMessage('');
         try {
-            const response = await fetch('http://localhost/backend/teams/end_competition.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/end_competition.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' }
@@ -112,7 +112,7 @@ const AdminPanel = () => {
     const handleDeleteTeam = async (teamId, teamName) => {
         if (!window.confirm(`Delete team "${teamName}"? This cannot be undone.`)) return;
         try {
-            const response = await fetch('http://localhost/backend/admin_teams.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/admin_teams.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -131,7 +131,7 @@ const AdminPanel = () => {
         const verb   = isBanned ? 'Unban'       : 'Ban';
         if (!window.confirm(`${verb} player "${username}"?`)) return;
         try {
-            const response = await fetch('http://localhost/backend/admin_teams.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/admin_teams.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },

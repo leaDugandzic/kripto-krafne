@@ -32,7 +32,7 @@ export default function LoginForm() {
         console.log("User info:", userInfo);
 
         try {
-            const res = await fetch("http://localhost/backend/login.php", {
+            const res = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/login.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -81,7 +81,7 @@ export default function LoginForm() {
         };
 
         try {
-            const response = await fetch("http://localhost/backend/login.php", {
+            const response = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/login.php", {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",

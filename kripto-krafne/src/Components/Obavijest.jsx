@@ -18,7 +18,7 @@ const Obavijest = () => {
 
   const checkCompetitionStatus = async () => {
     try {
-      const response = await fetch("http://localhost/backend/competition_status.php", {
+      const response = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/competition_status.php", {
         credentials: "include",
       });
       const data = await response.json();
