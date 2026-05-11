@@ -145,15 +145,22 @@ export default function DonutGame() {
                         fontFamily: 'var(--font-display)',
                         fontSize: 'clamp(2rem, 5vw, 3rem)',
                         fontWeight: 900,
-                        background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--accent))',
+                        background: 'linear-gradient(135deg, var(--accent), var(--yellow), var(--orange))',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
                         marginBottom: 10,
-                        lineHeight: 1.1
+                        lineHeight: 1.1,
+                        textShadow: 'none'
                     }}>
                         Kraljevstvo Krafni
                     </h1>
+                    {/* Sprinkle row */}
+                    <div aria-hidden="true" style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 16, marginTop: -6 }}>
+                        {['#ff2d78','#ffc840','#ff7b35','#b845f5','#ffc840','#ff7b35','#ff2d78'].map((c, i) => (
+                            <div key={i} style={{ width: 22, height: 5, borderRadius: 3, background: c, opacity: 0.65, transform: `rotate(${[-7,4,-5,6,-4,5,-6][i]}deg)` }} />
+                        ))}
+                    </div>
                     <p style={{ color: 'var(--text-muted)', fontSize: '1rem', marginBottom: 20 }}>
                         Pronađi skrivene šifre u svakom izazovu i unesi ih ovdje
                     </p>
@@ -222,6 +229,15 @@ export default function DonutGame() {
                     {donuts.map((donut, index) => {
                         const done = validated[index];
                         const feedback = taskFeedback[index];
+                        const cardColors = [
+                            { accent: '#ff2d78', soft: 'rgba(255,45,120,0.08)',  glow: 'rgba(255,45,120,0.18)' },
+                            { accent: '#ffc840', soft: 'rgba(255,200,64,0.08)',  glow: 'rgba(255,200,64,0.18)' },
+                            { accent: '#ff7b35', soft: 'rgba(255,123,53,0.08)',  glow: 'rgba(255,123,53,0.18)' },
+                            { accent: '#b845f5', soft: 'rgba(184,69,245,0.08)',  glow: 'rgba(184,69,245,0.18)' },
+                            { accent: '#ff2d78', soft: 'rgba(255,45,120,0.08)',  glow: 'rgba(255,45,120,0.18)' },
+                            { accent: '#ffc840', soft: 'rgba(255,200,64,0.08)',  glow: 'rgba(255,200,64,0.18)' },
+                        ];
+                        const cc = cardColors[index];
                         return (
                             <div
                                 key={donut.id}
@@ -232,9 +248,9 @@ export default function DonutGame() {
                                     flexDirection: 'column',
                                     alignItems: 'center',
                                     gap: 16,
-                                    border: `1.5px solid ${done ? 'var(--success)' : 'var(--glass-border)'}`,
-                                    background: done ? 'rgba(34,197,94,0.05)' : 'var(--glass-bg)',
-                                    boxShadow: done ? '0 0 24px rgba(34,197,94,0.1)' : undefined,
+                                    border: `1.5px solid ${done ? 'var(--success)' : cc.accent + '55'}`,
+                                    background: done ? 'rgba(34,197,94,0.05)' : cc.soft,
+                                    boxShadow: done ? '0 0 24px rgba(34,197,94,0.1)' : `0 0 20px ${cc.glow}`,
                                     transition: 'border-color 0.3s, box-shadow 0.3s',
                                     position: 'relative'
                                 }}
@@ -244,11 +260,11 @@ export default function DonutGame() {
                                     position: 'absolute', top: 14, right: 14,
                                     width: 28, height: 28,
                                     borderRadius: '50%',
-                                    background: done ? 'var(--success)' : 'var(--accent-soft)',
-                                    border: `1.5px solid ${done ? 'var(--success)' : 'var(--accent)'}`,
+                                    background: done ? 'var(--success)' : cc.accent + '22',
+                                    border: `1.5px solid ${done ? 'var(--success)' : cc.accent}`,
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                     fontSize: '0.72rem', fontWeight: 800,
-                                    color: done ? 'white' : 'var(--accent)'
+                                    color: done ? 'white' : cc.accent
                                 }}>
                                     {done ? <CheckCircle size={14} /> : index + 1}
                                 </div>

@@ -82,7 +82,10 @@ const Forums = () => {
                         fontFamily: 'var(--font-display)',
                         fontSize: 'clamp(2rem, 4vw, 2.8rem)',
                         fontWeight: 800,
-                        color: 'var(--text-primary)',
+                        background: 'linear-gradient(135deg, var(--accent), var(--yellow), var(--orange))',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
                         marginBottom: 8
                     }}>
                         KriptoKrafne Forum
@@ -90,6 +93,15 @@ const Forums = () => {
                     <p style={{ color: 'var(--text-muted)', fontSize: '1rem' }}>
                         Raspravljajte s našom zajednicom!
                     </p>
+                    {/* Colourful sprinkle bar */}
+                    <div aria-hidden="true" style={{ display: 'flex', justifyContent: 'center', gap: 7, marginTop: 14 }}>
+                        {['#ff2d78','#ffc840','#ff7b35','#b845f5','#ffc840','#ff2d78','#ff7b35'].map((c, i) => (
+                            <div key={i} style={{
+                                width: 24, height: 5, borderRadius: 3, background: c, opacity: 0.65,
+                                transform: `rotate(${[-6,5,-7,4,-5,7,-4][i]}deg)`
+                            }} />
+                        ))}
+                    </div>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 28, alignItems: 'start' }}>
@@ -133,7 +145,18 @@ const Forums = () => {
 
                         <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid var(--glass-border)' }}>
                             <Link to="/post">
-                                <button className="btn btn-primary" style={{ width: '100%', fontSize: '0.875rem' }}>
+                                <button style={{
+                                    width: '100%', fontSize: '0.875rem', fontWeight: 700,
+                                    padding: '10px 20px', borderRadius: 'var(--radius-full)',
+                                    border: 'none', cursor: 'pointer',
+                                    background: 'linear-gradient(135deg, var(--accent), var(--orange))',
+                                    color: '#fff',
+                                    boxShadow: '0 0 18px var(--orange-glow)',
+                                    transition: 'opacity 0.2s, transform 0.2s',
+                                    fontFamily: 'var(--font-body)'
+                                }}
+                                onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+                                onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'none'; }}>
                                     + Novi post
                                 </button>
                             </Link>
@@ -182,13 +205,25 @@ const Forums = () => {
                                                 {post.title}
                                             </h3>
                                             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8, fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                                                <span style={{
-                                                    background: 'var(--accent-soft)', color: 'var(--accent)',
-                                                    padding: '2px 10px', borderRadius: 'var(--radius-full)',
-                                                    fontWeight: 600, fontSize: '0.72rem'
-                                                }}>
-                                                    {post.category_name || "Nepoznato"}
-                                                </span>
+                                                {(() => {
+                                                    const colors = [
+                                                        { bg: 'var(--accent-soft)',  fg: 'var(--accent)'  },
+                                                        { bg: 'var(--yellow-soft)',  fg: 'var(--yellow)'  },
+                                                        { bg: 'var(--orange-soft)',  fg: 'var(--orange)'  },
+                                                        { bg: 'var(--purple-soft)',  fg: 'var(--purple)'  },
+                                                    ];
+                                                    const c = colors[post.id % colors.length];
+                                                    return (
+                                                        <span style={{
+                                                            background: c.bg, color: c.fg,
+                                                            padding: '2px 10px', borderRadius: 'var(--radius-full)',
+                                                            fontWeight: 600, fontSize: '0.72rem',
+                                                            border: `1px solid ${c.fg}55`
+                                                        }}>
+                                                            {post.category_name || "Nepoznato"}
+                                                        </span>
+                                                    );
+                                                })()}
                                                 <span>·</span>
                                                 <span>{post.user_id || "Anoniman"}</span>
                                                 <span>·</span>

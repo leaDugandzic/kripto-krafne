@@ -7,6 +7,8 @@ const Home = () => {
 
     return (
         <div className="home-page">
+            {/* Bottom-left floating donut — clear of level cards and chatbot */}
+            <div className="home-deco-bl" aria-hidden="true">🍩</div>
             <div className="home-hero">
                 <div className="home-hero__content">
                     <h1 className="home-hero__title display-font">
@@ -30,6 +32,19 @@ const Home = () => {
                     <span className="home-levels__heading-dot" aria-hidden="true"> •</span>
                 </h2>
                 <p className="home-levels__sub">Svaka kutija krije novi izazov. Koliko ih možeš riješiti?</p>
+
+                {/* Colourful accent bar */}
+                <div aria-hidden="true" style={{
+                    display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 32, marginTop: -20
+                }}>
+                    {['var(--accent)', 'var(--yellow)', 'var(--orange)', 'var(--purple)', 'var(--yellow)', 'var(--accent)'].map((c, i) => (
+                        <div key={i} style={{
+                            width: 28, height: 5, borderRadius: 3,
+                            background: c, opacity: 0.7,
+                            transform: `rotate(${[-8, 4, -5, 7, -3, 6][i]}deg)`
+                        }} />
+                    ))}
+                </div>
 
                 <div className="home-levels__grid boxes-container">
                     {imageArray.map((src, index) => {
@@ -63,6 +78,8 @@ const Home = () => {
                     min-height: calc(100vh - var(--navbar-height));
                     padding-top: calc(var(--navbar-height) + 40px);
                     padding-bottom: 80px;
+                    position: relative;
+                    overflow: hidden;
                 }
 
                 /* Hero */
@@ -81,6 +98,7 @@ const Home = () => {
                     font-size: clamp(2.8rem, 7vw, 5.5rem);
                     line-height: 1;
                     margin-bottom: 16px;
+                    text-shadow: 0 0 60px var(--yellow-glow);
                 }
 
                 .home-hero__subtitle {
@@ -97,6 +115,18 @@ const Home = () => {
                     right: 8%;
                     top: 20px;
                     animation: float 5s ease-in-out infinite;
+                    opacity: 0.18;
+                    pointer-events: none;
+                    user-select: none;
+                }
+
+                .home-deco-bl {
+                    position: absolute;
+                    left: 4%;
+                    bottom: 100px;
+                    font-size: 5rem;
+                    animation: floatSlow 7s ease-in-out infinite;
+                    animation-delay: -3s;
                     opacity: 0.18;
                     pointer-events: none;
                     user-select: none;
@@ -156,9 +186,9 @@ const Home = () => {
                 .home-level-card__glow {
                     position: absolute;
                     inset: 20px;
-                    background: var(--accent-soft);
+                    background: conic-gradient(from 0deg, var(--accent-soft), var(--yellow-soft), var(--orange-soft), var(--accent-soft));
                     border-radius: 50%;
-                    filter: blur(20px);
+                    filter: blur(22px);
                     opacity: 0;
                     transition: opacity var(--transition-base);
                     pointer-events: none;
@@ -167,6 +197,17 @@ const Home = () => {
 
                 .home-level-card:hover .home-level-card__glow {
                     opacity: 1;
+                }
+
+                .home-level-card:nth-child(3n+1):hover { border-color: var(--accent); }
+                .home-level-card:nth-child(3n+2):hover { border-color: var(--yellow); }
+                .home-level-card:nth-child(3n+3):hover { border-color: var(--orange); }
+
+                .home-level-card:nth-child(3n+2):hover .home-level-card__badge {
+                    color: var(--yellow); border-color: var(--yellow); background: var(--yellow-soft);
+                }
+                .home-level-card:nth-child(3n+3):hover .home-level-card__badge {
+                    color: var(--orange); border-color: var(--orange); background: var(--orange-soft);
                 }
 
                 .home-level-card__img {

@@ -19,6 +19,7 @@ import DonutGame from './KraljestvoKrafni/DonutGame';
 import AIChatbot from './Components/AiChatbot';
 import chatbotIcon from "./assets/img/chatbotIcon.png";
 import Navbar from './Components/Navbar';
+import PageDecorations from './Components/PageDecorations';
 import Post from './Components/Forum/Post';
 import Forums from './Components/Forum/Forums';
 import PostLayout from './Components/Forum/PostLayout';
@@ -44,6 +45,11 @@ function App() {
       {/* Ambient background orbs */}
       <div className="bg-orb bg-orb-pink" aria-hidden="true" />
       <div className="bg-orb bg-orb-purple" aria-hidden="true" />
+      <div className="bg-orb bg-orb-yellow" aria-hidden="true" />
+      <div className="bg-orb bg-orb-orange" aria-hidden="true" />
+
+      {/* Page-wide decorative shapes */}
+      <PageDecorations />
 
       <Router>
         <Navbar theme={theme} onToggleTheme={toggleTheme} />

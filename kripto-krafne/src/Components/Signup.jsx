@@ -59,6 +59,26 @@ export default function Signup() {
         <div className="auth-page">
             <div className="auth-card glass-card">
                 <div className="auth-card__ring" aria-hidden="true" />
+                <div className="auth-card__ring auth-card__ring--yellow" aria-hidden="true" />
+                <div className="auth-card__sprinkles" aria-hidden="true">
+                    {[
+                        { l: '10%', t: '15%', rot: 40,  c: '#ffc840' },
+                        { l: '84%', t: '10%', rot: -28, c: '#ff7b35' },
+                        { l: '90%', t: '70%', rot: 52,  c: '#ff2d78' },
+                        { l: '6%',  t: '80%', rot: -44, c: '#b845f5' },
+                        { l: '52%', t: '4%',  rot: 68,  c: '#ffc840' },
+                        { l: '94%', t: '38%', rot: -58, c: '#ff7b35' },
+                        { l: '4%',  t: '50%', rot: 44,  c: '#ff2d78' },
+                    ].map((s, i) => (
+                        <div key={i} style={{
+                            position: 'absolute', left: s.l, top: s.t,
+                            width: 4, height: 13, borderRadius: 3,
+                            background: s.c, opacity: 0.45,
+                            transform: `rotate(${s.rot}deg)`,
+                            pointerEvents: 'none'
+                        }} />
+                    ))}
+                </div>
 
                 <div className="auth-card__header">
                     <div className="auth-card__icon">🍩</div>
@@ -196,10 +216,11 @@ export default function Signup() {
                     width: 280px;
                     height: 280px;
                     border-radius: 50%;
-                    border: 1px solid var(--accent-soft);
+                    border: 1.5px solid var(--accent-soft);
                     top: -100px;
                     right: -80px;
                     pointer-events: none;
+                    animation: rotateDonut 18s linear infinite;
                 }
                 .auth-card__header {
                     text-align: center;
@@ -211,9 +232,26 @@ export default function Signup() {
                     animation: float 4s ease-in-out infinite;
                     display: inline-block;
                 }
+                .auth-card__ring--yellow {
+                    width: 200px;
+                    height: 200px;
+                    border-color: var(--yellow-soft);
+                    top: auto;
+                    bottom: -60px;
+                    left: -60px;
+                    right: auto;
+                    animation: rotateDonut 24s linear infinite reverse;
+                }
+                .auth-card__sprinkles {
+                    position: absolute;
+                    inset: 0;
+                    pointer-events: none;
+                    overflow: hidden;
+                    border-radius: inherit;
+                }
                 .auth-card__title {
                     font-size: 2rem;
-                    background: linear-gradient(135deg, var(--text-primary), var(--accent));
+                    background: linear-gradient(135deg, var(--accent), var(--yellow), var(--orange));
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
                     background-clip: text;

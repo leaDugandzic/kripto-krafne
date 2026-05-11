@@ -38,6 +38,13 @@
     --warning:          #ffc940;
     --error:            #ff4a6e;
 
+    --yellow:           #ffc840;
+    --yellow-soft:      rgba(255, 200, 64, 0.18);
+    --yellow-glow:      rgba(255, 200, 64, 0.35);
+    --orange:           #ff7b35;
+    --orange-soft:      rgba(255, 123, 53, 0.18);
+    --orange-glow:      rgba(255, 123, 53, 0.35);
+
     --radius-sm:        8px;
     --radius-md:        14px;
     --radius-lg:        20px;
@@ -90,6 +97,13 @@
     --text-secondary:   #60508a;
     --text-muted:       #9080b8;
     --text-on-accent:   #ffffff;
+
+    --yellow:           #e8a800;
+    --yellow-soft:      rgba(232, 168, 0, 0.14);
+    --yellow-glow:      rgba(232, 168, 0, 0.28);
+    --orange:           #e85f10;
+    --orange-soft:      rgba(232, 95, 16, 0.14);
+    --orange-glow:      rgba(232, 95, 16, 0.28);
 
     --shadow-sm:        0 2px 8px rgba(100, 60, 180, 0.1);
     --shadow-md:        0 4px 20px rgba(100, 60, 180, 0.15);
@@ -404,6 +418,7 @@ body {
     height: 500px;
     top: -100px;
     right: -100px;
+    animation: orbPulse 9s ease-in-out infinite;
 }
 
 .bg-orb-purple {
@@ -412,6 +427,35 @@ body {
     height: 400px;
     bottom: -80px;
     left: -80px;
+    animation: orbPulse 12s ease-in-out infinite reverse;
+}
+
+.bg-orb-yellow {
+    background: var(--yellow);
+    width: 320px;
+    height: 320px;
+    top: 38%;
+    left: 3%;
+    animation: orbPulseYellow 8s ease-in-out infinite;
+}
+
+.bg-orb-orange {
+    background: var(--orange);
+    width: 260px;
+    height: 260px;
+    top: 55%;
+    right: 6%;
+    animation: orbPulseYellow 11s ease-in-out infinite reverse;
+}
+
+@keyframes orbPulse {
+    0%, 100% { transform: scale(1);    opacity: 0.15; }
+    50%       { transform: scale(1.18); opacity: 0.22; }
+}
+
+@keyframes orbPulseYellow {
+    0%, 100% { transform: scale(1);    opacity: 0.12; }
+    50%       { transform: scale(1.25); opacity: 0.20; }
 }
 
 /* Content above background */

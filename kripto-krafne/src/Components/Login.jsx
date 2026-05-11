@@ -89,8 +89,29 @@ export default function LoginForm() {
     return (
         <div className="auth-page">
             <div className="auth-card glass-card">
-                {/* Decorative ring */}
+                {/* Decorative rings */}
                 <div className="auth-card__ring" aria-hidden="true" />
+                <div className="auth-card__ring auth-card__ring--yellow" aria-hidden="true" />
+                {/* Sprinkle dashes */}
+                <div className="auth-card__sprinkles" aria-hidden="true">
+                    {[
+                        { l: '12%', t: '18%', rot: 35,  c: '#ffc840' },
+                        { l: '82%', t: '12%', rot: -22, c: '#ff7b35' },
+                        { l: '88%', t: '72%', rot: 55,  c: '#ff2d78' },
+                        { l: '8%',  t: '78%', rot: -40, c: '#b845f5' },
+                        { l: '50%', t: '6%',  rot: 70,  c: '#ffc840' },
+                        { l: '92%', t: '42%', rot: -60, c: '#ff7b35' },
+                        { l: '5%',  t: '48%', rot: 48,  c: '#ff2d78' },
+                    ].map((s, i) => (
+                        <div key={i} style={{
+                            position: 'absolute', left: s.l, top: s.t,
+                            width: 4, height: 13, borderRadius: 3,
+                            background: s.c, opacity: 0.45,
+                            transform: `rotate(${s.rot}deg)`,
+                            pointerEvents: 'none'
+                        }} />
+                    ))}
+                </div>
 
                 <div className="auth-card__header">
                     <div className="auth-card__icon">🍩</div>
@@ -188,10 +209,30 @@ export default function LoginForm() {
                     width: 280px;
                     height: 280px;
                     border-radius: 50%;
-                    border: 1px solid var(--accent-soft);
+                    border: 1.5px solid var(--accent-soft);
                     top: -100px;
                     right: -80px;
                     pointer-events: none;
+                    animation: rotateDonut 18s linear infinite;
+                }
+
+                .auth-card__ring--yellow {
+                    width: 200px;
+                    height: 200px;
+                    border-color: var(--yellow-soft);
+                    top: auto;
+                    bottom: -60px;
+                    left: -60px;
+                    right: auto;
+                    animation: rotateDonut 24s linear infinite reverse;
+                }
+
+                .auth-card__sprinkles {
+                    position: absolute;
+                    inset: 0;
+                    pointer-events: none;
+                    overflow: hidden;
+                    border-radius: inherit;
                 }
 
                 .auth-card__header {
@@ -208,7 +249,7 @@ export default function LoginForm() {
 
                 .auth-card__title {
                     font-size: 2rem;
-                    background: linear-gradient(135deg, var(--text-primary), var(--accent));
+                    background: linear-gradient(135deg, var(--accent), var(--yellow), var(--orange));
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
                     background-clip: text;
