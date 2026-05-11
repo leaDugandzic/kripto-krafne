@@ -12,13 +12,23 @@ const DraggableItem = ({ item }) => {
     return (
         <div
             ref={drag}
-            className={`
-                p-4 font-bold rounded-lg cursor-grab active:cursor-grabbing
-                transition-all duration-150
-                ${isDragging ? 
-                    'bg-pink-500 text-white shadow-xl scale-95' : 
-                    'bg-white text-pink-600 border-2 border-pink-400 hover:bg-pink-500 hover:text-white shadow-md'}
-            `}
+            style={{
+                padding: '12px 16px',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid',
+                borderColor: isDragging ? 'var(--accent)' : 'var(--glass-border)',
+                background: isDragging ? 'var(--accent-soft)' : 'var(--glass-bg)',
+                color: isDragging ? 'var(--accent)' : 'var(--text-primary)',
+                fontWeight: 600,
+                fontSize: '0.875rem',
+                cursor: 'grab',
+                transform: isDragging ? 'scale(0.96) rotate(-1deg)' : 'scale(1)',
+                opacity: isDragging ? 0.7 : 1,
+                transition: 'all 0.15s ease',
+                boxShadow: isDragging ? 'var(--shadow-glow-soft)' : 'none',
+                userSelect: 'none',
+                backdropFilter: 'var(--blur-sm)'
+            }}
         >
             {item.term}
         </div>

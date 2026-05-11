@@ -1,13 +1,11 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home';
 import Login from './Components/Login';
-import Logo from './assets/img/logo.png';
 import Level from './Components/Level';
 import DonutLevel from './Components/DonutLevel';
 import Signup from './Components/Signup';
 import { useState, useEffect } from 'react';
-import Krafnapfp from "./assets/img/krafna.png";
 import levels from './library/levels.json';
 import Images from './KraljestvoKrafni/Images'
 import Radnici from './KraljestvoKrafni/Radnici';
@@ -17,7 +15,6 @@ import Kolo from './KraljestvoKrafni/Kolo';
 import DonutRecipe from './KraljestvoKrafni/DonutRecipe';
 import Footer from "./Components/Footer";
 import DragDrop from '../src/KraljestvoKrafni/DragDrop';
-import ReverseEngineeringChallenge from './KraljestvoKrafni/ReverseEngineering';
 import DonutGame from './KraljestvoKrafni/DonutGame';
 import AIChatbot from './Components/AiChatbot';
 import chatbotIcon from "./assets/img/chatbotIcon.png";
@@ -29,28 +26,42 @@ import TeamFormation from './Components/teams/TeamFormation';
 import TeamDashboard from './Components/teams/TeamDashBoard';
 import Leaderboard from './Components/Leaderboard';
 import AdminPanel from './Components/admin/AdminPanel';
+
 function App() {
-
   const [chatbotClick, setChatboxClick] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('kk-theme') || 'dark';
+  });
 
+  useEffect(() => {
+    localStorage.setItem('kk-theme', theme);
+  }, [theme]);
 
+  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
 
   return (
-    <div className='body'>
+    <div className='app-root' data-theme={theme} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {/* Ambient background orbs */}
+      <div className="bg-orb bg-orb-pink" aria-hidden="true" />
+      <div className="bg-orb bg-orb-purple" aria-hidden="true" />
 
       <Router>
-        <Navbar></Navbar>
+        <Navbar theme={theme} onToggleTheme={toggleTheme} />
 
-        <div onClick={() => setChatboxClick(true)} className='fixed bottom-0 right-0 flex items-center justify-center p-[20px] hover:scale-110 transition-transform duration-300 ease-in-out'>
-          <img src={chatbotIcon} className='w-[100px]'></img>
-        </div>
+        {/* Chatbot trigger */}
+        <button
+          className="chatbot-trigger"
+          onClick={() => setChatboxClick(true)}
+          aria-label="Open AI assistant"
+        >
+          <img src={chatbotIcon} alt="" />
+        </button>
+
+        {/* Chatbot modal */}
         {chatbotClick && (
-          <div className="fixed inset-0 flex items-center justify-center z-10 0 bg-[#0000004f]">
-            <div className="relative">
-              <button
-                onClick={() => setChatboxClick(false)}
-                className="absolute right-0 top-0  bg-white text-gray-800 text-4xl rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-200 transition-colors z-10 shadow-lg"
-              >
+          <div className="chatbot-overlay" onClick={(e) => e.target === e.currentTarget && setChatboxClick(false)}>
+            <div className="chatbot-overlay-inner">
+              <button className="chatbot-close-btn" onClick={() => setChatboxClick(false)} aria-label="Close">
                 ×
               </button>
               <AIChatbot onClose={() => setChatboxClick(false)} />
@@ -58,34 +69,36 @@ function App() {
           </div>
         )}
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/chat" element={<AIChatbot />} />
-          <Route path="/radnici" element={<Radnici></Radnici>}></Route>
-          <Route path="/glazba" element={<Glazba></Glazba>}></Route>
-          <Route path="/menu" element={<Menu></Menu>}></Route>
-          <Route path="/images" element={<Images />}></Route>
-          <Route path="/kolo" element={<Kolo></Kolo>}></Route>
-          <Route path="/dragdrop" element={<DragDrop />}></Route>
-          <Route path="/recipe/:id" element={<DonutRecipe />}></Route>
-          <Route path="/ctf-game" element={<DonutGame />} />
-          <Route path="/post" element={<Post />}></Route>
-          <Route path="forums" element={<Forums></Forums>}></Route>
-          <Route path="/box/:id" element={<Level levels={levels} />} />
-          <Route path="/donut-level/:id" element={<DonutLevel levels={levels} />} />
-          <Route path="/forums/:postid" element={<PostLayout></PostLayout>}></Route>
-          <Route path="/teams" element={<TeamFormation />} />
-          <Route path="/team-dashboard" element={<TeamDashboard />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/admin" element={<AdminPanel />} />
-        </Routes>
-        <Footer></Footer>
+        <main style={{ flex: 1 }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/chat" element={<AIChatbot />} />
+            <Route path="/radnici" element={<Radnici />} />
+            <Route path="/glazba" element={<Glazba />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/images" element={<Images />} />
+            <Route path="/kolo" element={<Kolo />} />
+            <Route path="/dragdrop" element={<DragDrop />} />
+            <Route path="/recipe/:id" element={<DonutRecipe />} />
+            <Route path="/ctf-game" element={<DonutGame />} />
+            <Route path="/post" element={<Post />} />
+            <Route path="forums" element={<Forums />} />
+            <Route path="/box/:id" element={<Level levels={levels} />} />
+            <Route path="/donut-level/:id" element={<DonutLevel levels={levels} />} />
+            <Route path="/forums/:postid" element={<PostLayout />} />
+            <Route path="/teams" element={<TeamFormation />} />
+            <Route path="/team-dashboard" element={<TeamDashboard />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/admin" element={<AdminPanel />} />
+          </Routes>
+        </main>
 
+        <Footer />
       </Router>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

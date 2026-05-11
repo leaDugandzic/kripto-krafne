@@ -1,25 +1,33 @@
 import { useState, useEffect } from 'react';
+import { Trophy, Timer, RefreshCw } from 'lucide-react';
+
+const medalColors = ['#f59e0b', '#9ca3af', '#cd7c2f'];
+const medalLabels = ['1.', '2.', '3.'];
 
 const Leaderboard = () => {
     const [teams, setTeams] = useState([]);
     const [competition, setCompetition] = useState(null);
     const [loading, setLoading] = useState(true);
     const [timeRemaining, setTimeRemaining] = useState(0);
+    const [endTime, setEndTime] = useState(null);
 
     useEffect(() => {
         fetchLeaderboard();
-        const interval = setInterval(fetchLeaderboard, 30000); // Update every 30 seconds
+        const interval = setInterval(fetchLeaderboard, 30000);
         return () => clearInterval(interval);
     }, []);
 
+    // Live countdown — runs every second off the absolute endTime timestamp
     useEffect(() => {
-        if (competition?.is_active && competition.time_remaining > 0) {
-            const timer = setInterval(() => {
-                setTimeRemaining(prev => prev > 0 ? prev - 1 : 0);
-            }, 1000);
-            return () => clearInterval(timer);
+        if (!endTime || !competition?.is_active) {
+            setTimeRemaining(0);
+            return;
         }
-    }, [competition]);
+        const tick = () => setTimeRemaining(Math.max(0, Math.floor((endTime - Date.now()) / 1000)));
+        tick();
+        const id = setInterval(tick, 1000);
+        return () => clearInterval(id);
+    }, [endTime, competition?.is_active]);
 
     const fetchLeaderboard = async () => {
         try {
@@ -31,9 +39,9 @@ const Leaderboard = () => {
                 setTeams(data.teams);
                 setCompetition(data.competition);
                 if (data.competition?.is_active && data.competition.end_time) {
-                    const endTime = new Date(data.competition.end_time).getTime();
-                    const now = new Date().getTime();
-                    setTimeRemaining(Math.max(0, Math.floor((endTime - now) / 1000)));
+                    setEndTime(new Date(data.competition.end_time).getTime());
+                } else {
+                    setEndTime(null);
                 }
             }
         } catch (error) {
@@ -52,191 +60,257 @@ const Leaderboard = () => {
 
     if (loading) {
         return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center py-12">
-                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
-                    <p className="mt-4 text-gray-600">Loading leaderboard...</p>
-                </div>
+            <div className="page-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
+                <div style={{
+                    width: 48, height: 48,
+                    border: '3px solid var(--glass-border)',
+                    borderTopColor: 'var(--accent)',
+                    borderRadius: '50%',
+                    animation: 'rotateDonut 0.8s linear infinite'
+                }} />
             </div>
         );
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-8 text-center text-purple-800">CTF Leaderboard</h1>
-            
-            {/* Competition Status Banner */}
-            <div className="mb-8">
-                {competition?.is_active ? (
-                    <div className="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl p-6 shadow-lg">
-                        <div className="flex flex-col md:flex-row justify-between items-center">
-                            <div>
-                                <h2 className="text-2xl font-bold">Competition Active! 🏆</h2>
-                                <p className="mt-1">Solve tasks to earn points for your team</p>
-                            </div>
-                            <div className="mt-4 md:mt-0 text-center">
-                                <div className="text-3xl font-bold font-mono">
-                                    {formatTime(timeRemaining)}
+        <div className="page-wrapper">
+            <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+                {/* Header */}
+                <div style={{ textAlign: 'center', marginBottom: 40 }}>
+                    <h1 style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
+                        fontWeight: 800,
+                        color: 'var(--text-primary)',
+                        marginBottom: 8
+                    }}>
+                        CTF Ljestvica
+                    </h1>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+                        Rang lista timova prema bodovima
+                    </p>
+                </div>
+
+                {/* Competition status banner */}
+                <div style={{ marginBottom: 28 }}>
+                    {competition?.is_active ? (
+                        <div style={{
+                            padding: '20px 28px',
+                            borderRadius: 'var(--radius-lg)',
+                            background: 'linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.1))',
+                            border: '1.5px solid rgba(34,197,94,0.4)',
+                            display: 'flex', flexWrap: 'wrap',
+                            alignItems: 'center', justifyContent: 'space-between', gap: 16
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                <div style={{
+                                    width: 10, height: 10, borderRadius: '50%',
+                                    background: 'var(--success)',
+                                    boxShadow: '0 0 8px var(--success)',
+                                    animation: 'pulse 2s ease-in-out infinite'
+                                }} />
+                                <div>
+                                    <p style={{ fontWeight: 700, color: 'var(--success)', fontSize: '1rem' }}>
+                                        Natjecanje aktivno
+                                    </p>
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.825rem', marginTop: 2 }}>
+                                        Rješavajte zadatke da osvajate bodove za tim
+                                    </p>
                                 </div>
-                                <p className="text-sm opacity-90">Time Remaining</p>
+                            </div>
+                            <div style={{
+                                display: 'flex', alignItems: 'center', gap: 10,
+                                padding: '10px 18px',
+                                background: 'rgba(34,197,94,0.12)',
+                                borderRadius: 'var(--radius-md)',
+                                border: '1px solid rgba(34,197,94,0.3)'
+                            }}>
+                                <Timer size={18} style={{ color: 'var(--success)' }} />
+                                <span style={{ fontFamily: 'monospace', fontSize: '1.3rem', fontWeight: 800, color: 'var(--success)', letterSpacing: '0.05em' }}>
+                                    {formatTime(timeRemaining)}
+                                </span>
                             </div>
                         </div>
-                    </div>
-                ) : (
-                    <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-xl p-6 shadow-lg">
-                        <div className="text-center">
-                            <h2 className="text-2xl font-bold">Competition Paused</h2>
-                            <p className="mt-1">Waiting for admin to start the competition</p>
+                    ) : (
+                        <div style={{
+                            padding: '20px 28px',
+                            borderRadius: 'var(--radius-lg)',
+                            background: 'rgba(234,179,8,0.1)',
+                            border: '1.5px solid rgba(234,179,8,0.35)',
+                            textAlign: 'center'
+                        }}>
+                            <p style={{ fontWeight: 700, color: '#ca8a04', fontSize: '1rem' }}>
+                                Natjecanje na pauzi
+                            </p>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '0.825rem', marginTop: 4 }}>
+                                Čeka se administrator da pokrene natjecanje
+                            </p>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )}
+                </div>
 
-            {/* Leaderboard Table */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="py-4 px-6 text-left font-semibold text-gray-700">Rank</th>
-                                <th className="py-4 px-6 text-left font-semibold text-gray-700">Team</th>
-                                <th className="py-4 px-6 text-left font-semibold text-gray-700">Score</th>
-                                <th className="py-4 px-6 text-left font-semibold text-gray-700">Tasks</th>
-                                <th className="py-4 px-6 text-left font-semibold text-gray-700">Members</th>
-                                <th className="py-4 px-6 text-left font-semibold text-gray-700">Last Solve</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                            {teams.length > 0 ? (
-                                teams.map((team, index) => (
-                                    <tr 
-                                        key={team.id} 
-                                        className={`hover:bg-gray-50 transition-colors ${index < 3 ? 'bg-gradient-to-r from-blue-50 to-purple-50' : ''}`}
-                                    >
-                                        <td className="py-4 px-6">
-                                            <div className="flex items-center">
-                                                {index === 0 && <span className="text-2xl mr-2">🥇</span>}
-                                                {index === 1 && <span className="text-2xl mr-2">🥈</span>}
-                                                {index === 2 && <span className="text-2xl mr-2">🥉</span>}
-                                                {index >= 3 && (
-                                                    <span className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full font-bold">
-                                                        #{index + 1}
-                                                    </span>
-                                                )}
+                {/* Table */}
+                <div className="glass-card" style={{ overflow: 'hidden' }}>
+                    {/* Table header */}
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: '56px 1fr 100px 160px 120px 140px',
+                        padding: '12px 24px',
+                        borderBottom: '1px solid var(--glass-border)',
+                        background: 'var(--bg-elevated)'
+                    }}>
+                        {['#', 'Tim', 'Bodovi', 'Zadaci', 'Članovi', 'Zadnje rješenje'].map((h, i) => (
+                            <span key={i} style={{
+                                fontSize: '0.72rem', fontWeight: 700,
+                                letterSpacing: '0.08em', textTransform: 'uppercase',
+                                color: 'var(--text-muted)'
+                            }}>
+                                {h}
+                            </span>
+                        ))}
+                    </div>
+
+                    {teams.length === 0 ? (
+                        <div style={{ padding: '60px 24px', textAlign: 'center' }}>
+                            <Trophy size={40} style={{ color: 'var(--text-muted)', margin: '0 auto 16px' }} />
+                            <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+                                Još nema timova u natjecanju.
+                            </p>
+                        </div>
+                    ) : (
+                        teams.map((team, index) => {
+                            const isTop3 = index < 3;
+                            return (
+                                <div key={team.id} style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '56px 1fr 100px 160px 120px 140px',
+                                    padding: '16px 24px',
+                                    borderBottom: '1px solid var(--glass-border)',
+                                    background: isTop3
+                                        ? `linear-gradient(90deg, ${index === 0 ? 'rgba(245,158,11,0.06)' : index === 1 ? 'rgba(156,163,175,0.06)' : 'rgba(205,124,47,0.06)'}, transparent)`
+                                        : 'transparent',
+                                    transition: 'background 0.15s',
+                                    alignItems: 'center'
+                                }}
+                                    onMouseEnter={e => !isTop3 && (e.currentTarget.style.background = 'var(--glass-bg)')}
+                                    onMouseLeave={e => !isTop3 && (e.currentTarget.style.background = 'transparent')}
+                                >
+                                    {/* Rank */}
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        {isTop3 ? (
+                                            <div style={{
+                                                width: 32, height: 32, borderRadius: '50%',
+                                                background: `${medalColors[index]}22`,
+                                                border: `2px solid ${medalColors[index]}`,
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                fontWeight: 800, fontSize: '0.8rem',
+                                                color: medalColors[index]
+                                            }}>
+                                                {medalLabels[index]}
                                             </div>
-                                        </td>
-                                        <td className="py-4 px-6">
-                                            <div>
-                                                <p className="font-bold text-lg text-gray-800">{team.team_name}</p>
-                                                <p className="text-sm text-gray-600 truncate max-w-xs">
-                                                    Members: {team.members}
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td className="py-4 px-6">
-                                            <span className="font-bold text-xl text-purple-600">
-                                                {team.score}
+                                        ) : (
+                                            <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                                                #{index + 1}
                                             </span>
-                                            <span className="text-sm text-gray-500 ml-1">pts</span>
-                                        </td>
-                                        <td className="py-4 px-6">
-                                            <div className="flex items-center">
-                                                <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
-                                                    <div 
-                                                        className="bg-green-500 h-2 rounded-full"
-                                                        style={{ width: `${(team.tasks_solved / 6) * 100}%` }}
-                                                    ></div>
-                                                </div>
-                                                <span className="font-semibold">
-                                                    {team.tasks_solved}/6
+                                        )}
+                                    </div>
+
+                                    {/* Team name */}
+                                    <div>
+                                        <p style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+                                            {team.team_name}
+                                        </p>
+                                    </div>
+
+                                    {/* Score */}
+                                    <div>
+                                        <span style={{ fontWeight: 800, fontSize: '1rem', color: 'var(--accent)' }}>
+                                            {team.score}
+                                        </span>
+                                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: 3 }}>pts</span>
+                                    </div>
+
+                                    {/* Tasks progress */}
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        <div style={{
+                                            flex: 1, height: 6,
+                                            background: 'var(--glass-border)',
+                                            borderRadius: 'var(--radius-full)',
+                                            overflow: 'hidden',
+                                            maxWidth: 80
+                                        }}>
+                                            <div style={{
+                                                height: '100%',
+                                                width: `${(team.tasks_solved / 6) * 100}%`,
+                                                background: 'linear-gradient(90deg, var(--accent), var(--purple))',
+                                                borderRadius: 'var(--radius-full)'
+                                            }} />
+                                        </div>
+                                        <span style={{ fontWeight: 600, fontSize: '0.825rem', color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>
+                                            {team.tasks_solved}/6
+                                        </span>
+                                    </div>
+
+                                    {/* Members avatars */}
+                                    <div style={{ display: 'flex' }}>
+                                        {team.members.split(', ').slice(0, 3).map((member, i) => (
+                                            <div key={i} style={{
+                                                width: 28, height: 28, borderRadius: '50%',
+                                                background: 'linear-gradient(135deg, var(--accent), var(--purple))',
+                                                border: '2px solid var(--bg-base)',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                marginLeft: i > 0 ? -8 : 0,
+                                                fontSize: '0.72rem', fontWeight: 700, color: 'white'
+                                            }} title={member}>
+                                                {member.charAt(0).toUpperCase()}
+                                            </div>
+                                        ))}
+                                        {team.member_count > 3 && (
+                                            <div style={{
+                                                width: 28, height: 28, borderRadius: '50%',
+                                                background: 'var(--glass-bg)',
+                                                border: '2px solid var(--bg-base)',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                marginLeft: -8,
+                                                fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)'
+                                            }}>
+                                                +{team.member_count - 3}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Last solve */}
+                                    <div>
+                                        {team.last_solved ? (
+                                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                                {new Date(team.last_solved).toLocaleDateString('hr-HR')}
+                                                {' '}
+                                                <span style={{ color: 'var(--text-muted)' }}>
+                                                    {new Date(team.last_solved).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </span>
-                                            </div>
-                                        </td>
-                                        <td className="py-4 px-6">
-                                            <div className="flex -space-x-2">
-                                                {team.members.split(', ').slice(0, 3).map((member, i) => (
-                                                    <div 
-                                                        key={i}
-                                                        className="w-8 h-8 bg-purple-100 rounded-full border-2 border-white flex items-center justify-center"
-                                                        title={member}
-                                                    >
-                                                        <span className="text-xs font-bold text-purple-600">
-                                                            {member.charAt(0).toUpperCase()}
-                                                        </span>
-                                                    </div>
-                                                ))}
-                                                {team.member_count > 3 && (
-                                                    <div className="w-8 h-8 bg-gray-100 rounded-full border-2 border-white flex items-center justify-center">
-                                                        <span className="text-xs font-bold text-gray-600">
-                                                            +{team.member_count - 3}
-                                                        </span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </td>
-                                        <td className="py-4 px-6 text-gray-600">
-                                            {team.last_solved ? (
-                                                <>
-                                                    {new Date(team.last_solved).toLocaleDateString()}
-                                                    <br/>
-                                                    <span className="text-sm text-gray-500">
-                                                        {new Date(team.last_solved).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                                                    </span>
-                                                </>
-                                            ) : (
-                                                'No solves yet'
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="6" className="py-12 text-center text-gray-500">
-                                        No teams have joined the competition yet.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                                            </span>
+                                        ) : (
+                                            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>—</span>
+                                        )}
+                                    </div>
+                                </div>
+                            );
+                        })
+                    )}
 
-                {/* Last Updated */}
-                <div className="bg-gray-50 px-6 py-3 border-t border-gray-200">
-                    <div className="flex justify-between items-center text-sm text-gray-600">
-                        <span>Showing {teams.length} teams</span>
-                        <span>Last updated: {new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Legend */}
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="p-4 bg-white rounded-lg shadow border border-gray-200">
-                    <div className="flex items-center">
-                        <div className="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
-                        <div>
-                            <p className="font-semibold">Top 3 Teams</p>
-                            <p className="text-sm text-gray-600">Special background highlight</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="p-4 bg-white rounded-lg shadow border border-gray-200">
-                    <div className="flex items-center">
-                        <div className="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
-                        <div>
-                            <p className="font-semibold">Progress Bar</p>
-                            <p className="text-sm text-gray-600">Shows tasks completed (max 6)</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="p-4 bg-white rounded-lg shadow border border-gray-200">
-                    <div className="flex items-center">
-                        <div className="w-8 h-8 bg-purple-100 rounded-full border-2 border-white flex items-center justify-center mr-3">
-                            <span className="text-xs font-bold text-purple-600">A</span>
-                        </div>
-                        <div>
-                            <p className="font-semibold">Team Members</p>
-                            <p className="text-sm text-gray-600">Initials shown for each member</p>
+                    {/* Footer */}
+                    <div style={{
+                        padding: '12px 24px',
+                        borderTop: '1px solid var(--glass-border)',
+                        background: 'var(--bg-elevated)',
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                    }}>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                            Prikazano {teams.length} timova
+                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                            <RefreshCw size={12} />
+                            Ažurirano: {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </div>
                     </div>
                 </div>

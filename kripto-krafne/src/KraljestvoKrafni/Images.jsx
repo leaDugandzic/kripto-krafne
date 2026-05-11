@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { X, RotateCcw } from 'lucide-react';
 import donutImage from '../assets/img/images/puzzleImgTry.jpg';
 import QR from '../assets/img/images/QRkodZaImages.png';
 
@@ -64,19 +65,76 @@ const DonutChallengeComponent = () => {
         }
     };
 
+    const mins = Math.floor(timeLeft / 60);
+    const secs = (timeLeft % 60).toString().padStart(2, '0');
+    const isLow = timeLeft <= 10;
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-[#ffface] p-20 relative">
-            <h1 className="mb-8 text-[#ff10a2] title text-7xl animate-bounce">🍩 Slatki Izazov! 🍩</h1>
-            <p className="text-3xl text-[#ff10a2] mb-10">Pokušajte složiti slagalicu u što kraćem vremenu!</p>
-            <h2 className="text-4xl mb-8 text-[#ff10a2] animate-pulse">
-                Vrijeme: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
-            </h2>
-            <div className="puzzle-container bg-[#fda5d5] p-12 rounded-lg shadow-2xl relative">
-                <div className="grid grid-cols-3 gap-3">
+        <div className="page-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 }}>
+            {/* Header */}
+            <div style={{ textAlign: 'center' }}>
+                <h1 style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(2rem, 5vw, 3rem)',
+                    fontWeight: 800,
+                    color: 'var(--text-primary)',
+                    marginBottom: 8
+                }}>
+                    🍩 Slatki Izazov!
+                </h1>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
+                    Složite slagalicu u što kraćem vremenu!
+                </p>
+            </div>
+
+            {/* Timer */}
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                padding: '16px 32px',
+                borderRadius: 'var(--radius-full)',
+                background: isLow ? 'rgba(255,74,110,0.12)' : 'var(--glass-bg)',
+                border: `1px solid ${isLow ? 'var(--error)' : 'var(--glass-border)'}`,
+                backdropFilter: 'var(--blur-sm)',
+                transition: 'all 0.3s ease'
+            }}>
+                <span style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '2rem',
+                    fontWeight: 800,
+                    color: isLow ? 'var(--error)' : 'var(--accent)',
+                    animation: isLow ? 'pulse 1s ease-in-out infinite' : 'none'
+                }}>
+                    {mins}:{secs}
+                </span>
+                <button
+                    onClick={resetPuzzle}
+                    style={{
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        color: 'var(--text-muted)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: 4,
+                        borderRadius: 'var(--radius-sm)',
+                        transition: 'color 0.2s'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+                    title="Reset"
+                >
+                    <RotateCcw size={18} />
+                </button>
+            </div>
+
+            {/* Puzzle grid */}
+            <div className="glass-card" style={{ padding: 24 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
                     {pieces.map((piece, index) => (
                         <motion.div
                             key={index}
-                            className={`puzzle-piece ${selectedPiece === index ? 'border-4 border-[#ff10a2]' : ''}`}
                             style={{
                                 width: `${pieceSize}px`,
                                 height: `${pieceSize}px`,
@@ -84,37 +142,83 @@ const DonutChallengeComponent = () => {
                                 backgroundSize: `${pieceSize * gridSize}px ${pieceSize * gridSize}px`,
                                 backgroundPosition: `-${piece.x * pieceSize}px -${piece.y * pieceSize}px`,
                                 cursor: 'pointer',
-                                borderRadius: '0.5rem',
+                                borderRadius: 'var(--radius-sm)',
+                                border: selectedPiece === index
+                                    ? '3px solid var(--accent)'
+                                    : '3px solid transparent',
+                                boxShadow: selectedPiece === index
+                                    ? '0 0 16px var(--accent-glow)'
+                                    : 'none',
+                                transition: 'border-color 0.15s, box-shadow 0.15s'
                             }}
                             onClick={() => handlePieceClick(index)}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
                             transition={{ type: 'spring', stiffness: 300 }}
                         />
                     ))}
                 </div>
             </div>
 
+            {/* Completion popup */}
             {completed && (
                 <motion.div
-                    className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-white p-8 rounded-lg shadow-lg text-center mt-6 w-96 border border-[#ff10a2]"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: 'spring', stiffness: 150 }}
+                    style={{
+                        position: 'fixed', inset: 0,
+                        background: 'rgba(0,0,0,0.7)',
+                        backdropFilter: 'blur(8px)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        zIndex: 1000
+                    }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                 >
-                    <button
-                        className="absolute top-3 right-3 text-[#ff10a2] text-3xl font-bold cursor-pointer"
-                        onClick={() => setCompleted(false)}
+                    <motion.div
+                        className="glass-card"
+                        style={{ padding: '48px 40px', textAlign: 'center', maxWidth: 400, width: '90%', position: 'relative' }}
+                        initial={{ scale: 0.7, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ type: 'spring', stiffness: 150 }}
                     >
-                        ✖
-                    </button>
-                    <h2 className="text-3xl font-bold mb-6 text-[#ff10a2] animate-bounce">🎉 Bravo! 🎉</h2>
-                    <p className="mb-6 text-[#fda5d5] text-xl">"Skenirajte svojim očima da uhvatite nagradu."</p>
-                    <div className="flex justify-center">
-                        <img src={QR} style={{ display: 'none' }} className="mx-auto" />
-                    </div>
+                        <button
+                            onClick={() => setCompleted(false)}
+                            style={{
+                                position: 'absolute', top: 16, right: 16,
+                                background: 'transparent', border: 'none',
+                                cursor: 'pointer', color: 'var(--text-muted)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                borderRadius: 'var(--radius-sm)', padding: 4
+                            }}
+                        >
+                            <X size={20} />
+                        </button>
+                        <h2 style={{
+                            fontFamily: 'var(--font-display)',
+                            fontSize: '2rem',
+                            fontWeight: 800,
+                            background: 'linear-gradient(135deg, var(--accent), var(--purple))',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            marginBottom: 16
+                        }}>
+                            🎉 Bravo! 🎉
+                        </h2>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: 24 }}>
+                            Skenirajte svojim očima da uhvatite nagradu.
+                        </p>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <img src={QR} style={{ display: 'none' }} alt="QR" />
+                        </div>
+                    </motion.div>
                 </motion.div>
             )}
+
+            <style>{`
+                @keyframes pulse {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.6; }
+                }
+            `}</style>
         </div>
     );
 };

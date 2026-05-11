@@ -1,5 +1,11 @@
 <?php
-// backend/admin_teams.php – admin: list all teams with members + ban/delete
+// backend/teams/admin_teams.php – admin: list all teams with members + ban/delete
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
+session_start();
+
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json; charset=UTF-8");
@@ -11,8 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit();
 }
 
-session_start();
-require_once './dbConnection.php';
+require_once '../dbConnection.php';
 
 $userId = $_SESSION['user_id'] ?? null;
 if (!$userId) {
@@ -48,7 +53,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         GROUP BY t.id
         ORDER BY t.score DESC, t.last_solved ASC
     ");
-    $stmt->execute();
+
+    if (!$stmt) {
+        echo json_encode(['success' => false, 'message' => 'Query prepare failed: ' . $conn->error]);
+        exit;
+    }
+
+    if (!$stmt->execute()) {
+        echo json_encode(['success' => false, 'message' => 'Query execute failed: ' . $stmt->error]);
+        exit;
+    }
+
     $teams = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
     // Attach members to each team
@@ -60,9 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             WHERE tm.team_id = ?
             ORDER BY tm.is_captain DESC, tm.joined_at ASC
         ");
-        $s2->bind_param("i", $team['id']);
-        $s2->execute();
-        $team['members'] = $s2->get_result()->fetch_all(MYSQLI_ASSOC);
+        if ($s2) {
+            $s2->bind_param("i", $team['id']);
+            $s2->execute();
+            $team['members'] = $s2->get_result()->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $team['members'] = [];
+        }
     }
     unset($team);
 

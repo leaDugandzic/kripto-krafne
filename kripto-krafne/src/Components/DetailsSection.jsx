@@ -1,45 +1,122 @@
-import React from "react";
-
 const DetailsSection = ({ level }) => {
     return (
-        <div className="p-6 md:p-9 flex flex-col lg:flex-row gap-8 items-start bg-white rounded-xl shadow-md max-w-6xl mx-auto my-8 border border-gray-100">
-            <div className="lg:w-1/2 space-y-4">
-                <h2 className="text-2xl font-bold text-pink-700 font-sans title-font">
-                    {level.name}
-                </h2>
-                <div className="h-1 w-16 bg-pink-300 my-2"></div>
-                <p className="text-gray-700 leading-relaxed">
-                    {level.lesson}
-                </p>
-
-                {level.additionalInfo && (
-                    <div className="bg-pink-50 p-4 rounded-lg mt-4">
-                        <h3 className="font-medium text-pink-600 mb-2 text-sm uppercase tracking-wider">Key Points</h3>
-                        <p className="text-pink-700 text-sm">{level.additionalInfo}</p>
+        <section style={{ maxWidth: 1200, margin: '0 auto 48px', padding: '0 24px' }}>
+            <div className="glass-card" style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: 40,
+                padding: '40px 44px',
+                alignItems: 'start'
+            }}>
+                {/* Text column */}
+                <div>
+                    <div style={{
+                        display: 'inline-block',
+                        background: 'var(--accent-soft)',
+                        border: '1px solid var(--accent)',
+                        borderRadius: 'var(--radius-full)',
+                        padding: '4px 14px',
+                        fontSize: '0.72rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: 'var(--accent)',
+                        marginBottom: 16
+                    }}>
+                        Lekcija
                     </div>
-                )}
-            </div>
 
+                    <h2 style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                        fontWeight: 800,
+                        color: 'var(--text-primary)',
+                        marginBottom: 12,
+                        lineHeight: 1.2
+                    }}>
+                        {level.name}
+                    </h2>
 
-            <div className="lg:w-1/2 w-full self-stretch">
-                <div className="relative h-full min-h-[300px] rounded-lg overflow-hidden shadow-lg bg-gray-100 border border-gray-200">
-                    <iframe
-                        className="absolute top-0 left-0 w-full h-full"
-                        src={level.video}
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
-                    ></iframe>
-                </div>
-                {level.videoCaption && (
-                    <p className="text-center text-gray-500 text-xs mt-2">
-                        {level.videoCaption}
+                    <div style={{
+                        width: 48, height: 3,
+                        background: 'linear-gradient(90deg, var(--accent), var(--purple))',
+                        borderRadius: 2,
+                        marginBottom: 20
+                    }} />
+
+                    <p style={{
+                        color: 'var(--text-secondary)',
+                        lineHeight: 1.75,
+                        fontSize: '0.95rem'
+                    }}>
+                        {level.lesson}
                     </p>
-                )}
+
+                    {level.additionalInfo && (
+                        <div style={{
+                            marginTop: 24,
+                            padding: '16px 20px',
+                            background: 'var(--accent-soft)',
+                            border: '1px solid var(--accent)',
+                            borderRadius: 'var(--radius-md)',
+                            borderLeft: '3px solid var(--accent)'
+                        }}>
+                            <p style={{
+                                fontSize: '0.72rem',
+                                fontWeight: 700,
+                                letterSpacing: '0.08em',
+                                textTransform: 'uppercase',
+                                color: 'var(--accent)',
+                                marginBottom: 8
+                            }}>
+                                Ključne točke
+                            </p>
+                            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                                {level.additionalInfo}
+                            </p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Video column */}
+                <div>
+                    <div style={{
+                        position: 'relative',
+                        paddingBottom: '56.25%',
+                        borderRadius: 'var(--radius-lg)',
+                        overflow: 'hidden',
+                        background: 'var(--bg-elevated)',
+                        border: '1px solid var(--glass-border)',
+                        boxShadow: 'var(--shadow-md)'
+                    }}>
+                        <iframe
+                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                            src={level.video}
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                        />
+                    </div>
+                    {level.videoCaption && (
+                        <p style={{
+                            textAlign: 'center',
+                            fontSize: '0.78rem',
+                            color: 'var(--text-muted)',
+                            marginTop: 10
+                        }}>
+                            {level.videoCaption}
+                        </p>
+                    )}
+                </div>
             </div>
-        </div>
+
+            <style>{`
+                @media (max-width: 768px) {
+                    .details-grid { grid-template-columns: 1fr !important; }
+                }
+            `}</style>
+        </section>
     );
 };
 

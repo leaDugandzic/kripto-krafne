@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './krafne.css';
 import krafna0 from "../assets/img/krafne/krafna1.png";
 import krafna1 from "../assets/img/krafne/krafna2.png";
@@ -35,7 +35,6 @@ function Menu() {
     try {
       const response = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/menu.php");
       const data = await response.json();
-      console.log("Fetched Data:", data);
       setItems(data);
     } catch (error) {
       console.error("There was an error fetching the items:", error);
@@ -46,22 +45,15 @@ function Menu() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-
-    if (!isChecked) {
-      return;
-    }
-
+    if (!isChecked) return;
     if (searchQuery) {
       setIsLoading(true);
       try {
         const response = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/search.php", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams({ search: searchQuery }),
         });
-
         const data = await response.json();
         setItems(data);
       } catch (error) {
@@ -73,10 +65,10 @@ function Menu() {
   };
 
   return (
-    <div className="menu1 h-[180vh]" id="menu">
+    <div className="menu1" id="menu">
       <div className="top">
         <div className="naslov-container">
-          <h1 className="naslov">Meni</h1>
+          <h1 className="naslov title-font">Meni</h1>
           <img src={krafna2} alt="roza krafna" id="draggable" />
         </div>
         <form className="inputi" onSubmit={handleSearch}>
@@ -98,7 +90,6 @@ function Menu() {
               Nisam robot
             </label>
           </div>
-
           <input
             type="submit"
             id="searchButton"
@@ -108,27 +99,36 @@ function Menu() {
         </form>
       </div>
 
-      <div className="items w-[90%]">
+      <div className="items">
         {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          items.length > 0 ? (
-            items.map((item) => (
-              <div className="item " key={item.id}>
-                <img src={imageMap[item.ime] || krafna0} alt={item.ime} />
-                <div className="red">
-                  <h4>{item.ime}</h4>
-                  <p>{item.cijena}€</p>
-                </div>
-                <div className="red">
-                  <p>{item.nadjev}</p>
-                  <button>+</button>
-                </div>
+          <div style={{ width: '100%', textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+            <div style={{
+              width: 40, height: 40, margin: '0 auto 12px',
+              border: '3px solid var(--glass-border)',
+              borderTopColor: 'var(--accent)',
+              borderRadius: '50%',
+              animation: 'rotateDonut 0.8s linear infinite'
+            }} />
+            Učitavanje…
+          </div>
+        ) : items.length > 0 ? (
+          items.map((item) => (
+            <div className="item" key={item.id}>
+              <img src={imageMap[item.ime] || krafna0} alt={item.ime} />
+              <div className="red">
+                <h4 style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.95rem' }}>{item.ime}</h4>
+                <p style={{ color: 'var(--accent)', fontWeight: 700 }}>{item.cijena}€</p>
               </div>
-            ))
-          ) : (
-            <p>Nema rezultata za pretragu.</p>
-          )
+              <div className="red">
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{item.nadjev}</p>
+                <button>+</button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '40px', width: '100%' }}>
+            Nema rezultata za pretragu.
+          </p>
         )}
       </div>
     </div>

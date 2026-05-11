@@ -1,61 +1,42 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import Krafna from "../assets/img/krafna.png";
 
 const MemoryCardGame = ({ gameData, currentLevelId }) => {
     const [cards, setCards] = useState([]);
     const [flipped, setFlipped] = useState([]);
     const [matched, setMatched] = useState([]);
     const [moves, setMoves] = useState(0);
+    const [showBravo, setShowBravo] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const cardPairs = gameData.flatMap(item => [
-            {
-                id: item.id,
-                type: 'term',
-                content: item.term,
-                pairId: `${item.id}-term`,
-                matchId: `${item.id}-def`
-            },
-            {
-                id: item.id,
-                type: 'definition',
-                content: item.description,
-                pairId: `${item.id}-def`,
-                matchId: `${item.id}-term`
-            }
+            { id: item.id, type: 'term', content: item.term, pairId: `${item.id}-term`, matchId: `${item.id}-def` },
+            { id: item.id, type: 'definition', content: item.description, pairId: `${item.id}-def`, matchId: `${item.id}-term` }
         ]);
-
-        const shuffledCards = cardPairs
-            .map((card, i) => ({ ...card, uniqueId: i }))
-            .sort(() => Math.random() - 0.5);
-
-        setCards(shuffledCards);
+        setCards(cardPairs.map((card, i) => ({ ...card, uniqueId: i })).sort(() => Math.random() - 0.5));
     }, [gameData]);
 
     useEffect(() => {
         if (matched.length === gameData.length * 2 && gameData.length > 0) {
-            setTimeout(() => navigate(`/donut-level/${currentLevelId}`), 1500);
+            setTimeout(() => setShowBravo(true), 600);
         }
-    }, [matched]);
+    }, [matched, gameData.length]);
 
     const handleCardClick = (id) => {
-        // Don't allow click if card is already flipped or matched
-        if (flipped.includes(id) || matched.includes(id) || flipped.length >= 2) {
-            return;
-        }
+        if (flipped.includes(id) || matched.includes(id) || flipped.length >= 2) return;
 
         const newFlipped = [...flipped, id];
         setFlipped(newFlipped);
-        setMoves(moves + 1);
+        setMoves(m => m + 1);
 
-        // Check for match when two cards are flipped
         if (newFlipped.length === 2) {
-            const firstCard = cards.find(c => c.uniqueId === newFlipped[0]);
-            const secondCard = cards.find(c => c.uniqueId === newFlipped[1]);
-
-            if (firstCard.matchId === secondCard.pairId) {
-                setMatched([...matched, firstCard.uniqueId, secondCard.uniqueId]);
+            const first = cards.find(c => c.uniqueId === newFlipped[0]);
+            const second = cards.find(c => c.uniqueId === newFlipped[1]);
+            if (first.matchId === second.pairId) {
+                setMatched(prev => [...prev, first.uniqueId, second.uniqueId]);
                 setFlipped([]);
             } else {
                 setTimeout(() => setFlipped([]), 1000);
@@ -63,56 +44,115 @@ const MemoryCardGame = ({ gameData, currentLevelId }) => {
         }
     };
 
-    return (
-        <div className="p-6 max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-pink-700 mb-2 text-center title-font">
-                Spoji Memori Kartice
-                <div className="w-32 h-1.5 bg-purple-500 mx-auto mt-3 rounded-full"></div>
-            </h2>
+    const matchedPairs = matched.length / 2;
+    const totalPairs = gameData.length;
 
-            <div className="flex justify-center gap-8 mb-6">
-                <div className="bg-pink-100 px-4 py-2 rounded-lg border-2 border-pink-300">
-                    <span className="font-bold text-pink-700">Moves: </span>
-                    <span className="text-pink-600 font-bold">{moves}</span>
+    return (
+        <section style={{ maxWidth: 1200, margin: '0 auto 64px', padding: '0 24px' }}>
+            {/* Header */}
+            <div style={{ marginBottom: 28, textAlign: 'center' }}>
+                <h2 style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(1.4rem, 3vw, 1.8rem)',
+                    fontWeight: 800,
+                    color: 'var(--text-primary)',
+                    marginBottom: 8
+                }}>
+                    Spoji Memori Kartice
+                </h2>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+                    Pronađi sve parove pojmova i definicija
+                </p>
+            </div>
+
+            {/* Stats */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 32 }}>
+                <div className="glass-card" style={{ padding: '12px 24px', textAlign: 'center', minWidth: 120 }}>
+                    <p style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent)', marginBottom: 2 }}>{moves}</p>
+                    <p style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', fontWeight: 600 }}>Potezi</p>
                 </div>
-                <div className="bg-purple-100 px-4 py-2 rounded-lg border-2 border-purple-300">
-                    <span className="font-bold text-purple-700">Matched: </span>
-                    <span className="text-purple-600 font-bold">{matched.length / 2}/{gameData.length}</span>
+                <div className="glass-card" style={{ padding: '12px 24px', textAlign: 'center', minWidth: 120 }}>
+                    <p style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--purple)', marginBottom: 2 }}>{matchedPairs}/{totalPairs}</p>
+                    <p style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', fontWeight: 600 }}>Parovi</p>
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {/* Card grid */}
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+                gap: 16
+            }}>
                 {cards.map(card => {
                     const isFlipped = flipped.includes(card.uniqueId);
                     const isMatched = matched.includes(card.uniqueId);
+                    const revealed = isFlipped || isMatched;
                     const isTerm = card.type === 'term';
 
                     return (
                         <div
                             key={card.uniqueId}
                             onClick={() => handleCardClick(card.uniqueId)}
-                            className={`h-32 cursor-pointer rounded-xl shadow-lg transition-all duration-300 relative ${isMatched ? 'border-green-500' : 'border-white'
-                                } border-2`}
+                            style={{
+                                height: 140,
+                                cursor: isMatched ? 'default' : 'pointer',
+                                perspective: 800,
+                                userSelect: 'none'
+                            }}
                         >
-                            {/* Card Front (Gradient Back) */}
-                            <div className={`absolute inset-0 flex items-center justify-center rounded-xl ${!isFlipped && !isMatched ? 'opacity-100' : 'opacity-0'
-                                } transition-opacity duration-300 bg-gradient-to-br from-pink-400 to-purple-400`}>
-                                <p className="text-white text-4xl font-bold">?</p>
-                            </div>
+                            <div style={{
+                                position: 'relative',
+                                width: '100%',
+                                height: '100%',
+                                transformStyle: 'preserve-3d',
+                                transform: revealed ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                                transition: 'transform 0.4s ease'
+                            }}>
+                                {/* Back face (hidden) */}
+                                <div style={{
+                                    position: 'absolute', inset: 0,
+                                    backfaceVisibility: 'hidden',
+                                    borderRadius: 'var(--radius-md)',
+                                    background: 'linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%)',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    boxShadow: 'var(--shadow-md)',
+                                    border: '1px solid var(--glass-border)'
+                                }}>
+                                    <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '2rem', fontWeight: 800 }}>?</span>
+                                </div>
 
-                            {/* Card Back (Content) */}
-                            <div className={`absolute inset-0 flex items-center justify-center p-4 rounded-xl ${isFlipped || isMatched ? 'opacity-100 bg-white' : 'opacity-0'
-                                } transition-opacity duration-300`}>
-                                <div className="text-center">
-                                    <p className="font-bold text-gray-800 mb-1">{card.content}</p>
-                                    {isMatched && (
-                                        <span className="text-green-500 text-2xl">✓</span>
-                                    )}
-                                    {isTerm ? (
-                                        <span className="text-xs text-pink-500">POJAM</span>
-                                    ) : (
-                                        <span className="text-xs text-purple-500">DEFINICIJA</span>
-                                    )}
+                                {/* Front face (content) */}
+                                <div style={{
+                                    position: 'absolute', inset: 0,
+                                    backfaceVisibility: 'hidden',
+                                    transform: 'rotateY(180deg)',
+                                    borderRadius: 'var(--radius-md)',
+                                    background: isMatched ? 'rgba(100,220,150,0.12)' : 'var(--bg-surface)',
+                                    border: `1px solid ${isMatched ? 'var(--success)' : 'var(--glass-border)'}`,
+                                    display: 'flex', flexDirection: 'column',
+                                    alignItems: 'center', justifyContent: 'center',
+                                    padding: 12,
+                                    boxShadow: 'var(--shadow-sm)'
+                                }}>
+                                    <p style={{
+                                        fontWeight: 600,
+                                        fontSize: '0.8rem',
+                                        color: isMatched ? 'var(--success)' : 'var(--text-primary)',
+                                        textAlign: 'center',
+                                        lineHeight: 1.4,
+                                        marginBottom: 8
+                                    }}>
+                                        {card.content}
+                                    </p>
+                                    <span style={{
+                                        fontSize: '0.65rem',
+                                        fontWeight: 700,
+                                        letterSpacing: '0.08em',
+                                        textTransform: 'uppercase',
+                                        color: isTerm ? 'var(--accent)' : 'var(--purple)'
+                                    }}>
+                                        {isTerm ? 'Pojam' : 'Definicija'}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -120,14 +160,64 @@ const MemoryCardGame = ({ gameData, currentLevelId }) => {
                 })}
             </div>
 
-            {matched.length === gameData.length * 2 && gameData.length > 0 && (
-                <div className="mt-6 p-4 bg-gradient-to-r from-green-400 to-blue-500 rounded-xl text-center animate-bounce">
-                    <p className="text-white font-bold text-xl uppercase">
-                        🎉 Bravo! Completed in {moves} moves!
-                    </p>
+            {/* Bravo popup */}
+            {showBravo && (
+                <div style={{
+                    position: 'fixed', inset: 0,
+                    background: 'rgba(0,0,0,0.7)',
+                    backdropFilter: 'blur(8px)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    zIndex: 1000,
+                    animation: 'fadeIn 0.3s ease'
+                }}>
+                    <div className="glass-card" style={{
+                        padding: '48px 40px',
+                        textAlign: 'center',
+                        maxWidth: 420,
+                        width: '90%',
+                        animation: 'fadeInUp 0.4s ease'
+                    }}>
+                        <img
+                            src={Krafna}
+                            alt="Krafna"
+                            style={{
+                                width: 80, height: 80,
+                                margin: '0 auto 20px',
+                                animation: 'rotateDonut 3s linear infinite'
+                            }}
+                        />
+                        <h2 style={{
+                            fontFamily: 'var(--font-display)',
+                            fontSize: '2.4rem',
+                            fontWeight: 800,
+                            background: 'linear-gradient(135deg, var(--accent), var(--purple))',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            marginBottom: 8
+                        }}>
+                            Bravo!
+                        </h2>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: 8, lineHeight: 1.6 }}>
+                            Spojio/la si sve kartice!
+                        </p>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: 32 }}>
+                            {moves} poteza
+                        </p>
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => navigate(`/donut-level/${currentLevelId}`)}
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 28px' }}
+                        >
+                            Nastavi <ArrowRight size={16} />
+                        </button>
+                    </div>
                 </div>
             )}
-        </div>
+
+            <style>{`
+                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+            `}</style>
+        </section>
     );
 };
 

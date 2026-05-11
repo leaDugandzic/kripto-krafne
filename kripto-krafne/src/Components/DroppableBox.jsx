@@ -1,4 +1,5 @@
 import { useDrop } from "react-dnd";
+import { CheckCircle } from "lucide-react";
 
 const DroppableBox = ({ box, onDrop, isMatched }) => {
     const [{ isOver }, drop] = useDrop(() => ({
@@ -12,20 +13,41 @@ const DroppableBox = ({ box, onDrop, isMatched }) => {
     return (
         <div
             ref={drop}
-            className={`
-                p-4 rounded-lg transition-all duration-150
-                ${isMatched ? 
-                    'bg-green-200 border-2 border-green-500' : 
-                    isOver ? 
-                        'bg-pink-200 border-2 border-dashed border-pink-500' : 
-                        'bg-white border-2 border-pink-400'}
-            `}
+            style={{
+                padding: '14px 16px',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid',
+                borderColor: isMatched
+                    ? 'var(--success)'
+                    : isOver
+                        ? 'var(--accent)'
+                        : 'var(--glass-border)',
+                background: isMatched
+                    ? 'rgba(100,220,150,0.1)'
+                    : isOver
+                        ? 'var(--accent-soft)'
+                        : 'var(--glass-bg)',
+                transition: 'all 0.15s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 12,
+                backdropFilter: 'var(--blur-sm)',
+                borderStyle: isOver && !isMatched ? 'dashed' : 'solid'
+            }}
         >
-            <p className={`font-medium ${isMatched ? 'text-green-800 font-bold' : 'text-gray-800'}`}>
+            <p style={{
+                fontSize: '0.875rem',
+                color: isMatched ? 'var(--success)' : 'var(--text-secondary)',
+                fontWeight: isMatched ? 600 : 400,
+                lineHeight: 1.5,
+                margin: 0,
+                flex: 1
+            }}>
                 {box.text}
             </p>
             {isMatched && (
-                <div className="text-green-600 font-bold text-right mt-1">✓ TOČNO!</div>
+                <CheckCircle size={18} style={{ color: 'var(--success)', flexShrink: 0 }} />
             )}
         </div>
     );

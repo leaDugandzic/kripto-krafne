@@ -68,9 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $toUserId = $toUser['id'];
     
-    // Check if user is already in a team
-   $stmt = $conn->prepare("SELECT team_id FROM team_members WHERE user_id = ? AND team_id = ?");
-$stmt->bind_param("ii", $toUserId, $teamId);
+    // Check if user is already in any team
+    $stmt = $conn->prepare("SELECT team_id FROM team_members WHERE user_id = ?");
+    $stmt->bind_param("i", $toUserId);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {

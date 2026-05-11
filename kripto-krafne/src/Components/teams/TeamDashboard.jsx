@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Crown, Users, CheckCircle, Clock } from 'lucide-react';
 
 const TeamDashboard = () => {
     const [teamData, setTeamData] = useState(null);
@@ -24,110 +25,229 @@ const TeamDashboard = () => {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
-    if (!teamData) return <div>You are not in a team.</div>;
+    if (loading) {
+        return (
+            <div className="page-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
+                <div style={{
+                    width: 48, height: 48,
+                    border: '3px solid var(--glass-border)',
+                    borderTopColor: 'var(--accent)',
+                    borderRadius: '50%',
+                    animation: 'rotateDonut 0.8s linear infinite'
+                }} />
+            </div>
+        );
+    }
+
+    if (!teamData) {
+        return (
+            <div className="page-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
+                <div className="glass-card" style={{ padding: '48px 40px', textAlign: 'center', maxWidth: 400 }}>
+                    <Users size={48} style={{ color: 'var(--text-muted)', margin: '0 auto 16px' }} />
+                    <h3 style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>Nisi u timu</h3>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+                        Pridruži se timu ili stvori novi da vidiš dashboard.
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
+    const completedTasks = teamData.progress.length;
+    const totalTasks = 6;
+    const progressPct = (completedTasks / totalTasks) * 100;
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-8 text-center text-purple-800">Team Dashboard</h1>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Team Info Card */}
-                <div className="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
-                    <div className="flex justify-between items-start mb-6">
-                        <div>
-                            <h2 className="text-2xl font-bold text-gray-800">{teamData.team.name}</h2>
-                            <p className="text-lg text-purple-600 font-semibold">Score: {teamData.team.score} points</p>
-                            <p className="text-gray-600">Rank: #1</p>
-                        </div>
-                        <div className="text-right">
-                            <p className="text-sm text-gray-500">Created</p>
-                            <p>{new Date(teamData.team.created_at).toLocaleDateString()}</p>
-                        </div>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="mb-8">
-                        <div className="flex justify-between mb-2">
-                            <span className="text-gray-700">Progress</span>
-                            <span className="font-semibold">
-                                {teamData.progress.length}/6 tasks completed
-                            </span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-4">
-                            <div 
-                                className="bg-green-500 h-4 rounded-full transition-all duration-500"
-                                style={{ width: `${(teamData.progress.length / 6) * 100}%` }}
-                            ></div>
-                        </div>
-                    </div>
-
-                    {/* Tasks Grid */}
-                    <h3 className="text-xl font-bold mb-4 text-gray-800">Tasks Progress</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        {[1, 2, 3, 4, 5, 6].map(taskNum => {
-                            const task = teamData.progress.find(p => p.task_number === taskNum);
-                            return (
-                                <div key={taskNum} className={`p-4 rounded-lg border-2 ${task ? 'border-green-500 bg-green-50' : 'border-gray-300'}`}>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="font-bold">Task {taskNum}</p>
-                                            <p className="text-sm text-gray-600">
-                                                {task ? `Solved by: User ${task.solved_by_user_id}` : 'Pending'}
-                                            </p>
-                                        </div>
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${task ? 'bg-green-500' : 'bg-gray-300'}`}>
-                                            <span className="text-white font-bold">
-                                                {task ? '✓' : taskNum}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    {task && (
-                                        <p className="text-xs text-gray-500 mt-2">
-                                            Solved: {new Date(task.solved_at).toLocaleDateString()}
-                                        </p>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>
+        <div className="page-wrapper">
+            <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+                <div style={{ textAlign: 'center', marginBottom: 40 }}>
+                    <h1 style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
+                        fontWeight: 800,
+                        color: 'var(--text-primary)',
+                        marginBottom: 8
+                    }}>
+                        Team Dashboard
+                    </h1>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+                        Pratite napredak vašeg tima
+                    </p>
                 </div>
 
-                {/* Team Members Sidebar */}
-                <div className="bg-white rounded-xl shadow-lg p-6">
-                    <h3 className="text-xl font-bold mb-6 text-gray-800">Team Members</h3>
-                    <div className="space-y-4">
-                        {teamData.members.map(member => (
-                            <div key={member.id} className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg">
-                                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${member.is_captain ? 'bg-yellow-100' : 'bg-purple-100'}`}>
-                                    <span className={`font-bold ${member.is_captain ? 'text-yellow-600' : 'text-purple-600'}`}>
-                                        {member.username.charAt(0).toUpperCase()}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 24, alignItems: 'start' }}>
+                    {/* Left column */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                        {/* Team info + progress */}
+                        <div className="glass-card" style={{ padding: '28px 32px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
+                                <div>
+                                    <h2 style={{
+                                        fontFamily: 'var(--font-display)',
+                                        fontSize: '1.6rem', fontWeight: 800,
+                                        color: 'var(--text-primary)', marginBottom: 4
+                                    }}>
+                                        {teamData.team.name}
+                                    </h2>
+                                    <p style={{ color: 'var(--accent)', fontWeight: 700, fontSize: '1.1rem' }}>
+                                        {teamData.team.score} bodova
+                                    </p>
+                                </div>
+                                <div style={{ textAlign: 'right' }}>
+                                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
+                                        Stvoreno
+                                    </p>
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+                                        {new Date(teamData.team.created_at).toLocaleDateString('hr-HR')}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Progress bar */}
+                            <div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                                    <span style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+                                        Napredak
+                                    </span>
+                                    <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                                        {completedTasks}/{totalTasks} zadataka
                                     </span>
                                 </div>
-                                <div className="flex-1">
-                                    <p className="font-semibold">{member.username}</p>
-                                    <p className="text-sm text-gray-600">
-                                        {member.is_captain ? '👑 Team Captain' : 'Member'}
-                                    </p>
-                                    <p className="text-xs text-gray-500">
-                                        Joined: {new Date(member.joined_at).toLocaleDateString()}
-                                    </p>
+                                <div style={{
+                                    width: '100%', height: 8,
+                                    background: 'var(--glass-border)',
+                                    borderRadius: 'var(--radius-full)',
+                                    overflow: 'hidden'
+                                }}>
+                                    <div style={{
+                                        height: '100%',
+                                        width: `${progressPct}%`,
+                                        background: 'linear-gradient(90deg, var(--accent), var(--purple))',
+                                        borderRadius: 'var(--radius-full)',
+                                        transition: 'width 0.6s ease'
+                                    }} />
                                 </div>
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Tasks grid */}
+                        <div className="glass-card" style={{ padding: '28px 32px' }}>
+                            <h3 style={{
+                                fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em',
+                                textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 20
+                            }}>
+                                Zadaci
+                            </h3>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+                                {[1, 2, 3, 4, 5, 6].map(taskNum => {
+                                    const task = teamData.progress.find(p => p.task_number === taskNum);
+                                    return (
+                                        <div key={taskNum} style={{
+                                            padding: '18px 16px',
+                                            borderRadius: 'var(--radius-md)',
+                                            border: `1.5px solid ${task ? 'var(--success)' : 'var(--glass-border)'}`,
+                                            background: task ? 'rgba(34, 197, 94, 0.07)' : 'var(--glass-bg)',
+                                            transition: 'all 0.2s'
+                                        }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                                                <p style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+                                                    Zadatak {taskNum}
+                                                </p>
+                                                {task
+                                                    ? <CheckCircle size={18} style={{ color: 'var(--success)', flexShrink: 0 }} />
+                                                    : <Clock size={18} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+                                                }
+                                            </div>
+                                            <p style={{ fontSize: '0.78rem', color: task ? 'var(--success)' : 'var(--text-muted)' }}>
+                                                {task ? `Riješio: ${task.solved_by_username || task.solved_by_user_id}` : 'Na čekanju'}
+                                            </p>
+                                            {task && (
+                                                <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 4 }}>
+                                                    {new Date(task.solved_at).toLocaleDateString('hr-HR')}
+                                                </p>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Quick Stats */}
-                    <div className="mt-8 pt-6 border-t border-gray-200">
-                        <h4 className="font-bold mb-3 text-gray-800">Quick Stats</h4>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="text-center p-3 bg-blue-50 rounded-lg">
-                                <p className="text-2xl font-bold text-blue-600">{teamData.progress.length}</p>
-                                <p className="text-sm text-gray-600">Tasks Solved</p>
+                    {/* Right sidebar: members */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                        <div className="glass-card" style={{ padding: '24px 20px' }}>
+                            <h3 style={{
+                                fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em',
+                                textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16
+                            }}>
+                                Članovi tima
+                            </h3>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                {teamData.members.map(member => (
+                                    <div key={member.id} style={{
+                                        display: 'flex', alignItems: 'center', gap: 12,
+                                        padding: '12px 14px',
+                                        borderRadius: 'var(--radius-md)',
+                                        border: '1px solid var(--glass-border)',
+                                        background: 'var(--glass-bg)'
+                                    }}>
+                                        <div style={{
+                                            width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
+                                            background: member.is_captain
+                                                ? 'linear-gradient(135deg, #f59e0b, #d97706)'
+                                                : 'linear-gradient(135deg, var(--accent), var(--purple))',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            fontWeight: 700, fontSize: '0.875rem', color: 'white'
+                                        }}>
+                                            {member.username.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                                                <p style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                    {member.username}
+                                                </p>
+                                                {member.is_captain && <Crown size={13} style={{ color: '#f59e0b', flexShrink: 0 }} />}
+                                            </div>
+                                            <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                                                {member.is_captain ? 'Kapetan' : 'Član'} · {new Date(member.joined_at).toLocaleDateString('hr-HR')}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                            <div className="text-center p-3 bg-green-50 rounded-lg">
-                                <p className="text-2xl font-bold text-green-600">{teamData.members.length}</p>
-                                <p className="text-sm text-gray-600">Team Members</p>
+                        </div>
+
+                        {/* Quick stats */}
+                        <div className="glass-card" style={{ padding: '20px' }}>
+                            <h3 style={{
+                                fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em',
+                                textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 14
+                            }}>
+                                Statistike
+                            </h3>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                                <div style={{
+                                    textAlign: 'center', padding: '14px 8px',
+                                    background: 'var(--accent-soft)',
+                                    borderRadius: 'var(--radius-md)',
+                                    border: '1px solid var(--accent)'
+                                }}>
+                                    <p style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent)' }}>
+                                        {completedTasks}
+                                    </p>
+                                    <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 2 }}>Riješeno</p>
+                                </div>
+                                <div style={{
+                                    textAlign: 'center', padding: '14px 8px',
+                                    background: 'rgba(139,92,246,0.08)',
+                                    borderRadius: 'var(--radius-md)',
+                                    border: '1px solid rgba(139,92,246,0.25)'
+                                }}>
+                                    <p style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--purple)' }}>
+                                        {teamData.members.length}
+                                    </p>
+                                    <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 2 }}>Članova</p>
+                                </div>
                             </div>
                         </div>
                     </div>

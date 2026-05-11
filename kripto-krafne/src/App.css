@@ -1,79 +1,209 @@
 @import "tailwindcss";
 @plugin "daisyui";
+@import "./design-system.css";
 
-.body {
-    background-color: #ffface;
+/* =====================================================
+   GLOBAL OVERRIDES & APP-LEVEL STYLES
+   ===================================================== */
+
+/* Root app wrapper */
+.app-root {
+    background-color: var(--bg-base);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    transition: background-color 0.4s ease;
 }
 
-@keyframes rotateDonut {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+/* Navbar spacing reset — navbar is fixed */
+.navbar {
+    margin-bottom: 0;
 }
 
-.rotate-animation {
-    animation: rotateDonut 5s linear infinite;
+/* =====================================================
+   DISPLAY TYPOGRAPHY
+   ===================================================== */
+.title-font {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-style: normal;
 }
 
+.title {
+    font-family: var(--font-display);
+}
+
+/* =====================================================
+   LEGACY COMPATIBILITY (kept for gradual migration)
+   ===================================================== */
+.boja {
+    background-color: var(--accent-soft);
+}
+
+/* =====================================================
+   DONUT BOX GRID (Home page)
+   ===================================================== */
+.boxes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+}
+
+.box-image {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 0.35s ease,
+                drop-shadow 0.35s ease;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+
+.box-image:hover {
+    transform: scale(1.1) translateY(-6px) rotate(3deg);
+    filter: drop-shadow(0 8px 24px var(--accent-glow));
+}
+
+/* =====================================================
+   POPUP ANIMATIONS
+   ===================================================== */
 .popup-show {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .popup-hide {
     opacity: 0;
-    transform: translateY(-50px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
 }
 
+/* =====================================================
+   GAME WRAPPER
+   ===================================================== */
 #game {
     max-width: 1440px;
     margin: 0 auto;
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
-.navbar {
-    margin-bottom: 50px;
+/* =====================================================
+   ROTATE ANIMATION (legacy class, still used)
+   ===================================================== */
+.rotate-animation {
+    animation: rotateDonut 8s linear infinite;
 }
 
-.title-font {
-    font-family: "Luckiest Guy", cursive, sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 40px;
+/* =====================================================
+   CHATBOT TRIGGER BUTTON
+   ===================================================== */
+.chatbot-trigger {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 64px;
+    height: 64px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 50;
+    box-shadow: 0 0 24px var(--accent-glow), var(--shadow-md);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s ease;
+    border: none;
 }
 
-.title {
-    font-family: "Luckiest Guy", cursive, sans-serif;
+.chatbot-trigger:hover {
+    transform: scale(1.12);
+    box-shadow: 0 0 40px var(--accent-glow), var(--shadow-lg);
 }
 
-.boja {
-    background-color: #ffcaf0;
+.chatbot-trigger img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
 }
 
+/* Chatbot overlay */
+.chatbot-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.chatbot-overlay-inner {
+    position: relative;
+    animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chatbot-close-btn {
+    position: absolute;
+    right: -12px;
+    top: -12px;
+    width: 36px;
+    height: 36px;
+    background: var(--bg-elevated);
+    border: 1.5px solid var(--glass-border-strong);
+    color: var(--text-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: background var(--transition-fast), color var(--transition-fast);
+    z-index: 10;
+}
+
+.chatbot-close-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* =====================================================
+   RESPONSIVE OVERRIDES
+   ===================================================== */
 @media (max-width: 1024px) {
     .boxes-container {
         width: 100%;
-        flex-wrap: wrap;
-        align-items: center;
     }
 
     .box-image {
-        width: 180px;
-        height: 180px;
+        width: 160px;
+        height: 160px;
     }
 
     .title-font {
-        font-size: 30px;
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 640px) {
+    .box-image {
+        width: 130px;
+        height: 130px;
     }
 
-    .navbar .title-font {
-        line-height: 1.1;
-        margin: -15px;
+    .chatbot-trigger {
+        bottom: 16px;
+        right: 16px;
+        width: 54px;
+        height: 54px;
     }
 }

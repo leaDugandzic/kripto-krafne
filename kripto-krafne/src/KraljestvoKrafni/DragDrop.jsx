@@ -186,8 +186,15 @@ const DonutVault = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-4xl font-bold mb-8 text-center" style={{ color: '#ff66c4' }}>
+    <div className="page-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <h1 className="title-font" style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
+        fontWeight: 800,
+        color: 'var(--text-primary)',
+        marginBottom: 40,
+        textAlign: 'center'
+      }}>
         Krafna Trezor
       </h1>
 
@@ -195,8 +202,9 @@ const DonutVault = () => {
         ref={vaultContainerRef}
         className={`vault-container relative w-96 h-96 rounded-full border-8 border-dashed ${shake ? 'animate-shake' : ''}`}
         style={{
-          borderColor: '#ffa9de',
-          backgroundColor: 'rgba(255, 255, 255, 0.7)'
+          borderColor: 'var(--accent)',
+          backgroundColor: 'var(--glass-bg)',
+          backdropFilter: 'var(--blur-sm)'
         }}
       >
         <img
@@ -287,19 +295,41 @@ const DonutVault = () => {
         )}
       </div>
 
-      <div className="mt-8 text-center" style={{ color: '#ff66c4' }}>
-        <p className="mb-2">Broj pokušaja: {attempts}/3</p>
-        {attempts >= 3 && (
-          <p className="text-sm font-mono bg-pink-50 p-2 rounded-lg animate-pulse">
+      <div style={{ marginTop: 32, textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', fontWeight: 600 }}>
+          Broj pokušaja: {attempts}/3
+        </p>
+        {attempts >= 3 ? (
+          <p style={{
+            fontSize: '0.825rem',
+            fontFamily: 'monospace',
+            background: 'rgba(255,74,110,0.1)',
+            border: '1px solid var(--error)',
+            color: 'var(--error)',
+            padding: '10px 16px',
+            borderRadius: 'var(--radius-md)',
+            animation: 'pulse 1s ease-in-out infinite'
+          }}>
             Previše pokušaja! Počinjemo ispočetka...
           </p>
-        )}
-        {attempts < 3 && (
-          <p className="text-sm font-mono bg-pink-50 p-2 rounded-lg">
+        ) : (
+          <p style={{
+            fontSize: '0.825rem',
+            fontFamily: 'monospace',
+            background: 'var(--glass-bg)',
+            border: '1px solid var(--glass-border)',
+            color: 'var(--accent)',
+            padding: '10px 16px',
+            borderRadius: 'var(--radius-md)'
+          }}>
             {hint}
           </p>
         )}
       </div>
+
+      <style>{`
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+      `}</style>
     </div>
   );
 };

@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 
 const Post = () => {
     const [naslov, setNaslov] = useState("");
     const [opis, setOpis] = useState("");
     const [kategorija, setKategorija] = useState("");
     const [kategorije, setKategorije] = useState([]);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/getCategories.php", {
@@ -21,122 +26,165 @@ const Post = () => {
             alert("Molimo popunite sva polja!");
             return;
         }
-
-        let apiPost = "http://localhost/kripto-krafne/kripto-krafne/src/backend/post.php";
-
-        let data = {
-            Naslov: naslov,
-            Opis: opis,
-            Kategorija: kategorija,
-        };
-
-        fetch(apiPost, {
+        setSubmitting(true);
+        fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/post.php", {
             method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
+            headers: { "Accept": "application/json", "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify(data)
+            body: JSON.stringify({ Naslov: naslov, Opis: opis, Kategorija: kategorija })
         })
             .then(async response => {
                 const text = await response.text();
-                try {
-                    return JSON.parse(text);
-                } catch {
-                    console.error("Backend vratio:", text);
-                    alert("Greška pri objavljivanju!");
-                }
+                try { return JSON.parse(text); }
+                catch { throw new Error("Greška pri objavljivanju!"); }
             })
             .then((data) => {
                 if (data?.success) {
-                    alert("Uspješno objavljeno!");
-                    setNaslov("");
-                    setOpis("");
-                    setKategorija("");
+                    setNaslov(""); setOpis(""); setKategorija("");
+                    navigate("/forums");
                 }
-            });
+            })
+            .catch(() => alert("Greška pri objavljivanju!"))
+            .finally(() => setSubmitting(false));
     };
 
+    const selectedKat = kategorije.find(k => k.id === kategorija);
+
     return (
-        <div className="max-w-4xl mx-auto px-4 py-8">
-            <div className="bg-white rounded-lg shadow-md p-8">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-pink-500 text-center title-font">Novi post</h1>
-                    <p className="text-gray-600 mt-2">Podijelite svoje misli s kripto zajednicom</p>
+        <div className="page-wrapper">
+            <div style={{ maxWidth: 720, margin: '0 auto' }}>
+                <div style={{ textAlign: 'center', marginBottom: 40 }}>
+                    <h1 style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
+                        fontWeight: 800,
+                        color: 'var(--text-primary)',
+                        marginBottom: 8
+                    }}>
+                        Novi post
+                    </h1>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+                        Podijelite svoje misli s kripto zajednicom
+                    </p>
                 </div>
 
-                <div className="space-y-6">
-                    <div>
-                        <label className="block text-xl font-bold text-pink-300 text-gray-700 mb-2">
-                            Naslov objave:
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                            placeholder="Unesite naslov..."
-                            value={naslov}
-                            onChange={(e) => setNaslov(e.target.value)}
-                        />
-                    </div>
+                <div className="glass-card" style={{ padding: '40px 44px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                        {/* Naslov */}
+                        <div>
+                            <label style={{
+                                display: 'block',
+                                fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em',
+                                textTransform: 'uppercase', color: 'var(--accent)',
+                                marginBottom: 10
+                            }}>
+                                Naslov objave
+                            </label>
+                            <input
+                                type="text"
+                                className="input"
+                                placeholder="Unesite naslov…"
+                                value={naslov}
+                                onChange={(e) => setNaslov(e.target.value)}
+                            />
+                        </div>
 
-                    <div>
-                        <label className="block text-xl font-bold text-pink-300 text-gray-700 mb-2">
-                            Kategorija:
-                        </label>
-                        <div className="dropdown">
-                            <div
-                                tabIndex={0}
-                                role="button"
-                                className="btn bg-white text-gray-700 border border-gray-300 w-full justify-between px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                        {/* Kategorija */}
+                        <div style={{ position: 'relative' }}>
+                            <label style={{
+                                display: 'block',
+                                fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em',
+                                textTransform: 'uppercase', color: 'var(--accent)',
+                                marginBottom: 10
+                            }}>
+                                Kategorija
+                            </label>
+                            <button
+                                type="button"
+                                onClick={() => setDropdownOpen(o => !o)}
+                                style={{
+                                    width: '100%',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                    padding: '11px 16px',
+                                    background: 'var(--glass-bg)',
+                                    border: `1.5px solid ${dropdownOpen ? 'var(--accent)' : 'var(--glass-border)'}`,
+                                    borderRadius: 'var(--radius-md)',
+                                    color: selectedKat ? 'var(--text-primary)' : 'var(--text-muted)',
+                                    fontSize: '0.9rem',
+                                    cursor: 'pointer',
+                                    transition: 'border-color 0.2s',
+                                    fontFamily: 'var(--font-body)'
+                                }}
                             >
-                                {kategorija
-                                    ? kategorije.find(k => k.id === kategorija)?.category_name
-                                    : "Odaberi kategoriju"}
-                                <span>▼</span>
-                            </div>
-
-                            <ul
-                                tabIndex={-1}
-                                className="dropdown-content menu bg-white rounded-lg z-10 w-full p-2 shadow-lg border border-gray-200 mt-1"
-                            >
-                                {kategorije.map((k) => (
-                                    <li key={k.id}>
-                                        <a
-                                            className="px-4 py-3 hover:bg-gray-100 rounded-md transition-colors"
-                                            onClick={() => {
-                                                setKategorija(k.id);
-                                                document.activeElement.blur(); 
+                                <span>{selectedKat ? selectedKat.category_name : "Odaberi kategoriju"}</span>
+                                <ChevronDown size={16} style={{ transform: dropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', color: 'var(--text-muted)' }} />
+                            </button>
+                            {dropdownOpen && (
+                                <div style={{
+                                    position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0,
+                                    background: 'var(--bg-elevated)',
+                                    border: '1px solid var(--glass-border)',
+                                    borderRadius: 'var(--radius-md)',
+                                    boxShadow: 'var(--shadow-lg)',
+                                    zIndex: 50,
+                                    overflow: 'hidden'
+                                }}>
+                                    {kategorije.map((k) => (
+                                        <button
+                                            key={k.id}
+                                            type="button"
+                                            onClick={() => { setKategorija(k.id); setDropdownOpen(false); }}
+                                            style={{
+                                                display: 'block', width: '100%',
+                                                textAlign: 'left',
+                                                padding: '10px 16px',
+                                                background: kategorija === k.id ? 'var(--accent-soft)' : 'transparent',
+                                                color: kategorija === k.id ? 'var(--accent)' : 'var(--text-secondary)',
+                                                fontSize: '0.875rem',
+                                                border: 'none', cursor: 'pointer',
+                                                fontFamily: 'var(--font-body)',
+                                                transition: 'background 0.1s'
                                             }}
+                                            onMouseEnter={e => { if (kategorija !== k.id) e.currentTarget.style.background = 'var(--glass-bg)'; }}
+                                            onMouseLeave={e => { if (kategorija !== k.id) e.currentTarget.style.background = 'transparent'; }}
                                         >
                                             {k.category_name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
-                    </div>
 
-                    <div>
-                        <label className="block text-xl font-bold text-pink-300 text-gray-700 mb-2">
-                            Sadržaj objave: 
-                        </label>
-                        <textarea
-                            rows="8"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-vertical"
-                            placeholder="Napišite sadržaj vašeg posta..."
-                            value={opis}
-                            onChange={(e) => setOpis(e.target.value)}
-                        />
-                    </div>
+                        {/* Sadržaj */}
+                        <div>
+                            <label style={{
+                                display: 'block',
+                                fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em',
+                                textTransform: 'uppercase', color: 'var(--accent)',
+                                marginBottom: 10
+                            }}>
+                                Sadržaj objave
+                            </label>
+                            <textarea
+                                rows={8}
+                                className="input"
+                                style={{ resize: 'vertical', lineHeight: 1.6 }}
+                                placeholder="Napišite sadržaj vašeg posta…"
+                                value={opis}
+                                onChange={(e) => setOpis(e.target.value)}
+                            />
+                        </div>
 
-                    <div className="flex justify-center pt-4">
-                        <button
-                            className="bg-pink-500 text-white font-semibold px-8 py-3 rounded-full shadow-md hover:bg-pink-600 transition-all transform hover:scale-105"
-                            onClick={handleObjavi}
-                        >
-                            Objavi
-                        </button>
+                        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 8 }}>
+                            <button
+                                className="btn btn-primary"
+                                onClick={handleObjavi}
+                                disabled={submitting}
+                                style={{ padding: '12px 40px', fontSize: '1rem' }}
+                            >
+                                {submitting ? 'Objavljujem…' : 'Objavi'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

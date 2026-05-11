@@ -1,25 +1,69 @@
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 const Accordion = ({ title, content }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="mb-3 w-full">
+        <div style={{
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid',
+            borderColor: isOpen ? 'var(--accent)' : 'var(--glass-border)',
+            overflow: 'hidden',
+            transition: 'border-color 0.2s ease',
+            background: 'var(--glass-bg)'
+        }}>
             <button
-                className={`w-full text-left px-5 py-3 rounded-lg flex justify-between items-center
-        transition-all duration-200 ${isOpen ?
-                        'bg-pink-400 text-white' :
-                        'bg-pink-300 text-white hover:bg-pink-400 active:bg-pink-500 focus:bg-pink-300'}`}
                 onClick={() => setIsOpen(!isOpen)}
+                style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '16px 20px',
+                    background: isOpen ? 'var(--accent-soft)' : 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'background 0.2s ease',
+                    gap: 12
+                }}
             >
-                <span className="font-medium">{title}</span>
-                <span className="text-sm ml-2">{isOpen ? "▲" : "▼"}</span>
+                <span style={{
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    color: isOpen ? 'var(--accent)' : 'var(--text-primary)',
+                    lineHeight: 1.4,
+                    transition: 'color 0.2s ease'
+                }}>
+                    {title}
+                </span>
+                <ChevronDown
+                    size={18}
+                    style={{
+                        color: isOpen ? 'var(--accent)' : 'var(--text-muted)',
+                        transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.25s ease, color 0.2s ease',
+                        flexShrink: 0
+                    }}
+                />
             </button>
-            {isOpen && (
-                <div className="px-5 py-3 mt-1 bg-pink-100 text-gray-700 rounded-b-lg border border-t-0 border-pink-300">
-                    {content}
+
+            <div style={{
+                maxHeight: isOpen ? 500 : 0,
+                overflow: 'hidden',
+                transition: 'max-height 0.3s ease'
+            }}>
+                <div style={{
+                    padding: '0 20px 16px',
+                    color: 'var(--text-secondary)',
+                    fontSize: '0.875rem',
+                    lineHeight: 1.7,
+                    borderTop: '1px solid var(--glass-border)'
+                }}>
+                    <div style={{ paddingTop: 14 }}>{content}</div>
                 </div>
-            )}
+            </div>
         </div>
     );
 };

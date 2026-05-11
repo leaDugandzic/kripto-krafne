@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Flag, Users, BarChart2, RefreshCw, ChevronDown, ChevronUp, Trash2, Shield, ShieldOff, X } from 'lucide-react';
 
 const AdminPanel = () => {
     const [competition, setCompetition]       = useState(null);
@@ -11,7 +12,8 @@ const AdminPanel = () => {
     const [teams, setTeams]                   = useState([]);
     const [teamsLoading, setTeamsLoading]     = useState(false);
     const [expandedTeam, setExpandedTeam]     = useState(null);
-    const [activeTab, setActiveTab]           = useState('control'); // 'control' | 'teams'
+    const [activeTab, setActiveTab]           = useState('control');
+    const [durationOpen, setDurationOpen]     = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -56,7 +58,7 @@ const AdminPanel = () => {
     const fetchAllTeams = async () => {
         setTeamsLoading(true);
         try {
-            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/admin_teams.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/admin_teams.php', {
                 credentials: 'include'
             });
             const data = await response.json();
@@ -112,7 +114,7 @@ const AdminPanel = () => {
     const handleDeleteTeam = async (teamId, teamName) => {
         if (!window.confirm(`Delete team "${teamName}"? This cannot be undone.`)) return;
         try {
-            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/admin_teams.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/admin_teams.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -131,7 +133,7 @@ const AdminPanel = () => {
         const verb   = isBanned ? 'Unban'       : 'Ban';
         if (!window.confirm(`${verb} player "${username}"?`)) return;
         try {
-            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/admin_teams.php', {
+            const response = await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/teams/admin_teams.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -145,22 +147,34 @@ const AdminPanel = () => {
         }
     };
 
-    // ── Loading / access-denied guards ──────────────────────────────────────
+    const isSuccess = message && (
+        message.toLowerCase().includes('success') ||
+        message.toLowerCase().includes('started') ||
+        message.toLowerCase().includes('ended')
+    );
+
+    // ── Guards ──────────────────────────────────────────────────────────────
     if (checkingAuth) {
         return (
-            <div className="container mx-auto px-4 py-8 text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
-                <p className="mt-4 text-gray-600">Checking admin access…</p>
+            <div className="page-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
+                <div style={{
+                    width: 48, height: 48,
+                    border: '3px solid var(--glass-border)',
+                    borderTopColor: 'var(--accent)',
+                    borderRadius: '50%',
+                    animation: 'rotateDonut 0.8s linear infinite'
+                }} />
             </div>
         );
     }
 
     if (!isAdmin) {
         return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="max-w-md mx-auto bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                    <p className="font-bold">Access Denied</p>
-                    <p>{message}</p>
+            <div className="page-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
+                <div className="glass-card" style={{ padding: '40px', textAlign: 'center', maxWidth: 400 }}>
+                    <p style={{ fontSize: '2rem', marginBottom: 12 }}>🔒</p>
+                    <h3 style={{ fontWeight: 700, color: 'var(--error)', marginBottom: 8 }}>Pristup odbijen</h3>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>{message}</p>
                 </div>
             </div>
         );
@@ -168,75 +182,104 @@ const AdminPanel = () => {
 
     // ── Main render ──────────────────────────────────────────────────────────
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-6 text-center text-purple-800">Admin Panel</h1>
-
-            {/* Tab switcher */}
-            <div className="flex gap-2 mb-8 justify-center">
-                <button
-                    onClick={() => { setActiveTab('control'); fetchCompetitionStatus(); }}
-                    className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
-                        activeTab === 'control'
-                            ? 'bg-purple-600 text-white'
-                            : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
-                    }`}
-                >
-                    🏁 Competition Control
-                </button>
-                <button
-                    onClick={() => { setActiveTab('teams'); fetchAllTeams(); }}
-                    className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
-                        activeTab === 'teams'
-                            ? 'bg-purple-600 text-white'
-                            : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
-                    }`}
-                >
-                    👥 All Teams
-                </button>
-                <button
-                    onClick={() => navigate('/leaderboard')}
-                    className="px-6 py-2 rounded-lg font-semibold bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors"
-                >
-                    📊 Leaderboard
-                </button>
-            </div>
-
-            {/* Global message */}
-            {message && (
-                <div className={`p-4 mb-6 rounded-lg ${
-                    message.toLowerCase().includes('success') || message.toLowerCase().includes('started') || message.toLowerCase().includes('ended')
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                }`}>
-                    {message}
-                    <button
-                        onClick={() => setMessage('')}
-                        className="float-right font-bold"
-                    >✕</button>
+        <div className="page-wrapper">
+            <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+                {/* Header */}
+                <div style={{ textAlign: 'center', marginBottom: 40 }}>
+                    <h1 style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
+                        fontWeight: 800,
+                        color: 'var(--text-primary)',
+                        marginBottom: 8
+                    }}>
+                        Admin Panel
+                    </h1>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+                        Upravljanje natjecanjem i timovima
+                    </p>
                 </div>
-            )}
 
-            {/* ── COMPETITION CONTROL TAB ────────────────────────────────── */}
-            {activeTab === 'control' && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div className="bg-white rounded-xl shadow-lg p-6">
-                        <h2 className="text-2xl font-bold mb-6 text-gray-800">Competition Control</h2>
+                {/* Tab switcher */}
+                <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 32, flexWrap: 'wrap' }}>
+                    <button
+                        className={`btn ${activeTab === 'control' ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() => { setActiveTab('control'); fetchCompetitionStatus(); }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+                    >
+                        <Flag size={15} /> Natjecanje
+                    </button>
+                    <button
+                        className={`btn ${activeTab === 'teams' ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() => { setActiveTab('teams'); fetchAllTeams(); }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+                    >
+                        <Users size={15} /> Svi timovi
+                    </button>
+                    <button
+                        className="btn btn-ghost"
+                        onClick={() => navigate('/leaderboard')}
+                        style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+                    >
+                        <BarChart2 size={15} /> Ljestvica
+                    </button>
+                </div>
+
+                {/* Global message */}
+                {message && (
+                    <div style={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        padding: '14px 20px',
+                        marginBottom: 24,
+                        borderRadius: 'var(--radius-md)',
+                        background: isSuccess ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)',
+                        border: `1px solid ${isSuccess ? 'rgba(34,197,94,0.35)' : 'rgba(239,68,68,0.35)'}`,
+                        color: isSuccess ? 'var(--success)' : 'var(--error)',
+                        fontSize: '0.875rem', fontWeight: 600
+                    }}>
+                        <span>{message}</span>
+                        <button onClick={() => setMessage('')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', padding: 4 }}>
+                            <X size={16} />
+                        </button>
+                    </div>
+                )}
+
+                {/* ── COMPETITION CONTROL TAB ──────────────────────────────── */}
+                {activeTab === 'control' && (
+                    <div className="glass-card" style={{ padding: '32px 36px', maxWidth: 520, margin: '0 auto' }}>
+                        <h2 style={{
+                            fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em',
+                            textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 24
+                        }}>
+                            Kontrola natjecanja
+                        </h2>
 
                         {competition?.is_active ? (
-                            <div className="space-y-6">
-                                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                                        <span className="font-bold text-green-700">COMPETITION ACTIVE</span>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                                <div style={{
+                                    padding: '18px 20px',
+                                    borderRadius: 'var(--radius-md)',
+                                    background: 'rgba(34,197,94,0.08)',
+                                    border: '1.5px solid rgba(34,197,94,0.35)'
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                                        <div style={{
+                                            width: 8, height: 8, borderRadius: '50%',
+                                            background: 'var(--success)',
+                                            boxShadow: '0 0 6px var(--success)'
+                                        }} />
+                                        <span style={{ fontWeight: 700, color: 'var(--success)', fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                                            Natjecanje aktivno
+                                        </span>
                                     </div>
-                                    <p className="text-gray-700">
-                                        Started: {new Date(competition.competition.start_time).toLocaleString()}
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: 4 }}>
+                                        Početak: {new Date(competition.competition.start_time).toLocaleString('hr-HR')}
                                     </p>
-                                    <p className="text-gray-700">
-                                        Ends: {new Date(competition.competition.end_time).toLocaleString()}
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: 8 }}>
+                                        Kraj: {new Date(competition.competition.end_time).toLocaleString('hr-HR')}
                                     </p>
-                                    <p className="text-lg font-bold text-green-600 mt-2">
-                                        Time remaining: {Math.floor(competition.time_remaining / 3600)}h{' '}
+                                    <p style={{ fontWeight: 700, color: 'var(--success)', fontSize: '0.95rem' }}>
+                                        Preostalo: {Math.floor(competition.time_remaining / 3600)}h{' '}
                                         {Math.floor((competition.time_remaining % 3600) / 60)}m
                                     </p>
                                 </div>
@@ -244,177 +287,339 @@ const AdminPanel = () => {
                                 <button
                                     onClick={handleEndCompetition}
                                     disabled={loading}
-                                    className="w-full py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
+                                    style={{
+                                        width: '100%', padding: '13px',
+                                        borderRadius: 'var(--radius-md)',
+                                        background: 'rgba(239,68,68,0.12)',
+                                        border: '1.5px solid rgba(239,68,68,0.4)',
+                                        color: 'var(--error)',
+                                        fontWeight: 700, fontSize: '0.925rem',
+                                        cursor: loading ? 'not-allowed' : 'pointer',
+                                        opacity: loading ? 0.6 : 1,
+                                        transition: 'all 0.2s'
+                                    }}
                                 >
-                                    {loading ? 'Processing…' : '🛑 End Competition'}
+                                    {loading ? 'Obrađujem…' : 'Završi natjecanje'}
                                 </button>
                             </div>
                         ) : (
-                            <div className="space-y-6">
-                                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                                    <p className="text-yellow-700 font-semibold">No active competition</p>
-                                    <p className="text-sm text-yellow-600 mt-1">Start a new competition to enable team participation</p>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                                <div style={{
+                                    padding: '16px 20px',
+                                    borderRadius: 'var(--radius-md)',
+                                    background: 'rgba(234,179,8,0.08)',
+                                    border: '1px solid rgba(234,179,8,0.3)'
+                                }}>
+                                    <p style={{ fontWeight: 600, color: '#ca8a04', fontSize: '0.875rem' }}>
+                                        Nema aktivnog natjecanja
+                                    </p>
+                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: 4 }}>
+                                        Pokrenite novo natjecanje da omogućite timovima sudjelovanje
+                                    </p>
                                 </div>
 
-                                <div>
-                                    <label className="block text-gray-700 font-semibold mb-2">
-                                        Competition Duration (hours)
+                                <div style={{ position: 'relative' }}>
+                                    <label style={{
+                                        display: 'block',
+                                        fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em',
+                                        textTransform: 'uppercase', color: 'var(--accent)',
+                                        marginBottom: 10
+                                    }}>
+                                        Trajanje natjecanja
                                     </label>
-                                    <select
-                                        value={duration}
-                                        onChange={(e) => setDuration(parseInt(e.target.value))}
-                                        className="w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:outline-none focus:border-purple-500"
+                                    {/* Custom dropdown */}
+                                    <button
+                                        type="button"
+                                        onClick={() => setDurationOpen(o => !o)}
+                                        style={{
+                                            width: '100%',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                            padding: '11px 16px',
+                                            background: 'var(--glass-bg)',
+                                            border: `1.5px solid ${durationOpen ? 'var(--accent)' : 'var(--glass-border)'}`,
+                                            borderRadius: 'var(--radius-md)',
+                                            color: 'var(--text-primary)',
+                                            fontSize: '0.9rem', fontWeight: 500,
+                                            cursor: 'pointer',
+                                            transition: 'border-color 0.2s',
+                                            fontFamily: 'var(--font-body)'
+                                        }}
                                     >
-                                        <option value="1">1 hour</option>
-                                        <option value="2">2 hours</option>
-                                        <option value="4">4 hours</option>
-                                        <option value="8">8 hours</option>
-                                        <option value="24">24 hours (default)</option>
-                                        <option value="48">48 hours</option>
-                                        <option value="72">72 hours</option>
-                                    </select>
+                                        <span>
+                                            {[
+                                                { v: 1, label: '1 sat' },
+                                                { v: 2, label: '2 sata' },
+                                                { v: 4, label: '4 sata' },
+                                                { v: 8, label: '8 sati' },
+                                                { v: 24, label: '24 sata (zadano)' },
+                                                { v: 48, label: '48 sati' },
+                                                { v: 72, label: '72 sata' },
+                                            ].find(o => o.v === duration)?.label}
+                                        </span>
+                                        <ChevronDown
+                                            size={16}
+                                            style={{
+                                                color: 'var(--text-muted)',
+                                                transform: durationOpen ? 'rotate(180deg)' : 'none',
+                                                transition: 'transform 0.2s',
+                                                flexShrink: 0
+                                            }}
+                                        />
+                                    </button>
+                                    {durationOpen && (
+                                        <div style={{
+                                            position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0,
+                                            background: 'var(--bg-elevated)',
+                                            border: '1px solid var(--glass-border)',
+                                            borderRadius: 'var(--radius-md)',
+                                            boxShadow: 'var(--shadow-lg)',
+                                            zIndex: 50, overflow: 'hidden'
+                                        }}>
+                                            {[
+                                                { v: 1,  label: '1 sat',           desc: 'Kratko natjecanje' },
+                                                { v: 2,  label: '2 sata',          desc: 'Kratko natjecanje' },
+                                                { v: 4,  label: '4 sata',          desc: 'Standardno' },
+                                                { v: 8,  label: '8 sati',          desc: 'Standardno' },
+                                                { v: 24, label: '24 sata',         desc: 'Preporučeno' },
+                                                { v: 48, label: '48 sati',         desc: 'Dugo natjecanje' },
+                                                { v: 72, label: '72 sata',         desc: 'Maraton' },
+                                            ].map(opt => (
+                                                <button
+                                                    key={opt.v}
+                                                    type="button"
+                                                    onClick={() => { setDuration(opt.v); setDurationOpen(false); }}
+                                                    style={{
+                                                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                                        width: '100%', padding: '10px 16px',
+                                                        background: duration === opt.v ? 'var(--accent-soft)' : 'transparent',
+                                                        color: duration === opt.v ? 'var(--accent)' : 'var(--text-secondary)',
+                                                        fontSize: '0.875rem', fontWeight: duration === opt.v ? 700 : 400,
+                                                        border: 'none', cursor: 'pointer',
+                                                        fontFamily: 'var(--font-body)',
+                                                        transition: 'background 0.1s',
+                                                        textAlign: 'left'
+                                                    }}
+                                                    onMouseEnter={e => { if (duration !== opt.v) e.currentTarget.style.background = 'var(--glass-bg)'; }}
+                                                    onMouseLeave={e => { if (duration !== opt.v) e.currentTarget.style.background = 'transparent'; }}
+                                                >
+                                                    <span>{opt.label}</span>
+                                                    <span style={{ fontSize: '0.72rem', color: duration === opt.v ? 'var(--accent)' : 'var(--text-muted)', fontWeight: 400 }}>
+                                                        {opt.desc}
+                                                    </span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <button
+                                    className="btn btn-primary"
                                     onClick={handleStartCompetition}
                                     disabled={loading}
-                                    className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
+                                    style={{ width: '100%', padding: '13px', fontSize: '0.925rem', opacity: loading ? 0.6 : 1 }}
                                 >
-                                    {loading ? 'Starting…' : '🚀 Start Competition Now'}
+                                    {loading ? 'Pokrećem…' : 'Pokreni natjecanje'}
                                 </button>
                             </div>
                         )}
                     </div>
+                )}
 
-                    {/* How-to guide */}
-                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 self-start">
-                        <h3 className="text-xl font-bold mb-4 text-blue-900">How to Use</h3>
-                        <ol className="list-decimal list-inside space-y-2 text-blue-800">
-                            <li>Select competition duration</li>
-                            <li>Click <strong>Start Competition Now</strong></li>
-                            <li>The popup on the home page will appear for all users automatically</li>
-                            <li>Teams can now participate and solve challenges</li>
-                            <li>Monitor progress on the Leaderboard tab</li>
-                            <li>Click <strong>End Competition</strong> when done</li>
-                        </ol>
-                        <div className="mt-4 p-3 bg-white rounded-lg">
-                            <p className="text-sm text-gray-600">Logged in as <strong>Admin</strong></p>
-                            <p className="text-xs text-gray-500 mt-1">Admins cannot create or join teams</p>
+                {/* ── ALL TEAMS TAB ──────────────────────────────────────── */}
+                {activeTab === 'teams' && (
+                    <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                            <h2 style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '1rem' }}>
+                                Svi timovi ({teams.length})
+                            </h2>
+                            <button
+                                className="btn btn-ghost"
+                                onClick={fetchAllTeams}
+                                style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', fontSize: '0.825rem' }}
+                            >
+                                <RefreshCw size={14} /> Osvježi
+                            </button>
                         </div>
-                    </div>
-                </div>
-            )}
 
-            {/* ── ALL TEAMS TAB ──────────────────────────────────────────── */}
-            {activeTab === 'teams' && (
-                <div>
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-2xl font-bold text-gray-800">All Teams ({teams.length})</h2>
-                        <button
-                            onClick={fetchAllTeams}
-                            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold"
-                        >
-                            🔄 Refresh
-                        </button>
-                    </div>
-
-                    {teamsLoading ? (
-                        <div className="text-center py-8">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
-                        </div>
-                    ) : teams.length === 0 ? (
-                        <div className="text-center py-12 bg-white rounded-xl shadow">
-                            <p className="text-gray-500 text-lg">No teams yet</p>
-                        </div>
-                    ) : (
-                        <div className="space-y-4">
-                            {teams.map((team) => (
-                                <div key={team.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
-                                    {/* Team header row */}
-                                    <div
-                                        className="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50 transition-colors"
-                                        onClick={() => setExpandedTeam(expandedTeam === team.id ? null : team.id)}
-                                    >
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center font-bold text-purple-600">
-                                                {team.team_name.charAt(0).toUpperCase()}
-                                            </div>
-                                            <div>
-                                                <p className="font-bold text-gray-800">{team.team_name}</p>
-                                                <p className="text-sm text-gray-500">
-                                                    {team.member_count} member{team.member_count !== 1 ? 's' : ''} · {team.tasks_solved} task{team.tasks_solved !== 1 ? 's' : ''} solved
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-4">
-                                            <div className="text-right">
-                                                <p className="font-bold text-purple-600">{team.score} pts</p>
-                                                {team.last_solved && (
-                                                    <p className="text-xs text-gray-400">
-                                                        Last: {new Date(team.last_solved).toLocaleString()}
+                        {teamsLoading ? (
+                            <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
+                                <div style={{
+                                    width: 40, height: 40,
+                                    border: '3px solid var(--glass-border)',
+                                    borderTopColor: 'var(--accent)',
+                                    borderRadius: '50%',
+                                    animation: 'rotateDonut 0.8s linear infinite'
+                                }} />
+                            </div>
+                        ) : teams.length === 0 ? (
+                            <div className="glass-card" style={{ padding: '60px 24px', textAlign: 'center' }}>
+                                <Users size={40} style={{ color: 'var(--text-muted)', margin: '0 auto 16px' }} />
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Još nema timova.</p>
+                            </div>
+                        ) : (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                {teams.map((team) => (
+                                    <div key={team.id} className="glass-card" style={{ overflow: 'hidden' }}>
+                                        {/* Team header row */}
+                                        <div
+                                            style={{
+                                                display: 'flex', alignItems: 'center',
+                                                justifyContent: 'space-between',
+                                                padding: '18px 24px',
+                                                cursor: 'pointer',
+                                                transition: 'background 0.15s'
+                                            }}
+                                            onClick={() => setExpandedTeam(expandedTeam === team.id ? null : team.id)}
+                                            onMouseEnter={e => e.currentTarget.style.background = 'var(--glass-bg)'}
+                                            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                                        >
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                                                <div style={{
+                                                    width: 38, height: 38, borderRadius: '50%',
+                                                    background: 'linear-gradient(135deg, var(--accent), var(--purple))',
+                                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                    fontWeight: 800, fontSize: '0.875rem', color: 'white', flexShrink: 0
+                                                }}>
+                                                    {team.team_name.charAt(0).toUpperCase()}
+                                                </div>
+                                                <div>
+                                                    <p style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+                                                        {team.team_name}
                                                     </p>
-                                                )}
+                                                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                                                        {team.member_count} član{team.member_count !== 1 ? 'ova' : ''} · {team.tasks_solved} zadatak{team.tasks_solved !== 1 ? 'a' : ''} riješeno
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div className="flex gap-2">
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                                                <span style={{ fontWeight: 800, color: 'var(--accent)', fontSize: '1rem' }}>
+                                                    {team.score} pts
+                                                </span>
                                                 <button
                                                     onClick={(e) => { e.stopPropagation(); handleDeleteTeam(team.id, team.team_name); }}
-                                                    className="px-3 py-1 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 text-sm font-semibold"
+                                                    style={{
+                                                        display: 'flex', alignItems: 'center', gap: 4,
+                                                        padding: '6px 12px',
+                                                        borderRadius: 'var(--radius-md)',
+                                                        background: 'rgba(239,68,68,0.1)',
+                                                        border: '1px solid rgba(239,68,68,0.3)',
+                                                        color: 'var(--error)',
+                                                        fontSize: '0.78rem', fontWeight: 600,
+                                                        cursor: 'pointer'
+                                                    }}
                                                 >
-                                                    🗑 Delete
+                                                    <Trash2 size={13} /> Obriši
                                                 </button>
-                                                <span className="text-gray-400">{expandedTeam === team.id ? '▲' : '▼'}</span>
+                                                {expandedTeam === team.id
+                                                    ? <ChevronUp size={16} style={{ color: 'var(--text-muted)' }} />
+                                                    : <ChevronDown size={16} style={{ color: 'var(--text-muted)' }} />
+                                                }
                                             </div>
                                         </div>
-                                    </div>
 
-                                    {/* Expanded members */}
-                                    {expandedTeam === team.id && (
-                                        <div className="border-t border-gray-100 px-5 py-4 bg-gray-50">
-                                            <h4 className="font-semibold text-gray-700 mb-3">Members</h4>
-                                            <div className="space-y-2">
-                                                {team.members.map((member) => (
-                                                    <div
-                                                        key={member.id}
-                                                        className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200"
-                                                    >
-                                                        <div className="flex items-center gap-3">
-                                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                                                                member.is_captain ? 'bg-yellow-100 text-yellow-600' : 'bg-purple-100 text-purple-600'
-                                                            }`}>
-                                                                {member.username.charAt(0).toUpperCase()}
+                                        {/* Expanded members */}
+                                        {expandedTeam === team.id && (
+                                            <div style={{
+                                                borderTop: '1px solid var(--glass-border)',
+                                                padding: '18px 24px',
+                                                background: 'var(--bg-elevated)'
+                                            }}>
+                                                <p style={{
+                                                    fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em',
+                                                    textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 12
+                                                }}>
+                                                    Članovi
+                                                </p>
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                                    {team.members.map((member) => (
+                                                        <div key={member.id} style={{
+                                                            display: 'flex', alignItems: 'center',
+                                                            justifyContent: 'space-between',
+                                                            padding: '12px 16px',
+                                                            borderRadius: 'var(--radius-md)',
+                                                            background: 'var(--glass-bg)',
+                                                            border: '1px solid var(--glass-border)'
+                                                        }}>
+                                                            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                                                <div style={{
+                                                                    width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+                                                                    background: member.is_captain
+                                                                        ? 'linear-gradient(135deg, #f59e0b, #d97706)'
+                                                                        : 'linear-gradient(135deg, var(--accent), var(--purple))',
+                                                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                                    fontWeight: 700, fontSize: '0.8rem', color: 'white'
+                                                                }}>
+                                                                    {member.username.charAt(0).toUpperCase()}
+                                                                </div>
+                                                                <div>
+                                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                                                        <p style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>
+                                                                            {member.username}
+                                                                        </p>
+                                                                        {member.is_captain && (
+                                                                            <span style={{
+                                                                                fontSize: '0.68rem', fontWeight: 700,
+                                                                                padding: '1px 6px',
+                                                                                borderRadius: 'var(--radius-full)',
+                                                                                background: 'rgba(245,158,11,0.15)',
+                                                                                color: '#d97706',
+                                                                                border: '1px solid rgba(245,158,11,0.3)'
+                                                                            }}>
+                                                                                Kapetan
+                                                                            </span>
+                                                                        )}
+                                                                        {member.is_banned && (
+                                                                            <span style={{
+                                                                                fontSize: '0.68rem', fontWeight: 700,
+                                                                                padding: '1px 6px',
+                                                                                borderRadius: 'var(--radius-full)',
+                                                                                background: 'rgba(239,68,68,0.1)',
+                                                                                color: 'var(--error)',
+                                                                                border: '1px solid rgba(239,68,68,0.3)'
+                                                                            }}>
+                                                                                Baniran
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                    <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                                                                        {member.email}
+                                                                    </p>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <p className="font-semibold text-sm">
-                                                                    {member.username}
-                                                                    {member.is_captain && ' 👑'}
-                                                                    {member.is_banned && (
-                                                                        <span className="ml-2 text-xs bg-red-100 text-red-600 px-1 rounded">BANNED</span>
-                                                                    )}
-                                                                </p>
-                                                                <p className="text-xs text-gray-400">{member.email}</p>
-                                                            </div>
+                                                            <button
+                                                                onClick={() => handleBanPlayer(member.id, member.username, member.is_banned)}
+                                                                style={{
+                                                                    display: 'flex', alignItems: 'center', gap: 5,
+                                                                    padding: '6px 12px',
+                                                                    borderRadius: 'var(--radius-md)',
+                                                                    background: member.is_banned
+                                                                        ? 'rgba(34,197,94,0.1)'
+                                                                        : 'rgba(234,179,8,0.1)',
+                                                                    border: member.is_banned
+                                                                        ? '1px solid rgba(34,197,94,0.3)'
+                                                                        : '1px solid rgba(234,179,8,0.3)',
+                                                                    color: member.is_banned ? 'var(--success)' : '#ca8a04',
+                                                                    fontSize: '0.78rem', fontWeight: 600,
+                                                                    cursor: 'pointer'
+                                                                }}
+                                                            >
+                                                                {member.is_banned
+                                                                    ? <><ShieldOff size={13} /> Odblokir</>
+                                                                    : <><Shield size={13} /> Blokiraj</>
+                                                                }
+                                                            </button>
                                                         </div>
-                                                        <button
-                                                            onClick={() => handleBanPlayer(member.id, member.username, member.is_banned)}
-                                                            className={`px-3 py-1 rounded-lg text-sm font-semibold ${
-                                                                member.is_banned
-                                                                    ? 'bg-green-100 text-green-600 hover:bg-green-200'
-                                                                    : 'bg-orange-100 text-orange-600 hover:bg-orange-200'
-                                                            }`}
-                                                        >
-                                                            {member.is_banned ? '✅ Unban' : '🚫 Ban'}
-                                                        </button>
-                                                    </div>
-                                                ))}
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            )}
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

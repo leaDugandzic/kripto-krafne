@@ -1,85 +1,162 @@
-import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Home, ArrowRight } from "lucide-react";
 import Krafna from "../assets/img/krafna.png";
 
 const DonutLevel = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    const levelStep = Number(id) % 100;
     const nextLevelId = Number(id) + 1;
     const isLastLevel = nextLevelId % 100 === 4;
 
-    const handleNavigation = () => {
-        navigate(isLastLevel ? "/" : `/box/${nextLevelId}`);
-    };
+    const steps = [1, 2, 3];
 
     return (
-        <div className="flex items-center justify-center min-h-screen p-4">
-            <div className="bg-pink-300 p-8 rounded-3xl shadow-xl max-w-md w-full">
-                <div className="flex flex-col items-center">
-                    <div className="flex justify-center items-center mb-6">
-                        <div className={`relative ${id % 100 >= 1 ? "" : "opacity-50"}`}>
-                            <img src={Krafna} alt="Donut" className="w-20 h-20" />
-                            {id % 100 >= 1 && (
-                                <div className="absolute -top-2 -right-2 bg-pink-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
-                                    1
+        <div style={{
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '80px 24px 40px'
+        }}>
+            <div className="glass-card" style={{
+                padding: '52px 48px',
+                maxWidth: 480,
+                width: '100%',
+                textAlign: 'center',
+                animation: 'fadeInUp 0.4s ease'
+            }}>
+                {/* Spinning donut */}
+                <img
+                    src={Krafna}
+                    alt="Krafna"
+                    style={{
+                        width: 88,
+                        height: 88,
+                        margin: '0 auto 28px',
+                        animation: 'rotateDonut 4s linear infinite',
+                        filter: 'drop-shadow(0 0 20px var(--accent-glow))'
+                    }}
+                />
+
+                {/* Bravo text */}
+                <h1 style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '3rem',
+                    fontWeight: 800,
+                    background: 'linear-gradient(135deg, var(--accent), var(--purple))',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    marginBottom: 12
+                }}>
+                    Bravo!
+                </h1>
+                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: 40 }}>
+                    Možeš li doći do svih<br />
+                    <strong style={{ color: 'var(--accent)' }}>Kripto Krafni</strong>?
+                </p>
+
+                {/* Progress steps */}
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 0,
+                    marginBottom: 44
+                }}>
+                    {steps.map((step, i) => {
+                        const isComplete = levelStep >= step;
+                        const isCurrent = levelStep === step;
+                        return (
+                            <div key={step} style={{ display: 'flex', alignItems: 'center' }}>
+                                <div style={{
+                                    position: 'relative',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    {isComplete ? (
+                                        <div style={{ position: 'relative' }}>
+                                            <img
+                                                src={Krafna}
+                                                alt={`Level ${step}`}
+                                                style={{
+                                                    width: 64,
+                                                    height: 64,
+                                                    filter: isCurrent
+                                                        ? 'drop-shadow(0 0 12px var(--accent-glow))'
+                                                        : 'drop-shadow(0 0 6px rgba(255,45,120,0.4))',
+                                                    animation: isCurrent ? 'rotateDonut 3s linear infinite' : 'none'
+                                                }}
+                                            />
+                                            <div style={{
+                                                position: 'absolute',
+                                                top: -6, right: -6,
+                                                width: 22, height: 22,
+                                                borderRadius: '50%',
+                                                background: 'var(--accent)',
+                                                color: 'white',
+                                                fontSize: '0.7rem',
+                                                fontWeight: 800,
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                boxShadow: '0 0 8px var(--accent-glow)'
+                                            }}>
+                                                {step}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div style={{
+                                            width: 64, height: 64,
+                                            borderRadius: '50%',
+                                            border: '2px dashed var(--glass-border)',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            color: 'var(--text-muted)',
+                                            fontSize: '1.2rem',
+                                            opacity: 0.5
+                                        }}>
+                                            ?
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
 
-                        <div className="h-1 w-12 bg-pink-400 mx-1"></div>
-
-                        <div className={`relative ${id % 100 >= 2 ? "" : "opacity-50"}`}>
-                            {id % 100 >= 2 ? (
-                                <img src={Krafna} alt="Donut" className="w-20 h-20" />
-                            ) : (
-                                <div className="w-20 h-20 border-2 border-dashed border-pink-500 rounded-full flex items-center justify-center text-pink-500">
-                                    ?
-                                </div>
-                            )}
-                            {id % 100 >= 2 && (
-                                <div className="absolute -top-2 -right-2 bg-pink-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
-                                    2
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="h-1 w-12 bg-pink-400 mx-1"></div>
-
-                        <div className={`relative ${id % 100 >= 3 ? "" : "opacity-50"}`}>
-                            {id % 100 >= 3 ? (
-                                <img src={Krafna} alt="Donut" className="w-20 h-20" />
-                            ) : (
-                                <div className="w-20 h-20 border-2 border-dashed border-pink-500 rounded-full flex items-center justify-center text-pink-500">
-                                    ?
-                                </div>
-                            )}
-                            {id % 100 >= 3 && (
-                                <div className="absolute -top-2 -right-2 bg-pink-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
-                                    3
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold text-pink-700 mb-2 title-font">Bravo!</h2>
-                        <p className="text-white font-semibold text-lg">
-                            Možeš li doći do svih<br />
-                            <span className="text-pink-700 font-bold">Kripto Krafni</span>?
-                        </p>
-                    </div>
-
-                    <button
-                        onClick={handleNavigation}
-                        className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-                    >
-                        {isLastLevel ? "🏠 Početna" : `Level ${nextLevelId % 100} →`}
-                    </button>
+                                {i < steps.length - 1 && (
+                                    <div style={{
+                                        width: 40,
+                                        height: 2,
+                                        background: levelStep > step
+                                            ? 'linear-gradient(90deg, var(--accent), var(--purple))'
+                                            : 'var(--glass-border)',
+                                        margin: '0 4px',
+                                        transition: 'background 0.3s'
+                                    }} />
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
+
+                {/* Action button */}
+                <button
+                    className="btn btn-primary"
+                    onClick={() => navigate(isLastLevel ? "/" : `/box/${nextLevelId}`)}
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        padding: '14px 32px',
+                        fontSize: '1rem'
+                    }}
+                >
+                    {isLastLevel ? (
+                        <><Home size={18} /> Početna</>
+                    ) : (
+                        <>Level {nextLevelId % 100} <ArrowRight size={18} /></>
+                    )}
+                </button>
             </div>
         </div>
     );
 };
 
-export default DonutLevel; 
+export default DonutLevel;

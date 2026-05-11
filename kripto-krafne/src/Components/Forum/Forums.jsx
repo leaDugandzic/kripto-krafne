@@ -1,34 +1,26 @@
 import { useState, useEffect } from "react";
-import PostLayout from "./PostLayout";
 import { Link } from "react-router-dom";
+import { MessageCircle, Heart, ChevronRight } from "lucide-react";
+
 const Forums = () => {
     const [posts, setPosts] = useState([]);
     const [kategorije, setKategorije] = useState([]);
     const [odabranaKategorija, setOdabranaKategorija] = useState("sve");
     const [ucitavaSe, setUcitavaSe] = useState(true);
 
-    useEffect(() => {
-        ucitajPodatke();
-    }, []);
+    useEffect(() => { ucitajPodatke(); }, []);
 
     const ucitajPodatke = async () => {
         try {
             setUcitavaSe(true);
-
-            const kategorijeRes = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/getCategories.php", {
-                method: "GET",
-                credentials: "include",
-            });
-            const kategorijeData = await kategorijeRes.json();
-            setKategorije(kategorijeData.categories || kategorijeData);
-
-            const postoviRes = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/getPosts.php", {
-                method: "GET",
-                credentials: "include",
-            });
-            const postoviData = await postoviRes.json();
-            setPosts(postoviData.posts || postoviData);
-
+            const [katRes, postRes] = await Promise.all([
+                fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/getCategories.php", { credentials: "include" }),
+                fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/getPosts.php", { credentials: "include" }),
+            ]);
+            const katData = await katRes.json();
+            const postData = await postRes.json();
+            setKategorije(katData.categories || katData);
+            setPosts(postData.posts || postData);
         } catch (err) {
             console.error("Greška pri učitavanju:", err);
         } finally {
@@ -41,183 +33,235 @@ const Forums = () => {
         : posts.filter(post => post.category_id == odabranaKategorija);
 
     const formatirajDatum = (datumString) => {
-        const datum = new Date(datumString);
-        return datum.toLocaleDateString('hr-HR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
+        return new Date(datumString).toLocaleDateString('hr-HR', {
+            day: '2-digit', month: '2-digit', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
         });
     };
 
-    if (ucitavaSe) {
-        return (
-            <div className="flex justify-center items-center min-h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
-            </div>
-        );
-    }
     const likePost = async (postId) => {
         try {
-            const response = await fetch(
-                "http://localhost/kripto-krafne/kripto-krafne/src/backend/likePost.php",
-                {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        post_id: postId
-                    })
-                }
-            );
-
+            const response = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/likePost.php", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ post_id: postId })
+            });
             const data = await response.json();
-
             if (data.success) {
-                setPosts(prevPosts =>
-                    prevPosts.map(post =>
-                        post.id === postId
-                            ? {
-                                ...post,
-                                likes: data.likes,
-                                liked: data.action === "liked"
-                            }
-                            : post
-                    )
-                );
+                setPosts(prev => prev.map(p => p.id === postId
+                    ? { ...p, likes: data.likes, liked: data.action === "liked" }
+                    : p
+                ));
             }
         } catch (err) {
             console.error("Greška kod like-a:", err);
         }
     };
 
-    return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-pink-500 text-center title-font">KriptoKrafne Forum</h1>
-                <p className="text-gray-600 mt-2">Raspravljajte s našom zajednicom!</p>
+    if (ucitavaSe) {
+        return (
+            <div className="page-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
+                <div style={{
+                    width: 48, height: 48,
+                    border: '3px solid var(--glass-border)',
+                    borderTopColor: 'var(--accent)',
+                    borderRadius: '50%',
+                    animation: 'rotateDonut 0.8s linear infinite'
+                }} />
             </div>
+        );
+    }
 
-            <div className="flex flex-col lg:flex-row gap-8">
-                <div className="lg:w-1/4">
-                    <div className="bg-white rounded-lg shadow-md p-6 sticky top-6">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Kategorije</h2>
-
-                        <div className="space-y-2">
-                            <button
-                                onClick={() => setOdabranaKategorija("sve")}
-                                className={`w-full text-left px-4 py-3 rounded-lg transition-all ${odabranaKategorija === "sve"
-                                    ? "bg-pink-500 text-white"
-                                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                                    }`}
-                            >
-                                🗂️ Sve kategorije
-                            </button>
-
-                            {kategorije.map((kategorija) => (
-                                <button
-                                    key={kategorija.id}
-                                    onClick={() => setOdabranaKategorija(kategorija.id)}
-                                    className={`w-full text-left px-4 py-3 rounded-lg transition-all ${odabranaKategorija == kategorija.id
-                                        ? "bg-pink-500 text-white"
-                                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                                        }`}
-                                >
-                                    {kategorija.category_name}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+    return (
+        <div className="page-wrapper">
+            <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+                {/* Header */}
+                <div style={{ textAlign: 'center', marginBottom: 48 }}>
+                    <h1 style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+                        fontWeight: 800,
+                        color: 'var(--text-primary)',
+                        marginBottom: 8
+                    }}>
+                        KriptoKrafne Forum
+                    </h1>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '1rem' }}>
+                        Raspravljajte s našom zajednicom!
+                    </p>
                 </div>
 
-                <div className="lg:w-3/4">
-                    <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                            <div>
-                                <h2 className="text-xl font-bold text-gray-900">
-                                    {odabranaKategorija === "sve"
-                                        ? "Svi postovi"
-                                        : kategorije.find(k => k.id == odabranaKategorija)?.category_name
-                                    }
-                                </h2>
-                                <p className="text-gray-600 text-sm mt-1">
-                                    Prikazano {filtriraniPostovi.length} od {posts.length} postova
-                                </p>
-                            </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 28, alignItems: 'start' }}>
+                    {/* Category sidebar */}
+                    <div className="glass-card" style={{ padding: 20, position: 'sticky', top: 88 }}>
+                        <h2 style={{
+                            fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em',
+                            textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16
+                        }}>
+                            Kategorije
+                        </h2>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                            {[{ id: 'sve', category_name: 'Sve kategorije' }, ...kategorije].map((kat) => {
+                                const active = odabranaKategorija == kat.id;
+                                return (
+                                    <button
+                                        key={kat.id}
+                                        onClick={() => setOdabranaKategorija(kat.id)}
+                                        style={{
+                                            width: '100%',
+                                            textAlign: 'left',
+                                            padding: '10px 14px',
+                                            borderRadius: 'var(--radius-md)',
+                                            border: '1px solid',
+                                            borderColor: active ? 'var(--accent)' : 'transparent',
+                                            background: active ? 'var(--accent-soft)' : 'transparent',
+                                            color: active ? 'var(--accent)' : 'var(--text-secondary)',
+                                            fontWeight: active ? 600 : 400,
+                                            fontSize: '0.875rem',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.15s ease'
+                                        }}
+                                        onMouseEnter={e => { if (!active) { e.currentTarget.style.background = 'var(--glass-bg)'; e.currentTarget.style.color = 'var(--text-primary)'; }}}
+                                        onMouseLeave={e => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)'; }}}
+                                    >
+                                        {kat.category_name}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid var(--glass-border)' }}>
+                            <Link to="/post">
+                                <button className="btn btn-primary" style={{ width: '100%', fontSize: '0.875rem' }}>
+                                    + Novi post
+                                </button>
+                            </Link>
                         </div>
                     </div>
 
-                    <div className="space-y-6">
-                        {filtriraniPostovi.length === 0 ? (
-                            <div className="bg-white rounded-lg shadow-md p-8 text-center">
-                                <div className="text-6xl mb-4">📝</div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">Nema postova</h3>
-                                <p className="text-gray-600">
-                                    {odabranaKategorija === "sve"
-                                        ? "Još nema objavljenih postova. Budite prvi!"
-                                        : "Nema postova u ovoj kategoriji."
-                                    }
+                    {/* Posts column */}
+                    <div>
+                        {/* Filter header */}
+                        <div className="glass-card" style={{ padding: '16px 24px', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div>
+                                <h2 style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '1rem' }}>
+                                    {odabranaKategorija === "sve" ? "Svi postovi" : kategorije.find(k => k.id == odabranaKategorija)?.category_name}
+                                </h2>
+                                <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                                    {filtriraniPostovi.length} od {posts.length} postova
                                 </p>
                             </div>
-                        ) : (
-                            filtriraniPostovi.map((post) => (
-                                <div key={post.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                                    <div className="p-6">
-                                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
-                                            <div className="flex-1">
-                                                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                                    {post.title}
-                                                </h3>
-                                                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600">
-                                                    <span className="bg-pink-100 text-pink-800 px-2 py-1 rounded-full text-xs">
-                                                        {post.category_name || "Nepoznato"}
-                                                    </span>
-                                                    <span>•</span>
-                                                    <span>Autor: {post.user_id || "Anoniman"}</span>
-                                                    <span>•</span>
-                                                    <span>{formatirajDatum(post.publish_date)}</span>
-                                                </div>
+                        </div>
+
+                        {/* Post list */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                            {filtriraniPostovi.length === 0 ? (
+                                <div className="glass-card" style={{ padding: '48px 24px', textAlign: 'center' }}>
+                                    <p style={{ fontSize: '2.5rem', marginBottom: 12 }}>📝</p>
+                                    <h3 style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>Nema postova</h3>
+                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+                                        {odabranaKategorija === "sve" ? "Još nema objavljenih postova. Budite prvi!" : "Nema postova u ovoj kategoriji."}
+                                    </p>
+                                </div>
+                            ) : (
+                                filtriraniPostovi.map((post) => (
+                                    <div key={post.id} className="glass-card" style={{
+                                        padding: '24px 28px',
+                                        transition: 'border-color 0.2s, transform 0.2s',
+                                        cursor: 'default'
+                                    }}
+                                        onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--glass-border)'; e.currentTarget.style.transform = 'none'; }}
+                                    >
+                                        <div style={{ marginBottom: 12 }}>
+                                            <h3 style={{
+                                                fontSize: '1.1rem', fontWeight: 700,
+                                                color: 'var(--text-primary)', marginBottom: 8
+                                            }}>
+                                                {post.title}
+                                            </h3>
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8, fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                                                <span style={{
+                                                    background: 'var(--accent-soft)', color: 'var(--accent)',
+                                                    padding: '2px 10px', borderRadius: 'var(--radius-full)',
+                                                    fontWeight: 600, fontSize: '0.72rem'
+                                                }}>
+                                                    {post.category_name || "Nepoznato"}
+                                                </span>
+                                                <span>·</span>
+                                                <span>{post.user_id || "Anoniman"}</span>
+                                                <span>·</span>
+                                                <span>{formatirajDatum(post.publish_date)}</span>
                                             </div>
                                         </div>
 
-                                        <div className="prose max-w-none mb-4">
-                                            <p className="text-gray-700 leading-relaxed">
-                                                {post.content}
-                                            </p>
-                                        </div>
+                                        <p style={{
+                                            color: 'var(--text-secondary)', fontSize: '0.875rem',
+                                            lineHeight: 1.65, marginBottom: 20,
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 3,
+                                            WebkitBoxOrient: 'vertical',
+                                            overflow: 'hidden'
+                                        }}>
+                                            {post.content}
+                                        </p>
 
-                                        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                                            <div className="flex items-center space-x-4 text-sm text-gray-600">
-                                                <button className="flex items-center space-x-1 hover:text-pink-500 transition-colors">
-                                                    <span>💬</span>
-                                                    <Link to={`/forums/${post.id}`}><a>Komentiraj</a></Link>
-                                                </button>
+                                        <div style={{
+                                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                            paddingTop: 16, borderTop: '1px solid var(--glass-border)'
+                                        }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                                                <Link to={`/forums/${post.id}`} style={{
+                                                    display: 'flex', alignItems: 'center', gap: 5,
+                                                    color: 'var(--text-muted)', fontSize: '0.825rem',
+                                                    textDecoration: 'none',
+                                                    transition: 'color 0.15s'
+                                                }}
+                                                    onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                                                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+                                                >
+                                                    <MessageCircle size={14} /> Komentiraj
+                                                </Link>
                                                 <button
                                                     onClick={() => likePost(post.id)}
-                                                    className={`flex items-center space-x-1 transition-colors ${post.liked ? "text-pink-500" : "hover:text-pink-500"
-                                                        }`}
+                                                    style={{
+                                                        display: 'flex', alignItems: 'center', gap: 5,
+                                                        background: 'none', border: 'none', cursor: 'pointer',
+                                                        color: post.liked ? 'var(--accent)' : 'var(--text-muted)',
+                                                        fontSize: '0.825rem',
+                                                        transition: 'color 0.15s',
+                                                        padding: 0
+                                                    }}
                                                 >
-                                                    <span>{post.liked ? "❤️" : "🤍"}</span>
-                                                    <span>{post.likes ?? 0}</span>
+                                                    <Heart size={14} fill={post.liked ? 'var(--accent)' : 'none'} />
+                                                    {post.likes ?? 0}
                                                 </button>
                                             </div>
                                             <Link
                                                 to={`/forums/${post.id}`}
-                                                className="text-pink-500 hover:text-pink-600 font-medium text-sm"
+                                                style={{
+                                                    display: 'flex', alignItems: 'center', gap: 4,
+                                                    color: 'var(--accent)', fontWeight: 600, fontSize: '0.825rem',
+                                                    textDecoration: 'none'
+                                                }}
                                             >
-                                                Pročitaj više →
+                                                Pročitaj više <ChevronRight size={14} />
                                             </Link>
                                         </div>
                                     </div>
-                                </div>
-                            ))
-                        )}
+                                ))
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <style>{`
+                @media (max-width: 768px) {
+                    .forum-grid { grid-template-columns: 1fr !important; }
+                }
+            `}</style>
         </div>
     );
 };

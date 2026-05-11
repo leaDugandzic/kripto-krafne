@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useData from './useData';
 import AccordionSection from './AccordionSection';
@@ -24,7 +24,6 @@ const Level = () => {
             setLevelLoading(true);
             try {
                 const levelData = await getLevelById(id);
-                console.log(levelData)
                 setLevel(levelData);
             } catch (err) {
                 console.error('Error loading level:', err);
@@ -32,47 +31,45 @@ const Level = () => {
                 setLevelLoading(false);
             }
         };
-        
-        if (id) {
-            loadLevel();
-        }
+        if (id) loadLevel();
     }, [id, getLevelById]);
-    // console.log(level.fun_facts)
-    // Prikaži loading dok se podaci učitavaju
+
     if (loading || levelLoading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="text-pink-600 text-xl">Učitavanje...</div>
+            <div className="page-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+                <div style={{ textAlign: 'center' }}>
+                    <div style={{
+                        width: 48, height: 48, borderRadius: '50%',
+                        border: '3px solid var(--glass-border)',
+                        borderTopColor: 'var(--accent)',
+                        animation: 'rotateDonut 0.8s linear infinite',
+                        margin: '0 auto 16px'
+                    }} />
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Učitavanje lekcije…</p>
+                </div>
             </div>
         );
     }
 
-    // Prikaži grešku ako postoji
-    if (error) {
+    if (error || !level) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="text-red-600 text-xl">Greška: {error}</div>
+            <div className="page-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+                <div className="glass-card" style={{ padding: '32px', textAlign: 'center', maxWidth: 400 }}>
+                    <p style={{ fontSize: '2rem', marginBottom: 8 }}>🍩</p>
+                    <p style={{ color: 'var(--error)', fontWeight: 600 }}>
+                        {error ? `Greška: ${error}` : 'Level nije pronađen'}
+                    </p>
+                </div>
             </div>
         );
     }
 
-    // Ako level nije pronađen
-    if (!level) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="text-red-600 text-xl">Level nije pronađen</div>
-            </div>
-        );
-    }
-
-    const nextLevelId = Number(id) + 1;
-    const isLastLevel = nextLevelId % 100 === 4;
     const GameComponent = gameComponents[level.gameType] || DragDropGame;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50">
+        <div className="page-wrapper">
             <DetailsSection level={level} />
-            <AccordionSection funFacts={level.fun_facts} />
+            <AccordionSection />
             <GameComponent
                 gameData={level.game}
                 currentLevelId={level.id}

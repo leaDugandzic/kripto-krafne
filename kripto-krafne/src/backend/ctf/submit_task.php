@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $data       = json_decode(file_get_contents("php://input"), true);
 $userId     = $_SESSION['user_id'] ?? null;
 $taskNumber = intval($data['task_number'] ?? 0);
-$code       = strtoupper(trim($data['code'] ?? ''));
+$code       = strtolower(trim($data['code'] ?? ''));
 
 if (!$userId) {
     http_response_code(401);
@@ -73,14 +73,14 @@ if ($stmt->get_result()->num_rows > 0) {
     exit;
 }
 
-// Validate code
+// Validate code (lowercase comparison — matches DonutGame.jsx flag strings)
 $validCodes = [
-    1 => '1',
-    2 => '5',
-    3 => '6',
-    4 => '4',
-    5 => '3',
-    6 => '2'
+    1 => 'krafna{gl4z3d_s3cur1ty}',
+    2 => 'krafna{d0ughnut_h4x}',
+    3 => 'krafna{3ncrypt3d_j3ly}',
+    4 => 'krafna{5ug4r_5pr1nkl3}',
+    5 => 'krafna{c1nnam0n_r0ll}',
+    6 => 'krafna{f1ll3d_w1th_fl4g}',
 ];
 
 if (!isset($validCodes[$taskNumber]) || $code !== $validCodes[$taskNumber]) {

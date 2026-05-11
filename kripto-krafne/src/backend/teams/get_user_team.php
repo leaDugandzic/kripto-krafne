@@ -58,10 +58,11 @@ if ($team) {
 
     // Get team progress
     $stmt = $conn->prepare("
-        SELECT task_number, solved_at, code 
-        FROM team_progress 
-        WHERE team_id = ?
-        ORDER BY task_number ASC
+        SELECT tp.task_number, tp.solved_at, tp.code, tp.solved_by_user_id, u.ime AS solved_by_username
+        FROM team_progress tp
+        LEFT JOIN users u ON tp.solved_by_user_id = u.id
+        WHERE tp.team_id = ?
+        ORDER BY tp.task_number ASC
     ");
     $stmt->bind_param("i", $team['id']);
     $stmt->execute();
