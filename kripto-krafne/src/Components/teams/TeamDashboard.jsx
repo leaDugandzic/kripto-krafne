@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Crown, Users, CheckCircle, Clock } from 'lucide-react';
+import { Crown, Users, CheckCircle, Clock, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AvatarImage from '../AvatarImage';
 
@@ -264,6 +264,20 @@ const TeamDashboard = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                {/* Certificate + Hall of Fame links */}
+                <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 32, flexWrap: 'wrap' }}>
+                    <Link to="/certificate">
+                        <button className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <Award size={16} /> Preuzmi certifikat
+                        </button>
+                    </Link>
+                    <Link to="/hall-of-fame">
+                        <button className="btn btn-ghost" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            🏆 Hall of Fame
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>

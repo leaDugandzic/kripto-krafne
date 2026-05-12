@@ -30,6 +30,9 @@ import AdminPanel from './Components/admin/AdminPanel';
 import Profile from './Components/Profile';
 import CompetitionFeed from './Components/CompetitionFeed';
 import AchievementToast from './Components/AchievementToast';
+import HallOfFame from './Components/HallOfFame';
+import Certificate from './Components/Certificate';
+import CertificatePopup from './Components/CertificatePopup';
 
 function App() {
   const [chatbotClick, setChatboxClick] = useState(false);
@@ -57,6 +60,7 @@ function App() {
       <Router>
         <CompetitionFeed />
         <AchievementToast />
+        <CertificatePopup />
         <Navbar theme={theme} onToggleTheme={toggleTheme} />
 
         {/* Chatbot trigger */}
@@ -104,6 +108,8 @@ function App() {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/admin" element={<AdminPanel />} />
             <Route path="/profile/:userId" element={<Profile />} />
+            <Route path="/hall-of-fame" element={<HallOfFame />} />
+            <Route path="/certificate" element={<Certificate />} />
           </Routes>
         </main>
 

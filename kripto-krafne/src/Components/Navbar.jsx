@@ -93,6 +93,7 @@ function Navbar({ theme, onToggleTheme }) {
             { to: '/ctf-game', label: '🏴 Natjecanje', highlight: true },
             { to: '/leaderboard', label: 'Ljestvica' },
         ] : []),
+        { to: '/hall-of-fame', label: '🏆 Hall of Fame' },
     ];
 
     const allLinks = user ? [...publicLinks, ...authLinks] : publicLinks;
@@ -278,8 +279,8 @@ function Navbar({ theme, onToggleTheme }) {
                     box-shadow: var(--shadow-md);
                 }
                 .kk-navbar__inner {
-                    max-width: 1280px; margin: 0 auto; height: 100%;
-                    padding: 0 28px; display: flex; align-items: center; gap: 36px;
+                    max-width: 1400px; margin: 0 auto; height: 100%;
+                    padding: 0 20px; display: flex; align-items: center; gap: 16px;
                 }
                 .kk-navbar__brand {
                     display: flex; align-items: center; gap: 12px;
@@ -296,13 +297,13 @@ function Navbar({ theme, onToggleTheme }) {
                 }
                 .kk-navbar__brand:hover .kk-navbar__name { color: var(--accent); }
                 .kk-navbar__links {
-                    display: flex; align-items: center; gap: 4px;
+                    display: flex; align-items: center; gap: 2px;
                     list-style: none; flex: 1;
                 }
                 .kk-navbar__link {
-                    display: block; padding: 8px 18px; font-size: 1rem; font-weight: 500;
+                    display: block; padding: 7px 12px; font-size: 0.9rem; font-weight: 500;
                     color: var(--text-secondary); text-decoration: none;
-                    border-radius: var(--radius-full);
+                    border-radius: var(--radius-full); white-space: nowrap;
                     transition: color var(--transition-fast), background var(--transition-fast);
                 }
                 .kk-navbar__link:hover { color: var(--text-primary); background: var(--glass-bg); }
@@ -313,7 +314,7 @@ function Navbar({ theme, onToggleTheme }) {
                     animation: glowPulse 2s ease-in-out infinite;
                 }
                 .kk-navbar__right {
-                    display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+                    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
                 }
                 .theme-toggle { position: relative; }
                 .theme-toggle-icon {
@@ -341,7 +342,8 @@ function Navbar({ theme, onToggleTheme }) {
                     border: 2px solid var(--accent);
                 }
                 .kk-navbar__username {
-                    max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+                    max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+                    font-size: 0.875rem;
                 }
                 .kk-navbar__chevron-icon {
                     color: var(--text-secondary); transition: transform var(--transition-fast); flex-shrink: 0;
@@ -349,7 +351,7 @@ function Navbar({ theme, onToggleTheme }) {
                 .kk-navbar__chevron-icon--open { transform: rotate(180deg); }
                 .kk-dropdown {
                     position: absolute; top: calc(100% + 10px); right: 0;
-                    min-width: 200px; background: var(--bg-elevated);
+                    min-width: 240px; background: var(--bg-elevated);
                     backdrop-filter: var(--blur-lg); -webkit-backdrop-filter: var(--blur-lg);
                     border: 1px solid var(--glass-border-strong);
                     border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
@@ -364,7 +366,7 @@ function Navbar({ theme, onToggleTheme }) {
                 .kk-dropdown__list { list-style: none; padding: 6px; }
                 .kk-dropdown__item {
                     display: flex; align-items: center; gap: 8px; width: 100%;
-                    padding: 9px 12px; font-size: 0.875rem; font-weight: 500;
+                    padding: 10px 16px; font-size: 0.9rem; font-weight: 500;
                     color: var(--text-secondary); text-decoration: none;
                     background: none; border: none; border-radius: var(--radius-sm);
                     cursor: pointer; transition: background var(--transition-fast), color var(--transition-fast);

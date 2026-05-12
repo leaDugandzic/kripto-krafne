@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useParams, Link } from 'react-router-dom';
-import { FaFire, FaTrophy, FaBook, FaUsers } from 'react-icons/fa';
+import { FaFire, FaTrophy, FaBook, FaUsers, FaAward } from 'react-icons/fa';
 import { Pencil, X } from 'lucide-react';
 import AchievementBadge, { ACHIEVEMENTS } from './AchievementBadge';
 import AvatarImage from './AvatarImage';
@@ -85,7 +85,7 @@ export default function Profile() {
         );
     }
 
-    const { user, streak, achievements, level_progress, levels_done, ctf_solves, team, is_own_profile } = data;
+    const { user, streak, achievements, level_progress, levels_done, ctf_solves, team, is_own_profile, latest_cert } = data;
     const earnedKeys = new Set(achievements.map(a => a.achievement_key));
 
     const handleAvatarSelect = async (key) => {
@@ -237,6 +237,41 @@ export default function Profile() {
                                 </div>
                             )}
                         </div>
+
+                        {/* Latest certificate */}
+                        {latest_cert && (
+                            <div className="glass-card" style={{ padding: '28px 32px' }}>
+                                <h2 style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 20 }}>
+                                    Certifikat zadnjeg natjecanja
+                                </h2>
+                                <Link
+                                    to={`/certificate?competition_id=${latest_cert.id}`}
+                                    style={{
+                                        display: 'flex', alignItems: 'center', gap: 16,
+                                        padding: '18px 22px', borderRadius: 'var(--radius-md)',
+                                        border: '1px solid var(--yellow)',
+                                        background: 'var(--yellow-soft)',
+                                        textDecoration: 'none',
+                                        transition: 'opacity 0.15s',
+                                    }}
+                                    onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
+                                    onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                                >
+                                    <FaAward size={26} color="var(--yellow)" style={{ flexShrink: 0 }} />
+                                    <div style={{ flex: 1 }}>
+                                        <p style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+                                            Natjecanje #{latest_cert.id}
+                                        </p>
+                                        <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 3 }}>
+                                            {new Date(latest_cert.end_time).toLocaleDateString('hr-HR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                                        </p>
+                                    </div>
+                                    <span style={{ fontSize: '0.78rem', color: 'var(--yellow)', fontWeight: 700, whiteSpace: 'nowrap' }}>
+                                        Pogledaj / Ispiši →
+                                    </span>
+                                </Link>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right sidebar */}

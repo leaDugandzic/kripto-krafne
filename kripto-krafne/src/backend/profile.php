@@ -69,6 +69,20 @@ if ($team) {
     $ctfSolves = $stmt->get_result()->fetch_assoc()['cnt'];
 }
 
+// ── Latest competition certificate (from archive) ─────────────────────────────
+$latestCert = null;
+$certsStmt = $conn->prepare("
+    SELECT cs.id, cs.end_time
+    FROM competition_settings cs
+    JOIN comp_archive_members cam ON cam.competition_id = cs.id
+    WHERE cam.user_id = ?
+    ORDER BY cs.id DESC
+    LIMIT 1
+");
+$certsStmt->bind_param("i", $requestedId);
+$certsStmt->execute();
+$latestCert = $certsStmt->get_result()->fetch_assoc();
+
 // ── Is viewing own profile ────────────────────────────────────────────────────
 $viewerIsOwner = isset($_SESSION['user_id']) && $_SESSION['user_id'] == $requestedId;
 
@@ -94,6 +108,7 @@ echo json_encode([
     'ctf_solves'     => intval($ctfSolves),
     'team'           => $team,
     'is_own_profile' => $viewerIsOwner,
+    'latest_cert'    => $latestCert,
 ]);
 
 $conn->close();
