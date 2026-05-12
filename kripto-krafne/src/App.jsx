@@ -27,6 +27,9 @@ import TeamFormation from './Components/teams/TeamFormation';
 import TeamDashboard from './Components/teams/TeamDashBoard';
 import Leaderboard from './Components/Leaderboard';
 import AdminPanel from './Components/admin/AdminPanel';
+import Profile from './Components/Profile';
+import CompetitionFeed from './Components/CompetitionFeed';
+import AchievementToast from './Components/AchievementToast';
 
 function App() {
   const [chatbotClick, setChatboxClick] = useState(false);
@@ -52,6 +55,8 @@ function App() {
       <PageDecorations />
 
       <Router>
+        <CompetitionFeed />
+        <AchievementToast />
         <Navbar theme={theme} onToggleTheme={toggleTheme} />
 
         {/* Chatbot trigger */}
@@ -98,6 +103,7 @@ function App() {
             <Route path="/team-dashboard" element={<TeamDashboard />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/profile/:userId" element={<Profile />} />
           </Routes>
         </main>
 

@@ -21,7 +21,7 @@ $naslov = $data["Naslov"] ?? "";
 $opis = $data["Opis"] ?? "";
 $kategorija = $data["Kategorija"] ?? "";
 
-$userId = $_SESSION['username'] ?? null;
+$userId = $_SESSION['user_id'] ?? null;
 
 if (!$userId) {
     echo json_encode(["success" => false, "message" => "Niste prijavljeni."]);
@@ -38,7 +38,7 @@ try {
         INSERT INTO blog_posts (title, user_id, content, category_id)
         VALUES (?, ?, ?, ?)
     ");
-    $query->bind_param("sssi", $naslov, $userId, $opis, $kategorija);
+    $query->bind_param("sisi", $naslov, $userId, $opis, $kategorija);
 
     if ($query->execute()) {
         echo json_encode(["success" => true, "message" => "Post objavljen uspješno"]);

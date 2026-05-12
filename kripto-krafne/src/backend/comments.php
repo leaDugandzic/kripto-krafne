@@ -19,7 +19,7 @@ if (!$data) {
 
 $komentar = $data["Komentar"];
 $postid = $data["PostId"];
-$userId = $_SESSION['username'] ?? null;
+$userId = $_SESSION['user_id'] ?? null;
 
 if (!$userId) {
     echo json_encode(["success" => false, "message" => "Niste prijavljeni."]);
@@ -36,7 +36,7 @@ try {
         INSERT INTO comments (user_id, content, post_id)
         VALUES (?, ?, ?)
     ");
-    $query->bind_param("ssi", $userId, $komentar, $postid);
+    $query->bind_param("isi", $userId, $komentar, $postid);
 
     if ($query->execute()) {
         echo json_encode(["success" => true, "message" => "Komentar je objavljen uspješno"]);

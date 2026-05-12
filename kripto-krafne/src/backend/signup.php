@@ -55,9 +55,14 @@ if ($data) {
         $uspjeh = $query->execute();
         $query->close();
 
-        if($uspjeh){
-        echo json_encode(["success" => true, "message" => "User registered successfully"]);
-
+        if ($uspjeh) {
+            $newUserId = $conn->insert_id;
+            // Award "dobrodosao" achievement
+            $conn->query("INSERT IGNORE INTO user_achievements (user_id, achievement_key) VALUES ($newUserId, 'dobrodosao')");
+            $conn->query("UPDATE users SET xp = xp + 10 WHERE id = $newUserId");
+            // Initialise streak row
+            $conn->query("INSERT IGNORE INTO user_streaks (user_id, current_streak, longest_streak, last_login_date) VALUES ($newUserId, 1, 1, CURDATE())");
+            echo json_encode(["success" => true, "message" => "User registered successfully"]);
         }
     } catch (PDOException $e) {
         echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);

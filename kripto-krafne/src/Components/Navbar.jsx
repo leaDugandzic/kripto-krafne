@@ -2,7 +2,7 @@ import Logo from '../assets/img/logo.png';
 import Krafnapfp from "../assets/img/krafna.png";
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Users, Trophy, Settings, LogOut, ChevronDown } from 'lucide-react';
+import { Users, Trophy, Settings, LogOut, ChevronDown, User } from 'lucide-react';
 
 function Navbar({ theme, onToggleTheme }) {
     const [user, setUser] = useState(null);
@@ -154,6 +154,11 @@ function Navbar({ theme, onToggleTheme }) {
                                         </div>
                                         <ul className="kk-dropdown__list">
                                             <li>
+                                                <Link to={`/profile/${user.id}`} className="kk-dropdown__item" onClick={() => setDropdownOpen(false)}>
+                                                    <User size={15} strokeWidth={2} /> Moj Profil
+                                                </Link>
+                                            </li>
+                                            <li>
                                                 <Link to="/teams" className="kk-dropdown__item" onClick={() => setDropdownOpen(false)}>
                                                     <Users size={15} strokeWidth={2} /> Moj Tim
                                                 </Link>
@@ -225,6 +230,9 @@ function Navbar({ theme, onToggleTheme }) {
                     )}
                     {user && (
                         <div className="kk-mobile-menu__auth">
+                            <Link to={`/profile/${user.id}`} className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
+                                <User size={16} /> Moj Profil
+                            </Link>
                             <Link to="/teams" className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
                                 <Users size={16} /> Moj Tim
                             </Link>

@@ -27,29 +27,32 @@ if (!$post_id) {
 
 try {
     $sql = "
-        SELECT 
+        SELECT
             bp.id,
             bp.title,
             bp.user_id,
+            u.id AS user_numeric_id,
+            u.ime AS user_name,
             bp.content,
             bp.publish_date,
             bp.category_id,
             c.category_name,
 
             (
-                SELECT COUNT(*) 
-                FROM likes pl 
+                SELECT COUNT(*)
+                FROM likes pl
                 WHERE pl.post_id = bp.id
             ) AS likes,
 
             (
-                SELECT COUNT(*) 
-                FROM likes pl 
+                SELECT COUNT(*)
+                FROM likes pl
                 WHERE pl.post_id = bp.id AND pl.user_id = ?
             ) AS liked
 
         FROM blog_posts bp
         LEFT JOIN category c ON bp.category_id = c.id
+        LEFT JOIN users u ON u.ime = bp.user_id OR CAST(u.id AS CHAR) = bp.user_id
         WHERE bp.id = ?
     ";
 

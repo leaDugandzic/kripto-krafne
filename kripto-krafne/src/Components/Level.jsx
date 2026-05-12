@@ -66,6 +66,19 @@ const Level = () => {
 
     const GameComponent = gameComponents[level.gameType] || DragDropGame;
 
+    const handleLevelComplete = async () => {
+        try {
+            await fetch('http://localhost/kripto-krafne/kripto-krafne/src/backend/complete_level.php', {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ level_id: level.id }),
+            });
+        } catch {
+            // non-critical — ignore silently
+        }
+    };
+
     return (
         <div className="page-wrapper">
             <DetailsSection level={level} />
@@ -74,6 +87,7 @@ const Level = () => {
                 gameData={level.game}
                 currentLevelId={level.id}
                 vulnerabilities={level.vulnerabilities}
+                onComplete={handleLevelComplete}
             />
         </div>
     );

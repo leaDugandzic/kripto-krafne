@@ -84,6 +84,12 @@ try {
 
     $conn->commit();
 
+    // Award tim_igrac achievement
+    $conn->query("INSERT IGNORE INTO user_achievements (user_id, achievement_key) VALUES ($userId, 'tim_igrac')");
+    if ($conn->affected_rows > 0) {
+        $conn->query("UPDATE users SET xp = xp + 25 WHERE id = $userId");
+    }
+
     echo json_encode([
         'success'   => true,
         'message'   => 'Team created successfully!',

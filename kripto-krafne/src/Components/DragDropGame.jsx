@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Krafna from "../assets/img/krafna.png";
 
-const DragDropGame = ({ gameData, currentLevelId }) => {
+const DragDropGame = ({ gameData, currentLevelId, onComplete }) => {
     const [items, setItems] = useState([]);
     const [boxes, setBoxes] = useState([]);
     const [matchedItems, setMatchedItems] = useState([]);
@@ -27,6 +27,7 @@ const DragDropGame = ({ gameData, currentLevelId }) => {
 
     useEffect(() => {
         if (items.length > 0 && matchedItems.length === items.length) {
+            onComplete?.();
             setTimeout(() => setShowBravo(true), 400);
         }
     }, [matchedItems, items.length]);

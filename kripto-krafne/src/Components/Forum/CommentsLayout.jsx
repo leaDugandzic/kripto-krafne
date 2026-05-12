@@ -1,4 +1,5 @@
 import { MessageSquare } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CommentsLayout = ({ com }) => {
     const formatirajDatum = (datumString) => {
@@ -26,11 +27,20 @@ const CommentsLayout = ({ com }) => {
                     <MessageSquare size={14} style={{ color: 'white' }} />
                 </div>
                 <div>
-                    <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                        {com.user_id}
-                    </span>
+                    {com.user_numeric_id ? (
+                        <Link
+                            to={`/profile/${com.user_numeric_id}`}
+                            style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', textDecoration: 'none', transition: 'color 0.15s' }}
+                            onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                        >
+                            {com.user_name || com.user_id}
+                        </Link>
+                    ) : (
+                        <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>{com.user_id || 'Anoniman'}</span>
+                    )}
                     <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginLeft: 8 }}>
-                        {formatirajDatum(com.publish_date)}
+                        {formatirajDatum(com.created_at)}
                     </span>
                 </div>
             </div>

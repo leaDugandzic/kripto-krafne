@@ -57,10 +57,12 @@ try {
         $totalPosts = $countResult->fetch_assoc()['total'];
     }
 
-   $sql = "SELECT 
+   $sql = "SELECT
     bp.id,
     bp.title,
     bp.user_id,
+    MAX(u.id) AS user_numeric_id,
+    MAX(u.ime) AS user_name,
     bp.content,
     bp.publish_date,
     bp.category_id,
@@ -68,14 +70,15 @@ try {
 
     COUNT(l.id) AS likes,
 
-    MAX(CASE 
-        WHEN l.user_id = ? THEN 1 
-        ELSE 0 
+    MAX(CASE
+        WHEN l.user_id = ? THEN 1
+        ELSE 0
     END) AS liked
 
 FROM blog_posts bp
 LEFT JOIN category c ON bp.category_id = c.id
 LEFT JOIN likes l ON l.post_id = bp.id
+LEFT JOIN users u ON u.ime = bp.user_id OR CAST(u.id AS CHAR) = bp.user_id
 $whereClause
 GROUP BY bp.id
 ORDER BY bp.publish_date DESC

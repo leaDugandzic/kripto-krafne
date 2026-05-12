@@ -320,7 +320,14 @@ const TeamFormation = () => {
                                                     {displayName.charAt(0).toUpperCase()}
                                                 </div>
                                                 <div>
-                                                    <p style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{displayName}</p>
+                                                    <Link
+                                                        to={`/profile/${member.id}`}
+                                                        style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)', textDecoration: 'none', transition: 'color 0.15s' }}
+                                                        onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                                                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                                                    >
+                                                        {displayName}
+                                                    </Link>
                                                     <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4 }}>
                                                         {member.is_captain ? <><Crown size={10} /> Kapetan</> : 'Član'}
                                                     </p>
@@ -358,7 +365,14 @@ const TeamFormation = () => {
                                                     padding: '10px 14px', borderRadius: 'var(--radius-md)',
                                                     background: 'var(--glass-bg)', border: '1px solid var(--glass-border)'
                                                 }}>
-                                                    <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{user.username}</span>
+                                                    <Link
+                                                        to={`/profile/${user.id}`}
+                                                        style={{ fontWeight: 600, color: 'var(--text-primary)', textDecoration: 'none', transition: 'color 0.15s' }}
+                                                        onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                                                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                                                    >
+                                                        {user.username}
+                                                    </Link>
                                                     <button className="btn btn-primary" onClick={() => handleInvite(user.username)} style={{ padding: '6px 14px', fontSize: '0.825rem', display: 'flex', alignItems: 'center', gap: 5 }}>
                                                         <UserPlus size={13} /> Pozovi
                                                     </button>

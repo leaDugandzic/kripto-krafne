@@ -75,6 +75,9 @@ export default function LoginForm() {
             }
             if (jsonData.success) {
                 setMessage("Login successful!");
+                if (jsonData.new_achievements?.length > 0) {
+                    sessionStorage.setItem('kk-pending-achievements', JSON.stringify(jsonData.new_achievements));
+                }
                 setTimeout(() => { window.location.href = '/'; }, 1000);
             } else {
                 setError(jsonData.message || "Login failed");

@@ -225,7 +225,18 @@ const Forums = () => {
                                                     );
                                                 })()}
                                                 <span>·</span>
-                                                <span>{post.user_id || "Anoniman"}</span>
+                                                {post.user_numeric_id ? (
+                                                    <Link
+                                                        to={`/profile/${post.user_numeric_id}`}
+                                                        style={{ color: 'var(--text-muted)', textDecoration: 'none', fontWeight: 500, transition: 'color 0.15s' }}
+                                                        onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                                                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+                                                    >
+                                                        {post.user_name || post.user_id}
+                                                    </Link>
+                                                ) : (
+                                                    <span>{post.user_id || 'Anoniman'}</span>
+                                                )}
                                                 <span>·</span>
                                                 <span>{formatirajDatum(post.publish_date)}</span>
                                             </div>

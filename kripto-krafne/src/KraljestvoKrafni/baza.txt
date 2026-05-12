@@ -392,3 +392,39 @@ CREATE TABLE competition_settings (
 -- Insert default competition settings
 INSERT INTO competition_settings (max_team_size, created_by_admin_id) 
 VALUES (4, 1);
+
+
+--novo MOJEEE
+-- Add XP + join date to users
+ALTER TABLE users ADD COLUMN xp INT DEFAULT 0;
+ALTER TABLE users ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+-- Streak tracking
+CREATE TABLE user_streaks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL UNIQUE,
+    current_streak INT DEFAULT 0,
+    longest_streak INT DEFAULT 0,
+    last_login_date DATE NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Achievement tracking
+CREATE TABLE user_achievements (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    achievement_key VARCHAR(50) NOT NULL,
+    earned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_achievement (user_id, achievement_key)
+);
+
+-- Lecture level completion tracking
+CREATE TABLE user_level_progress (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    level_id INT NOT NULL,
+    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_level (user_id, level_id)
+);

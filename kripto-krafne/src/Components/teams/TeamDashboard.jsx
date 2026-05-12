@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Crown, Users, CheckCircle, Clock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const TeamDashboard = () => {
     const [teamData, setTeamData] = useState(null);
@@ -159,7 +160,18 @@ const TeamDashboard = () => {
                                                 }
                                             </div>
                                             <p style={{ fontSize: '0.78rem', color: task ? 'var(--success)' : 'var(--text-muted)' }}>
-                                                {task ? `Riješio: ${task.solved_by_username || task.solved_by_user_id}` : 'Na čekanju'}
+                                                {task ? (
+                                                    <>Riješio:{' '}
+                                                        <Link
+                                                            to={`/profile/${task.solved_by_user_id}`}
+                                                            style={{ color: 'var(--success)', fontWeight: 600, textDecoration: 'none' }}
+                                                            onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
+                                                            onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                                                        >
+                                                            {task.solved_by_username || `#${task.solved_by_user_id}`}
+                                                        </Link>
+                                                    </>
+                                                ) : 'Na čekanju'}
                                             </p>
                                             {task && (
                                                 <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 4 }}>
@@ -203,9 +215,14 @@ const TeamDashboard = () => {
                                         </div>
                                         <div style={{ flex: 1, minWidth: 0 }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                                                <p style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                <Link
+                                                    to={`/profile/${member.id}`}
+                                                    style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textDecoration: 'none', transition: 'color 0.15s' }}
+                                                    onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                                                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                                                >
                                                     {member.username}
-                                                </p>
+                                                </Link>
                                                 {member.is_captain && <Crown size={13} style={{ color: '#f59e0b', flexShrink: 0 }} />}
                                             </div>
                                             <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>

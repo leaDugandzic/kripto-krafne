@@ -50,7 +50,7 @@ $teamId = $teamMember['team_id'];
 
 // Check competition is active AND not expired
 $stmt = $conn->prepare("
-    SELECT id, end_time FROM competition_settings
+    SELECT id, start_time, end_time FROM competition_settings
     WHERE is_active = TRUE AND end_time > NOW()
     LIMIT 1
 ");
@@ -96,9 +96,15 @@ try {
     $stmt->bind_param("iiis", $teamId, $taskNumber, $userId, $code);
     $stmt->execute();
 
-    $stmt = $conn->prepare("UPDATE teams SET score = score + 100, last_solved = NOW() WHERE id = ?");
-    $stmt->bind_param("i", $teamId);
+    $taskPoints = [1 => 200, 2 => 80, 3 => 100, 4 => 50, 5 => 100, 6 => 150];
+    $points = $taskPoints[$taskNumber] ?? 100;
+
+    $stmt = $conn->prepare("UPDATE teams SET score = score + ?, last_solved = NOW() WHERE id = ?");
+    $stmt->bind_param("ii", $points, $teamId);
     $stmt->execute();
+
+    // +100 XP to solving user
+    $conn->query("UPDATE users SET xp = xp + 100 WHERE id = $userId");
 
     $conn->commit();
 
@@ -111,14 +117,54 @@ try {
     $stmt = $conn->prepare("SELECT COUNT(*) as solved FROM team_progress WHERE team_id = ?");
     $stmt->bind_param("i", $teamId);
     $stmt->execute();
-    $solvedCount = $stmt->get_result()->fetch_assoc()['solved'];
+    $solvedCount = intval($stmt->get_result()->fetch_assoc()['solved']);
+
+    // --- Achievements (only track newly earned this request) ---
+    $newAchievements = [];
+    $userSolves = intval($conn->query("SELECT COUNT(*) as c FROM team_progress WHERE solved_by_user_id = $userId")->fetch_assoc()['c']);
+
+    $awardAchievement = function($key, $xp) use ($conn, $userId, &$newAchievements) {
+        $conn->query("INSERT IGNORE INTO user_achievements (user_id, achievement_key) VALUES ($userId, '$key')");
+        if ($conn->affected_rows > 0) {
+            $conn->query("UPDATE users SET xp = xp + $xp WHERE id = $userId");
+            $newAchievements[] = $key;
+        }
+    };
+
+    if ($userSolves === 1) $awardAchievement('prva_krafna', 50);
+    if ($userSolves >= 3)  $awardAchievement('secer_i_sol', 75);
+
+    // brzi_prsti: solved within 10 minutes of competition start
+    $compStart = $competition['start_time'] ?? null;
+    if ($compStart && (time() - strtotime($compStart)) <= 600) {
+        $awardAchievement('brzi_prsti', 200);
+    }
+
+    // Check if team has solved all 6 tasks now
+    if ($solvedCount >= 6) {
+        // slatka_pobjeda: all team members
+        $members = $conn->query("SELECT user_id FROM team_members WHERE team_id = $teamId")->fetch_all(MYSQLI_ASSOC);
+        foreach ($members as $m) {
+            $mid = intval($m['user_id']);
+            $conn->query("INSERT IGNORE INTO user_achievements (user_id, achievement_key) VALUES ($mid, 'slatka_pobjeda')");
+            if ($conn->affected_rows > 0) {
+                $conn->query("UPDATE users SET xp = xp + 150 WHERE id = $mid");
+                if ($mid === intval($userId)) $newAchievements[] = 'slatka_pobjeda';
+            }
+        }
+        // solo_kuhar: only if solo
+        $teamSize = intval($conn->query("SELECT COUNT(*) as c FROM team_members WHERE team_id = $teamId")->fetch_assoc()['c']);
+        if ($teamSize === 1) $awardAchievement('solo_kuhar', 300);
+    }
 
     echo json_encode([
-        'success'      => true,
-        'message'      => '🎉 Task solved! +100 points added to your team!',
-        'team_score'   => $teamScore,
-        'tasks_solved' => $solvedCount,
-        'total_tasks'  => 6
+        'success'          => true,
+        'message'          => "Task riješen! +{$points} bodova za tim!",
+        'points_awarded'   => $points,
+        'team_score'       => $teamScore,
+        'tasks_solved'     => $solvedCount,
+        'total_tasks'      => 6,
+        'new_achievements' => $newAchievements,
     ]);
 } catch (Exception $e) {
     $conn->rollback();

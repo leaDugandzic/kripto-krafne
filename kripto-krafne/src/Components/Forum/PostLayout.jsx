@@ -166,7 +166,18 @@ const PostLayout = () => {
                                 {post.category_name}
                             </span>
                             <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>·</span>
-                            <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>{post.user_id}</span>
+                            {post.user_numeric_id ? (
+                                <Link
+                                    to={`/profile/${post.user_numeric_id}`}
+                                    style={{ color: 'var(--text-muted)', fontSize: '0.78rem', textDecoration: 'none', fontWeight: 500, transition: 'color 0.15s' }}
+                                    onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+                                >
+                                    {post.user_name || post.user_id}
+                                </Link>
+                            ) : (
+                                <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>{post.user_id || 'Anoniman'}</span>
+                            )}
                             <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>·</span>
                             <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>{formatirajDatum(post.publish_date)}</span>
                         </div>

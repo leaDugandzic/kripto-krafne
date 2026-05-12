@@ -19,10 +19,11 @@ if (!$postId) {
 }
 
 $stmt = $conn->prepare("
-    SELECT id, user_id, content, created_at
-    FROM comments
-    WHERE post_id = ?
-    ORDER BY created_at DESC
+    SELECT c.id, c.user_id, u.id AS user_numeric_id, u.ime AS user_name, c.content, c.created_at
+    FROM comments c
+    LEFT JOIN users u ON u.ime = c.user_id OR CAST(u.id AS CHAR) = c.user_id
+    WHERE c.post_id = ?
+    ORDER BY c.created_at DESC
 ");
 
 $stmt->bind_param("i", $postId);

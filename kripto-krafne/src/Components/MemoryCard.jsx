@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import Krafna from "../assets/img/krafna.png";
 
-const MemoryCardGame = ({ gameData, currentLevelId }) => {
+const MemoryCardGame = ({ gameData, currentLevelId, onComplete }) => {
     const [cards, setCards] = useState([]);
     const [flipped, setFlipped] = useState([]);
     const [matched, setMatched] = useState([]);
@@ -21,6 +21,7 @@ const MemoryCardGame = ({ gameData, currentLevelId }) => {
 
     useEffect(() => {
         if (matched.length === gameData.length * 2 && gameData.length > 0) {
+            onComplete?.();
             setTimeout(() => setShowBravo(true), 600);
         }
     }, [matched, gameData.length]);

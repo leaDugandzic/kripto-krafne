@@ -92,15 +92,53 @@ if (isset($data["Email"]) && isset($data["Password"])) {
     
     if (password_verify($password, $user["lozinka"])) {
         $_SESSION['username'] = $user['ime'];
-        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_id']  = $user['id'];
         $_SESSION['is_admin'] = $user['is_admin'] ?? 0;
-        
+
+        $uid   = $user['id'];
+        $today = date('Y-m-d');
+
+        // Update streak
+        $sRow = $conn->query("SELECT * FROM user_streaks WHERE user_id = $uid")->fetch_assoc();
+        if (!$sRow) {
+            $conn->query("INSERT INTO user_streaks (user_id, current_streak, longest_streak, last_login_date) VALUES ($uid, 1, 1, '$today')");
+            $newStreak = 1;
+        } elseif ($sRow['last_login_date'] !== $today) {
+            $yesterday = date('Y-m-d', strtotime('-1 day'));
+            $newStreak = ($sRow['last_login_date'] === $yesterday) ? $sRow['current_streak'] + 1 : 1;
+            $longest   = max($newStreak, $sRow['longest_streak']);
+            $conn->query("UPDATE user_streaks SET current_streak=$newStreak, longest_streak=$longest, last_login_date='$today' WHERE user_id=$uid");
+        } else {
+            $newStreak = $sRow['current_streak'];
+        }
+
+        // Helper: award achievement, returns true if newly earned
+        $awardNew = function($key, $xp) use ($conn, $uid) {
+            $conn->query("INSERT IGNORE INTO user_achievements (user_id, achievement_key) VALUES ($uid, '$key')");
+            if ($conn->affected_rows > 0) {
+                $conn->query("UPDATE users SET xp = xp + $xp WHERE id = $uid");
+                return true;
+            }
+            return false;
+        };
+
+        $newAchievements = [];
+
+        // Retroactively award dobrodosao to all existing users
+        if ($awardNew('dobrodosao', 10)) $newAchievements[] = 'dobrodosao';
+
+        // Streak-based achievements
+        if ($newStreak >= 3 && $awardNew('dnevna_doza', 30))   $newAchievements[] = 'dnevna_doza';
+        if ($newStreak >= 7 && $awardNew('tjedan_krafni', 100)) $newAchievements[] = 'tjedan_krafni';
+
         echo json_encode([
-            "success" => true, 
-            "message" => "Uspješno ste ulogirani",
-            "user_id" => $user['id'],
-            "username" => $user['ime'],
-            "is_admin" => $user['is_admin'] ?? 0
+            "success"          => true,
+            "message"          => "Uspješno ste ulogirani",
+            "user_id"          => $user['id'],
+            "username"         => $user['ime'],
+            "is_admin"         => $user['is_admin'] ?? 0,
+            "current_streak"   => $newStreak,
+            "new_achievements" => $newAchievements,
         ]);
     } else {
         echo json_encode(["success" => false, "message" => "Netočna lozinka. Molim vas pokušajte ponovno."]);

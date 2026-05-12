@@ -2,14 +2,15 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Key, CheckCircle, Lock, Trophy, AlertCircle } from "lucide-react";
+import { showAchievementToast } from '../Components/AchievementToast';
 
 const donuts = [
-    { id: 1, src: "../src/assets/img/yellow-donut.webp", code: "krafna{gl4z3d_s3cur1ty}", route: "/radnici", label: "Radnici" },
-    { id: 2, src: "../src/assets/img/brown-drizzle-donut.webp", code: "krafna{d0ughnut_h4x}", route: "/recipe/1", label: "Recept" },
-    { id: 3, src: "../src/assets/img/white-dotted-donut.webp", code: "krafna{3ncrypt3d_j3ly}", route: "/menu", label: "Tajni Meni" },
-    { id: 4, src: "../src/assets/img/blue-donut.webp", code: "krafna{5ug4r_5pr1nkl3}", route: "/dragdrop", label: "Trezor" },
-    { id: 5, src: "../src/assets/img/plain-donut.webp", code: "krafna{c1nnam0n_r0ll}", route: "/kolo", label: "Kolo Sreće" },
-    { id: 6, src: "../src/assets/img/green-donut.webp", code: "krafna{f1ll3d_w1th_fl4g}", route: "/images", label: "Galerija" },
+    { id: 1, src: "../src/assets/img/yellow-donut.webp", code: "krafna{gl4z3d_s3cur1ty}", route: "/radnici",   label: "Radnici",    points: 200 },
+    { id: 2, src: "../src/assets/img/brown-drizzle-donut.webp", code: "krafna{d0ughnut_h4x}", route: "/recipe/1", label: "Recept",  points: 80  },
+    { id: 3, src: "../src/assets/img/white-dotted-donut.webp", code: "krafna{3ncrypt3d_j3ly}", route: "/menu",  label: "Tajni Meni", points: 100 },
+    { id: 4, src: "../src/assets/img/blue-donut.webp", code: "krafna{5ug4r_5pr1nkl3}", route: "/dragdrop",     label: "Trezor",     points: 50  },
+    { id: 5, src: "../src/assets/img/plain-donut.webp", code: "krafna{c1nnam0n_r0ll}", route: "/kolo",          label: "Kolo Sreće", points: 100 },
+    { id: 6, src: "../src/assets/img/green-donut.webp", code: "krafna{f1ll3d_w1th_fl4g}", route: "/images",    label: "Galerija",   points: 150 },
 ];
 
 const BASE = "http://localhost/kripto-krafne/kripto-krafne/src/backend";
@@ -99,7 +100,10 @@ export default function DonutGame() {
             });
             const data = await res.json();
             if (data.success) {
-                setFeedback(index, `+100 bodova! Tim: ${data.team_score} ukupno`);
+                setFeedback(index, `+${data.points_awarded} bodova! Tim: ${data.team_score} ukupno`);
+                (data.new_achievements || []).forEach((key, i) => {
+                    setTimeout(() => showAchievementToast(key), i * 900);
+                });
             } else if (data.message?.toLowerCase().includes('already')) {
                 // Team already solved this — still show as validated
                 setFeedback(index, 'already');
@@ -287,18 +291,30 @@ export default function DonutGame() {
                                     />
                                 </Link>
 
-                                {/* Challenge label */}
-                                <Link to={donut.route} style={{
-                                    fontSize: '0.78rem', fontWeight: 700,
-                                    letterSpacing: '0.06em', textTransform: 'uppercase',
-                                    color: 'var(--text-muted)', textDecoration: 'none',
-                                    transition: 'color 0.15s'
-                                }}
-                                    onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
-                                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
-                                >
-                                    {donut.label} →
-                                </Link>
+                                {/* Challenge label + points */}
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                                    <Link to={donut.route} style={{
+                                        fontSize: '0.78rem', fontWeight: 700,
+                                        letterSpacing: '0.06em', textTransform: 'uppercase',
+                                        color: 'var(--text-muted)', textDecoration: 'none',
+                                        transition: 'color 0.15s'
+                                    }}
+                                        onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+                                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+                                    >
+                                        {donut.label} →
+                                    </Link>
+                                    <span style={{
+                                        fontSize: '0.68rem', fontWeight: 700,
+                                        color: done ? 'var(--success)' : 'var(--yellow)',
+                                        background: done ? 'rgba(100,220,150,0.12)' : 'var(--yellow-soft)',
+                                        border: `1px solid ${done ? 'var(--success)' : 'var(--yellow)'}`,
+                                        borderRadius: 'var(--radius-full)',
+                                        padding: '2px 8px', letterSpacing: '0.04em'
+                                    }}>
+                                        {donut.points} pts
+                                    </span>
+                                </div>
 
                                 {/* Input + button */}
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, width: '100%' }}>
