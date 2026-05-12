@@ -76,7 +76,7 @@ if (isset($data["Email"]) && isset($data["Password"])) {
     $email = $data["Email"];
     $password = $data["Password"];
 
-    $stmt = $conn->prepare("SELECT id, ime, email, lozinka, is_admin FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, ime, email, lozinka, is_admin, avatar FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -94,6 +94,7 @@ if (isset($data["Email"]) && isset($data["Password"])) {
         $_SESSION['username'] = $user['ime'];
         $_SESSION['user_id']  = $user['id'];
         $_SESSION['is_admin'] = $user['is_admin'] ?? 0;
+        $_SESSION['avatar']   = $user['avatar'] ?? null;
 
         $uid   = $user['id'];
         $today = date('Y-m-d');

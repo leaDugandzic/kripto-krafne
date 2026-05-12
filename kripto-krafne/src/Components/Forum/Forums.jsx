@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MessageCircle, Heart, ChevronRight } from "lucide-react";
+import AvatarImage from "../AvatarImage";
 
 const Forums = () => {
     const [posts, setPosts] = useState([]);
@@ -225,6 +226,7 @@ const Forums = () => {
                                                     );
                                                 })()}
                                                 <span>·</span>
+                                                <AvatarImage avatarKey={post.user_avatar} size={20} style={{ border: '1.5px solid var(--glass-border)', verticalAlign: 'middle' }} />
                                                 {post.user_numeric_id ? (
                                                     <Link
                                                         to={`/profile/${post.user_numeric_id}`}

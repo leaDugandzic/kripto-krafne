@@ -1,5 +1,5 @@
 import Logo from '../assets/img/logo.png';
-import Krafnapfp from "../assets/img/krafna.png";
+import { getAvatar } from '../assets/avatars';
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Users, Trophy, Settings, LogOut, ChevronDown, User } from 'lucide-react';
@@ -34,6 +34,12 @@ function Navbar({ theme, onToggleTheme }) {
 
     useEffect(() => { setMenuOpen(false); }, [location]);
 
+    useEffect(() => {
+        const onAvatarUpdated = (e) => setUser(prev => prev ? { ...prev, avatar: e.detail.avatar } : prev);
+        window.addEventListener('kk-avatar-updated', onAvatarUpdated);
+        return () => window.removeEventListener('kk-avatar-updated', onAvatarUpdated);
+    }, []);
+
     const checkSession = () => {
         fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/session.php", {
             method: "GET", credentials: "include",
@@ -41,7 +47,7 @@ function Navbar({ theme, onToggleTheme }) {
             .then(r => r.json())
             .then(data => {
                 if (data.authenticated) {
-                    setUser({ id: data.user_id, username: data.username, isAdmin: Boolean(data.is_admin) });
+                    setUser({ id: data.user_id, username: data.username, isAdmin: Boolean(data.is_admin), avatar: data.avatar ?? null });
                     checkCompetition();
                 } else {
                     setUser(null);
@@ -138,7 +144,7 @@ function Navbar({ theme, onToggleTheme }) {
                                     onClick={() => setDropdownOpen(o => !o)}
                                     aria-expanded={dropdownOpen}
                                 >
-                                    <img src={Krafnapfp} alt="Profile" className="kk-navbar__avatar" />
+                                    <img src={getAvatar(user.avatar)} alt="Profile" className="kk-navbar__avatar" />
                                     <span className="kk-navbar__username">{user.username}</span>
                                     <ChevronDown
                                         size={16}

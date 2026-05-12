@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Crown, Users, CheckCircle, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AvatarImage from '../AvatarImage';
 
 const TeamDashboard = () => {
     const [teamData, setTeamData] = useState(null);
@@ -203,16 +204,11 @@ const TeamDashboard = () => {
                                         border: '1px solid var(--glass-border)',
                                         background: 'var(--glass-bg)'
                                     }}>
-                                        <div style={{
-                                            width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
-                                            background: member.is_captain
-                                                ? 'linear-gradient(135deg, #f59e0b, #d97706)'
-                                                : 'linear-gradient(135deg, var(--accent), var(--purple))',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            fontWeight: 700, fontSize: '0.875rem', color: 'white'
-                                        }}>
-                                            {member.username.charAt(0).toUpperCase()}
-                                        </div>
+                                        <AvatarImage
+                                            avatarKey={member.avatar}
+                                            size={36}
+                                            style={{ border: `2px solid ${member.is_captain ? '#f59e0b' : 'var(--accent)'}` }}
+                                        />
                                         <div style={{ flex: 1, minWidth: 0 }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                                                 <Link

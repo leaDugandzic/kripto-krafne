@@ -63,6 +63,7 @@ try {
     bp.user_id,
     MAX(u.id) AS user_numeric_id,
     MAX(u.ime) AS user_name,
+    MAX(u.avatar) AS user_avatar,
     bp.content,
     bp.publish_date,
     bp.category_id,

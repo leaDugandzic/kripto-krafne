@@ -15,11 +15,15 @@ session_start();
 
 // Check if user is authenticated
 if (isset($_SESSION['user_id']) && isset($_SESSION['username'])) {
+    require_once './dbConnection.php';
+    $uid = intval($_SESSION['user_id']);
+    $row = $conn->query("SELECT avatar FROM users WHERE id = $uid")->fetch_assoc();
     echo json_encode([
         'authenticated' => true,
         'user_id' => $_SESSION['user_id'],
         'username' => $_SESSION['username'],
-        'is_admin' => $_SESSION['is_admin'] ?? 0
+        'is_admin' => $_SESSION['is_admin'] ?? 0,
+        'avatar' => $row['avatar'] ?? null,
     ]);
 } else {
     echo json_encode([

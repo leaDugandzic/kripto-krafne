@@ -33,6 +33,7 @@ try {
             bp.user_id,
             u.id AS user_numeric_id,
             u.ime AS user_name,
+            u.avatar AS user_avatar,
             bp.content,
             bp.publish_date,
             bp.category_id,

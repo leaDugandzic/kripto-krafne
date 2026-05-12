@@ -21,7 +21,7 @@ if (!$requestedId) {
 }
 
 // ── Basic user info ──────────────────────────────────────────────────────────
-$stmt = $conn->prepare("SELECT id, ime, email, xp, created_at, is_admin FROM users WHERE id = ?");
+$stmt = $conn->prepare("SELECT id, ime, email, xp, created_at, is_admin, avatar FROM users WHERE id = ?");
 $stmt->bind_param("i", $requestedId);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
@@ -81,6 +81,7 @@ echo json_encode([
         'xp'         => intval($user['xp']),
         'is_admin'   => (bool)$user['is_admin'],
         'created_at' => $user['created_at'],
+        'avatar'     => $user['avatar'],
     ],
     'streak'         => [
         'current'    => intval($streak['current_streak']),

@@ -45,7 +45,7 @@ $team = $result->fetch_assoc();
 if ($team) {
     // Get team members
     $stmt = $conn->prepare("
-        SELECT u.id, u.ime as username, u.email, tm.is_captain, tm.joined_at
+        SELECT u.id, u.ime as username, u.email, u.avatar, tm.is_captain, tm.joined_at
         FROM team_members tm
         JOIN users u ON tm.user_id = u.id
         WHERE tm.team_id = ?

@@ -19,7 +19,7 @@ if (!$postId) {
 }
 
 $stmt = $conn->prepare("
-    SELECT c.id, c.user_id, u.id AS user_numeric_id, u.ime AS user_name, c.content, c.created_at
+    SELECT c.id, c.user_id, u.id AS user_numeric_id, u.ime AS user_name, u.avatar AS user_avatar, c.content, c.created_at
     FROM comments c
     LEFT JOIN users u ON u.ime = c.user_id OR CAST(u.id AS CHAR) = c.user_id
     WHERE c.post_id = ?

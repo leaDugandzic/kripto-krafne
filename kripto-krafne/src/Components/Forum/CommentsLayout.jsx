@@ -1,5 +1,5 @@
-import { MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
+import AvatarImage from "../AvatarImage";
 
 const CommentsLayout = ({ com }) => {
     const formatirajDatum = (datumString) => {
@@ -18,14 +18,11 @@ const CommentsLayout = ({ com }) => {
             marginTop: 12
         }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                <div style={{
-                    width: 32, height: 32, borderRadius: '50%',
-                    background: 'linear-gradient(135deg, var(--accent), var(--purple))',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    flexShrink: 0
-                }}>
-                    <MessageSquare size={14} style={{ color: 'white' }} />
-                </div>
+                <AvatarImage
+                    avatarKey={com.user_avatar}
+                    size={32}
+                    style={{ border: '1.5px solid var(--glass-border)' }}
+                />
                 <div>
                     {com.user_numeric_id ? (
                         <Link

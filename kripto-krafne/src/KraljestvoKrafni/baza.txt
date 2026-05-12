@@ -428,3 +428,4 @@ CREATE TABLE user_level_progress (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE KEY unique_user_level (user_id, level_id)
 );
+ALTER TABLE users ADD COLUMN avatar VARCHAR(50) DEFAULT NULL;

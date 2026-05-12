@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Crown, UserPlus, Search, LogOut, CheckCircle, XCircle, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AvatarImage from '../AvatarImage';
 
 const TeamFormation = () => {
     const [teamName, setTeamName]             = useState('');
@@ -309,16 +310,11 @@ const TeamFormation = () => {
                                                 background: 'var(--glass-bg)',
                                                 border: '1px solid var(--glass-border)'
                                             }}>
-                                                <div style={{
-                                                    width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
-                                                    background: member.is_captain ? 'rgba(255,180,50,0.2)' : 'var(--accent-soft)',
-                                                    border: `1px solid ${member.is_captain ? '#ffb432' : 'var(--accent)'}`,
-                                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                    fontWeight: 700, fontSize: '0.9rem',
-                                                    color: member.is_captain ? '#ffb432' : 'var(--accent)'
-                                                }}>
-                                                    {displayName.charAt(0).toUpperCase()}
-                                                </div>
+                                                <AvatarImage
+                                                    avatarKey={member.avatar}
+                                                    size={36}
+                                                    style={{ border: `2px solid ${member.is_captain ? '#ffb432' : 'var(--accent)'}` }}
+                                                />
                                                 <div>
                                                     <Link
                                                         to={`/profile/${member.id}`}

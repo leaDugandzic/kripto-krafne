@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Heart, Send } from "lucide-react";
 import CommentsLayout from "./CommentsLayout";
+import AvatarImage from "../AvatarImage";
 
 const PostLayout = () => {
     const { postid } = useParams();
@@ -166,6 +167,7 @@ const PostLayout = () => {
                                 {post.category_name}
                             </span>
                             <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>·</span>
+                            <AvatarImage avatarKey={post.user_avatar} size={22} style={{ border: '1.5px solid var(--glass-border)' }} />
                             {post.user_numeric_id ? (
                                 <Link
                                     to={`/profile/${post.user_numeric_id}`}
