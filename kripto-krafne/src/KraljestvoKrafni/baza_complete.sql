@@ -1,0 +1,487 @@
+-- =============================================
+-- KRAFNE_BAZA — Complete corrected database script
+-- Apply on a clean database (DROP DATABASE first if needed).
+-- =============================================
+
+CREATE DATABASE krafne_baza
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_general_ci;
+USE krafne_baza;
+
+-- =============================================
+-- INDEPENDENT TABLES (no foreign keys)
+-- =============================================
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ime VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    lozinka VARCHAR(255) NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE,
+    is_banned TINYINT(1) NOT NULL DEFAULT 0,
+    xp INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    avatar VARCHAR(50) DEFAULT NULL
+);
+
+CREATE TABLE category (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100)
+);
+
+CREATE TABLE krafne (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ime VARCHAR(50) NOT NULL,
+    cijena DECIMAL(4,2) NOT NULL,
+    nadjev VARCHAR(50),
+    slika VARCHAR(100)
+);
+
+CREATE TABLE teams (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    score INT DEFAULT 0,
+    last_solved TIMESTAMP NULL,
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE game_levels (
+    id INT PRIMARY KEY,
+    category_id INT,
+    name VARCHAR(255) NOT NULL,
+    game_type ENUM('dragDrop', 'memoryCards', 'findVulnerability') NOT NULL
+);
+
+CREATE TABLE competition_settings (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    is_active BOOLEAN DEFAULT FALSE,
+    start_time DATETIME NULL,
+    end_time DATETIME NULL,
+    duration_hours INT DEFAULT 24,
+    max_team_size INT DEFAULT 4,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by_admin_id INT,
+    FOREIGN KEY (created_by_admin_id) REFERENCES users(id)
+);
+
+CREATE TABLE recepti (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ime VARCHAR(100) NOT NULL,
+    slika VARCHAR(255) NOT NULL,
+    tijesto TEXT NOT NULL,
+    nadjev TEXT NOT NULL,
+    priprema TEXT NOT NULL,
+    vrijeme_pripreme VARCHAR(50) NOT NULL
+);
+
+-- =============================================
+-- TABLES DEPENDENT ON: users, teams
+-- =============================================
+CREATE TABLE ljestvica (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    bodovi INT DEFAULT 0,
+    datum_zadnje_aktivnosti TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE team_members (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    team_id INT NOT NULL,
+    user_id INT NOT NULL,
+    is_captain BOOLEAN DEFAULT FALSE,
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_team_user (team_id, user_id)
+);
+
+CREATE TABLE invitations (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    team_id INT NOT NULL,
+    from_user_id INT NOT NULL,
+    to_user_id INT NOT NULL,
+    status ENUM('pending', 'accepted', 'declined') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL 7 DAY),
+    FOREIGN KEY (team_id) REFERENCES teams(id),
+    FOREIGN KEY (from_user_id) REFERENCES users(id),
+    FOREIGN KEY (to_user_id) REFERENCES users(id),
+    UNIQUE KEY unique_active_invite (team_id, to_user_id, status)
+);
+
+CREATE TABLE team_progress (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    team_id INT NOT NULL,
+    task_number INT NOT NULL,
+    solved_by_user_id INT,
+    solved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    code VARCHAR(50),
+    FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
+    FOREIGN KEY (solved_by_user_id) REFERENCES users(id),
+    UNIQUE KEY unique_team_task (team_id, task_number)
+);
+
+CREATE TABLE user_streaks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL UNIQUE,
+    current_streak INT DEFAULT 0,
+    longest_streak INT DEFAULT 0,
+    last_login_date DATE NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_achievements (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    achievement_key VARCHAR(50) NOT NULL,
+    earned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_achievement (user_id, achievement_key)
+);
+
+CREATE TABLE user_level_progress (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    level_id INT NOT NULL,
+    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_level (user_id, level_id)
+);
+
+-- =============================================
+-- TABLES DEPENDENT ON: category, users
+-- =============================================
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE blog_posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    publish_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    category_id INT,
+    FOREIGN KEY (category_id) REFERENCES category(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE comments
+    ADD CONSTRAINT fk_comments_post FOREIGN KEY (post_id) REFERENCES blog_posts(id) ON DELETE CASCADE;
+
+CREATE TABLE likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_like (post_id, user_id),
+    FOREIGN KEY (post_id) REFERENCES blog_posts(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================
+-- TABLES DEPENDENT ON: game_levels
+-- =============================================
+CREATE TABLE drag_drop_games (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    level_id INT,
+    term VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    FOREIGN KEY (level_id) REFERENCES game_levels(id)
+);
+
+CREATE TABLE memory_card_games (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    level_id INT,
+    term VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    FOREIGN KEY (level_id) REFERENCES game_levels(id)
+);
+
+CREATE TABLE vulnerability_games (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    level_id INT,
+    code TEXT NOT NULL,
+    total_vulnerabilities INT NOT NULL,
+    FOREIGN KEY (level_id) REFERENCES game_levels(id)
+);
+
+CREATE TABLE vulnerability_types (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vulnerability_game_id INT,
+    type_name VARCHAR(100) NOT NULL,
+    FOREIGN KEY (vulnerability_game_id) REFERENCES vulnerability_games(id)
+);
+
+CREATE TABLE vulnerability_solutions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vulnerability_game_id INT,
+    line_number INT NOT NULL,
+    type VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    FOREIGN KEY (vulnerability_game_id) REFERENCES vulnerability_games(id)
+);
+
+-- =============================================
+-- COMPETITION ARCHIVE TABLES
+-- =============================================
+CREATE TABLE user_certificate_seen (
+    user_id INT NOT NULL,
+    competition_id INT NOT NULL,
+    seen_at DATETIME DEFAULT NOW(),
+    PRIMARY KEY (user_id, competition_id)
+);
+
+CREATE TABLE comp_archive_teams (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    competition_id INT NOT NULL,
+    team_id INT NOT NULL,
+    team_name VARCHAR(100) NOT NULL,
+    final_score INT NOT NULL DEFAULT 0,
+    tasks_solved INT NOT NULL DEFAULT 0,
+    placement INT NOT NULL,
+    last_solved DATETIME NULL,
+    UNIQUE KEY (competition_id, team_id)
+);
+
+CREATE TABLE comp_archive_members (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    competition_id INT NOT NULL,
+    team_id INT NOT NULL,
+    user_id INT NOT NULL,
+    username VARCHAR(100) NOT NULL,
+    avatar VARCHAR(50) NULL,
+    is_captain TINYINT(1) DEFAULT 0,
+    UNIQUE KEY (competition_id, team_id, user_id)
+);
+
+CREATE TABLE comp_archive_tasks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    competition_id INT NOT NULL,
+    task_number INT NOT NULL,
+    task_name VARCHAR(60) NOT NULL,
+    points INT NOT NULL DEFAULT 0,
+    teams_solved INT NOT NULL DEFAULT 0,
+    total_teams INT NOT NULL DEFAULT 0,
+    avg_minutes INT NULL,
+    UNIQUE KEY (competition_id, task_number)
+);
+
+-- =============================================
+-- DATA INSERTS
+-- =============================================
+
+-- Categories
+INSERT INTO category (category_name) VALUES
+('Kriptografija'),
+('Web sigurnost'),
+('Digitalna Forenzika'),
+('Mrežna sigurnost'),
+('Reverzno inženjerstvo'),
+('Socijalni inženjering'),
+('Općenito');
+
+-- Krafne
+INSERT INTO krafne (ime, cijena, nadjev, slika) VALUES
+('Kakao Krafna', 2.50, 'Kakao', '../assets/img/krafne/krafna1.png'),
+('Vanilija Krafna', 2.00, 'Vanilija', '../assets/img/krafne/krafna2.png'),
+('Jagodica Krafna', 2.50, 'Jagoda', '../assets/img/krafne/krafna3.png'),
+('Cimet Krafna', 3.00, 'Cimet', '../assets/img/krafne/krafna4.png'),
+('Kokos Krafna', 3.00, 'Kokos', '../assets/img/krafne/krafna5.png'),
+('Karamela Krafna', 2.50, 'Karamela', '../assets/img/krafne/krafna6.png'),
+('Pistacija Krafna', 3.50, 'Pistacija', '../assets/img/krafne/krafna7.png'),
+('Pronašao si bazu', 85.00, 'CN<iqDIIlJDI[^4E-*mH?YVB5H$o', '../assets/img/krafne/flag.png');
+
+-- Recepti
+INSERT INTO recepti (ime, slika, tijesto, nadjev, priprema, vrijeme_pripreme) VALUES
+('Kakao krafna', '../assets/img/krafne/krafna1.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Kakao krema s mrvicama čokolade', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '45 minuta'),
+('Vanilija krafna', '../assets/img/krafne/krafna2.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od vanilije sa šarenim mrvicama', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '40 minuta'),
+('Jagodica krafna', '../assets/img/krafne/krafna3.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od jagode sa šarenim mrvicama', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '50 minuta'),
+('Cimet krafna', '../assets/img/krafne/krafna4.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od cimeta i lješnjaka sa cvijetovima badema', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '55 minuta'),
+('Kokos krafna', '../assets/img/krafne/krafna5.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od kokosa s ', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '60 minuta'),
+('Šifrirana krafna', '../assets/img/krafne/flag.png', 'Koliko dobro čitaš nule i jedinice?', '00110110 01100010 00100000 00110111 00110010 00100000 00110110 00110001 00100000 00110110 00110110 00100000 00110110 01100101 00100000 00110110 00110001 00100000 00110111 01100010 00100000 00110110 00110100 00100000 00110011 00110000 00100000 00110111 00110101 00100000 00110110 00110111 00100000 00110110 01111000 00100000 00110110 01100101 00100000 00110111 00110101 00100000 00110111 00110100 00100000 00110101 01100110 00100000 00110110 01101000 00100000 00110011 00110100 00100000 00110111 01111000 00100000 00110111 01100100', '', '');
+
+-- =============================================
+-- GAME LEVELS (18 rows - matches levels.json)
+-- =============================================
+INSERT INTO game_levels (id, category_id, name, game_type) VALUES
+-- Kriptografija
+(101, 1, 'Osnove simetrične i asimetrične kriptografije', 'dragDrop'),
+(102, 1, 'Hash funkcije i digitalni potpisi', 'memoryCards'),
+(103, 1, 'Napredni napadi na kriptografske sustave i zaštita od njih', 'findVulnerability'),
+-- Web Sigurnost
+(201, 2, 'Osnove web sigurnosti i uobičajene ranjivosti (OWASP Top 10)', 'findVulnerability'),
+(202, 2, 'Sigurnosni propusti u autentifikaciji i upravljanju sesijama', 'memoryCards'),
+(203, 2, 'Napadi na web aplikacije i strategije obrane', 'dragDrop'),
+-- Digitalna Forenzika
+(301, 3, 'Osnove digitalne forenzike i metode prikupljanja dokaza', 'dragDrop'),
+(302, 3, 'Analiza datoteka, skrivenih podataka i steganografije', 'findVulnerability'),
+(303, 3, 'Forenzika mrežnog prometa i analiza zlonamjernog softvera', 'memoryCards'),
+-- Mrežna Sigurnost
+(401, 4, 'Osnove mrežnih protokola i analiza prometa', 'dragDrop'),
+(402, 4, 'Napadi na mreže: sniffing, spoofing i MITM', 'findVulnerability'),
+(403, 4, 'Zaštita mreža: enkripcija, firewalli i IDS/IPS sustavi', 'memoryCards'),
+-- Reverzno Inženjerstvo
+(501, 5, 'Osnove reverznog inženjerstva: disassembleri, decompileri i debugging', 'memoryCards'),
+(502, 5, 'Analiza binarnih izvršnih datoteka i detekcija zaštitnih mehanizama', 'findVulnerability'),
+(503, 5, 'Tehnike zaobilaženja zaštita i obfuscation u reverznom inženjerstvu', 'dragDrop'),
+-- Socijalni Inženjering
+(601, 6, 'Uvod u socijalni inženjering: Metode i tehnike napada', 'memoryCards'),
+(602, 6, 'Phishing, vishing i pretexting: Kako prepoznati i obraniti se', 'findVulnerability'),
+(603, 6, 'Manipulacija povjerenjem: Korištenje psihologije u socijalnom inženjeringu', 'dragDrop');
+
+-- =============================================
+-- DRAG-DROP GAMES (was MISSING — now seeded for all 6 dragDrop levels)
+-- =============================================
+INSERT INTO drag_drop_games (level_id, term, description) VALUES
+-- Kriptografija (101)
+(101, 'AES', 'Simetrični algoritam visokih performansi.'),
+(101, 'RSA', 'Najpoznatiji asimetrični algoritam.'),
+(101, 'Hash funkcija', 'Koristi se za provjeru integriteta podataka.'),
+(101, 'Kvantna računala', 'Mogu ugroziti postojeće kriptografske sustave.'),
+-- Web Sigurnost (203)
+(203, 'WAF', 'Web Application Firewall za filtriranje zlonamjernog prometa.'),
+(203, 'CSP', 'Content Security Policy za ograničavanje izvora skripti.'),
+(203, 'RCE', 'Remote Code Execution - izvršavanje koda na udaljenom sustavu.'),
+(203, 'Pen testiranje', 'Simulacija napada za pronalaženje ranjivosti.'),
+-- Digitalna Forenzika (301)
+(301, 'Write-blocker', 'Uređaj koji sprječava promjene na digitalnim dokazima.'),
+(301, 'Autopsy', 'Alat za forenzičku analizu diskova.'),
+(301, 'FTK Imager', 'Alat za kreiranje forenzičkih slika diskova.'),
+(301, 'Volatility', 'Alat za analizu memorije u forenzici.'),
+-- Mrežna Sigurnost (401)
+(401, 'TCP/IP', 'Temeljni protokolni skup internetske komunikacije.'),
+(401, 'DNS spoofing', 'Napad lažiranjem DNS odgovora za preusmjeravanje prometa.'),
+(401, 'OSI model', 'Model s 7 slojeva koji opisuje mrežnu komunikaciju.'),
+(401, 'TLS', 'Protokol za šifriranu komunikaciju na internetu.'),
+-- Reverzno Inženjerstvo (503)
+(503, 'Deobfuskator', 'Alat za vraćanje obfuskiranog koda u čitljivu formu.'),
+(503, 'Hardware breakpoint', 'Debugging tehnika koja zaobilazi softverske zaštite.'),
+(503, 'VM detection', 'Metode za otkrivanje virtualnog okruženja.'),
+(503, 'Code caves', 'Nekorišteni dijelovi koda gdje se može ubaciti payload.'),
+-- Socijalni Inženjering (603)
+(603, 'Reciprocitet', 'Psihološka tehnika uzvraćanja usluge.'),
+(603, 'Autoritet', 'Zlouporaba položaja moći za manipulaciju.'),
+(603, 'Hitnost', 'Stvaranje osjećaja nužnosti za brzu reakciju.'),
+(603, 'Društveni dokaz', 'Korištenje činjenice da drugi nešto rade kao opravdanje.');
+
+-- =============================================
+-- MEMORY CARD GAMES
+-- =============================================
+INSERT INTO memory_card_games (level_id, term, description) VALUES
+-- Kriptografija (102)
+(102, 'SHA-256', 'Sigurna hash funkcija korištena u Bitcoin mreži.'),
+(102, 'Digitalni potpis', 'Kombinacija hash funkcije i asimetrične kriptografije.'),
+(102, 'MD5', 'Zastarjela hash funkcija podložna napadima sudara.'),
+(102, 'Steganografija', 'Skrivanje informacija unutar drugih datoteka.'),
+-- Web Sigurnost (202)
+(202, 'Session hijacking', 'Krađa sesijskog kolačića za preuzimanje korisničkog računa.'),
+(202, 'Credential stuffing', 'Iskorištavanje istih lozinki na više servisa.'),
+(202, '2FA', 'Dvofaktorska autentifikacija za dodatnu sigurnost.'),
+(202, 'Bcrypt', 'Algoritam za sigurno hashiranje lozinki.'),
+-- Digitalna Forenzika (303)
+(303, 'Wireshark', 'Alat za analizu mrežnog prometa.'),
+(303, 'C2 poslužitelj', 'Command and Control server za upravljanje botnetom.'),
+(303, 'Sandbox', 'Izolirano okruženje za analizu malwarea.'),
+(303, 'Fileless malware', 'Zlonamjerni softver koji radi samo u memoriji.'),
+-- Mrežna Sigurnost (403)
+(403, 'VPN', 'Virtualna privatna mreža za šifriranu komunikaciju.'),
+(403, 'NGFW', 'Next-Generation Firewall s naprednim filtiranjem.'),
+(403, 'IDS', 'Sustav za detekciju upada u mrežu.'),
+(403, 'AES-256', 'Napredni algoritam za šifriranje podataka.'),
+-- Reverzno Inženjerstvo (501)
+(501, 'IDA Pro', 'Profesionalni disassembler za reverzno inženjerstvo.'),
+(501, 'Ghidra', 'Besplatni alat za dekompilaciju NSA-inog porijekla.'),
+(501, 'x64dbg', 'Debugger za 32-bitne i 64-bitne Windows aplikacije.'),
+(501, 'Anti-debugging', 'Tehnike za sprječavanje debuggiranja programa.'),
+-- Socijalni Inženjering (601)
+(601, 'Phishing', 'Napad lažnim e-mailovima koji oponašaju legitimne izvore.'),
+(601, 'Vishing', 'Telefonska verzija phishing napada.'),
+(601, 'Baiting', 'Napad korištenjem fizičkih ili digitalnih mamaca.'),
+(601, 'Pretexting', 'Stvaranje lažnog scenarija za dobit povjerenja.');
+
+-- =============================================
+-- VULNERABILITY GAMES
+-- =============================================
+INSERT INTO vulnerability_games (level_id, code, total_vulnerabilities) VALUES
+-- Kriptografija (103)
+(103, 'Python kod za enkripciju:\nfrom Crypto.Cipher import AES\nimport os\n\ndef encrypt(plaintext):\n    key = os.urandom(16)\n    iv = ''static_iv_12345678'' # Problem 1\n    cipher = AES.new(key, AES.MODE_CBC, iv)\n    return cipher.encrypt(plaintext)\n\n# Problem 2: ECB mode\ncipher2 = AES.new(key, AES.MODE_ECB)', 2),
+-- Web Sigurnost (201)
+(201, '<?php\n// Login funkcija\n$user = $_POST[''username''];\n$pass = $_POST[''password''];\n\n$query = "SELECT * FROM users WHERE username = ''$user'' AND password = ''$pass'';\";\n\necho "<div>Welcome, " . $_GET[''name''] . "!</div>";\n\nfunction transferMoney($amount, $toAccount) {\n  bankTransfer($amount, $toAccount);\n}', 3),
+-- Digitalna Forenzika (302)
+(302, 'Analiza slike ''cat.jpg'':\n\n Podaci:\n- Format: JPEG \n- Veličina: 1024x768 px \n- Datum: 2023-06-15 14:32:11\n- Boja: RGB \n- DPI: 72 \n- Komentar: U2FsdGVkX1/3xgJ8O6Rd4Q==\n\nHex dump (prvih 16 bajta):\nFF D8 FF E0 00 10 4A 46 49 46 00 01 01 00 00 01', 2),
+-- Mrežna Sigurnost (402)
+(402, 'Wireshark capture (snippet):\n1. 00:11:22:33:44:55 -> ff:ff:ff:ff:ff:ff ARP Who has 192.168.1.1? Tell 192.168.1.100\n2. 00:aa:bb:cc:dd:ee -> 00:11:22:33:44:55 ARP 192.168.1.1 is at 00:aa:bb:cc:dd:ee\n3. 192.168.1.100 -> 192.168.1.1 HTTP GET /login.php?user=admin&pass=secret\n4. 00:11:22:33:44:55 -> 00:aa:bb:cc:dd:ee SSLv3 Client Hello\n5. 192.168.1.1 -> 192.168.1.100 TCP 443 [ACK]\n6. 00:11:22:33:44:55 -> 01:00:5e:00:00:16 IGMPv2', 3),
+-- Reverzno Inženjerstvo (502)
+(502, 'Disassembled malware snippet:\n0x401000: push ebp\n0x401001: mov ebp, esp\n0x401003: sub esp, 0x20\n0x401006: call 0x401200 ; GetCurrentProcessId\n0x40100B: mov [ebp-0x4], eax\n0x40100E: cmp eax, 0xDEADBEEF ; Anti-debug check\n0x401013: jz 0x401050 ; Terminate if debugged\n0x401015: call 0x401300 ; InternetOpenA\n0x40101A: mov [ebp-0x8], eax\n0x40101D: push 0x00402000 ; C2 URL', 2),
+-- Socijalni Inženjering (602)
+(602, 'Email sadržaj:\nFrom: support@yourbank.com\nSubject: Urgent: Account Verification Required\n\nDear Customer,\n\nWe detected unusual activity on your account. To prevent suspension, verify your identity by clicking:\n\nhttp://your-bank-security.com/login?redirect=phishingsite.com\n\nThis is required within 24 hours.\n\nBank Security Team', 2);
+
+-- Vulnerability Types
+INSERT INTO vulnerability_types (vulnerability_game_id, type_name) VALUES
+-- Kriptografija (103)
+(1, 'Static IV'),
+(1, 'ECB Mode'),
+(1, 'Weak Key'),
+(1, 'Timing Attack'),
+-- Web Sigurnost (201)
+(2, 'XSS'),
+(2, 'CSRF'),
+(2, 'SQL Injection'),
+(2, 'Insecure Direct Object Reference'),
+-- Digitalna Forenzika (302)
+(3, 'LSB Steganography'),
+(3, 'Base64 Secret'),
+(3, 'File Signature'),
+(3, 'EXIF Leak'),
+-- Mrežna Sigurnost (402)
+(4, 'ARP Spoofing'),
+(4, 'Plaintext Protocol Usage'),
+(4, 'Deprecated SSL Version'),
+(4, 'HTTP Credential Leak'),
+-- Reverzno Inženjerstvo (502)
+(5, 'Process Injection'),
+(5, 'C2 Communication'),
+(5, 'Persistence'),
+(5, 'Anti-Debugging'),
+-- Socijalni Inženjering (602)
+(6, 'Fake Sender'),
+(6, 'Urgency'),
+(6, 'Suspicious Link'),
+(6, 'Typosquatting');
+
+-- Vulnerability Solutions
+INSERT INTO vulnerability_solutions (vulnerability_game_id, line_number, type, description) VALUES
+-- Kriptografija (103)
+(1, 6, 'Static IV', 'Inicijalizacijski vektor (IV) ne smije biti statičan'),
+(1, 11, 'ECB Mode', 'ECB način rada nije siguran za enkripciju'),
+-- Web Sigurnost (201)
+(2, 5, 'SQL Injection', 'Nefiltrirani korisnički unos u SQL upit'),
+(2, 7, 'XSS', 'Nefiltrirani korisnički unos u HTML izlaz'),
+(2, 10, 'CSRF', 'Funkcija za transfer novca nema CSRF zaštitu (token)'),
+-- Digitalna Forenzika (302)
+(3, 5, 'EXIF Leak', 'GPS koordinate u EXIF podacima otkrivaju lokaciju'),
+(3, 8, 'Base64 Secret', 'Base64 kodirani sadržaj koji može biti šifrirana poruka'),
+-- Mrežna Sigurnost (402)
+(4, 1, 'ARP Spoofing', 'Unverified ARP response could enable MITM attacks'),
+(4, 2, 'HTTP Credential Leak', 'Credentials transmitted in cleartext via HTTP GET request'),
+(4, 3, 'Deprecated SSL Version', 'SSLv3 is vulnerable to POODLE attack - upgrade to TLS 1.2+'),
+-- Reverzno Inženjerstvo (502)
+(5, 6, 'Anti-Debugging', 'Provjera za debugger pomoću hardcodirane vrijednosti 0xDEADBEEF'),
+(5, 8, 'C2 Communication', 'Povezivanje na Command and Control server'),
+-- Socijalni Inženjering (602)
+(6, 1, 'Fake Sender', 'Email adresa može biti lažirana (spoofed)'),
+(6, 8, 'Suspicious Link', 'Link sadrži redirect na phishing stranicu');
+
+-- =============================================
+-- DEFAULT COMPETITION SETTINGS
+-- NOTE: this references users.id = 1, so run AFTER you create your first (admin) user,
+-- or temporarily remove the FK / created_by_admin_id value.
+-- =============================================
+-- UPDATE users SET is_admin = TRUE WHERE id = 1;
+-- INSERT INTO competition_settings (max_team_size, created_by_admin_id) VALUES (4, 1);
