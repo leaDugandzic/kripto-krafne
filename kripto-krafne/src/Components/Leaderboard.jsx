@@ -17,7 +17,6 @@ const Leaderboard = () => {
         return () => clearInterval(interval);
     }, []);
 
-    // Live countdown — runs every second off the absolute endTime timestamp
     useEffect(() => {
         if (!endTime || !competition?.is_active) {
             setTimeRemaining(0);

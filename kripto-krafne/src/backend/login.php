@@ -1,5 +1,4 @@
 <?php
-// backend/login.php
 // Headers MUST come before any output
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
@@ -59,9 +58,9 @@ if (isset($data["token"])) {
 
     $_SESSION['username'] = $name;
     $_SESSION['user_id'] = $userId;
-    
+
     echo json_encode([
-        "success" => true, 
+        "success" => true,
         "message" => "Google login successful.",
         "user_id" => $userId,
         "username" => $name
@@ -89,7 +88,7 @@ if (isset($data["Email"]) && isset($data["Password"])) {
     }
 
     $user = $result->fetch_assoc();
-    
+
     if (password_verify($password, $user["lozinka"])) {
         $_SESSION['username'] = $user['ime'];
         $_SESSION['user_id']  = $user['id'];
@@ -144,7 +143,7 @@ if (isset($data["Email"]) && isset($data["Password"])) {
     } else {
         echo json_encode(["success" => false, "message" => "Netočna lozinka. Molim vas pokušajte ponovno."]);
     }
-    
+
     $stmt->close();
     $conn->close();
     exit;

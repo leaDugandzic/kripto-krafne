@@ -1,5 +1,4 @@
 <?php
-// backend/dbConnection.php
 // Centralized database connection - Use this in ALL files
 
 header("Access-Control-Allow-Origin: http://localhost:5173");

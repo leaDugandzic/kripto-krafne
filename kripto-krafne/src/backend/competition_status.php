@@ -1,5 +1,4 @@
 <?php
-// backend/competition_status.php
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json; charset=UTF-8");
@@ -49,11 +48,11 @@ if ($competition && $competition['is_active']) {
         'end_time'       => $competition['end_time']
     ]);
 } else {
-    // Return last competition info even if not active (so frontend knows it ended)
+  
     echo json_encode([
         'success'     => true,
         'is_active'   => false,
-        'competition' => $competition, // may be null if never started
+        'competition' => $competition, 
         'message'     => 'No active competition'
     ]);
 }

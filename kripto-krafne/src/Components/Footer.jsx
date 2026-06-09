@@ -37,8 +37,6 @@ const Footer = () => {
             </div>
           </div>
 
-          
-
           {/* Contact col */}
           <div className="kk-footer__col">
             <h3 className="kk-footer__col-heading">Kontaktirajte nas</h3>

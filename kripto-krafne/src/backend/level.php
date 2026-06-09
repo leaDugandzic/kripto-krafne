@@ -35,7 +35,7 @@ switch ($level_info['game_type']) {
             $game_data[] = $row;
         }
         break;
-        
+
     case 'memoryCards':
         $query = "SELECT id, term, description FROM memory_card_games WHERE level_id = ?";
         $stmt = $conn->prepare($query);
@@ -46,7 +46,7 @@ switch ($level_info['game_type']) {
             $game_data[] = $row;
         }
         break;
-        
+
     case 'findVulnerability':
         $query = "SELECT id, code, total_vulnerabilities FROM vulnerability_games WHERE level_id = ?";
         $stmt = $conn->prepare($query);
@@ -54,7 +54,7 @@ switch ($level_info['game_type']) {
         $stmt->execute();
         $result = $stmt->get_result();
         $vuln_game = $result->fetch_assoc();
-        
+
         if ($vuln_game) {
             $query = "SELECT type_name FROM vulnerability_types WHERE vulnerability_game_id = ?";
             $stmt = $conn->prepare($query);
@@ -65,7 +65,7 @@ switch ($level_info['game_type']) {
             while ($row = $result->fetch_assoc()) {
                 $types[] = $row['type_name'];
             }
-            
+
             $query = "SELECT line_number, type, description FROM vulnerability_solutions WHERE vulnerability_game_id = ?";
             $stmt = $conn->prepare($query);
             $stmt->bind_param("i", $vuln_game['id']);
@@ -75,7 +75,7 @@ switch ($level_info['game_type']) {
             while ($row = $result->fetch_assoc()) {
                 $solutions[] = $row;
             }
-            
+
             $vulnerabilities = array(
                 'code' => $vuln_game['code'],
                 'total' => $vuln_game['total_vulnerabilities'],

@@ -1,5 +1,5 @@
 <?php
-// backend/search.php  – search users by username (ime)
+// Search users by username (ime)
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json; charset=UTF-8");

@@ -49,7 +49,7 @@ function Menu() {
     if (searchQuery) {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/search.php", {
+        const response = await fetch("http://localhost/kripto-krafne/kripto-krafne/src/backend/searchMenu.php", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams({ search: searchQuery }),

@@ -144,7 +144,6 @@ export default function Profile() {
                             )}
                         </div>
 
-
                         {/* Name + badges */}
                         <div style={{ flex: 1, minWidth: 200 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 6 }}>

@@ -54,19 +54,17 @@ export default function AIChatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  
 useEffect(() => {
-  console.log("Komponenta se mountala/updateala");
-  
+
   // Dodaj event listener za sprječavanje default ponašanja
   const preventDefault = (e) => {
     if (e.target.type === 'submit' || e.target.type === 'button') {
       e.preventDefault();
     }
   };
-  
+
   document.addEventListener('click', preventDefault);
-  
+
   return () => {
     document.removeEventListener('click', preventDefault);
   };
@@ -75,59 +73,51 @@ const sendMessage = async (messageText = input) => {
   const textToSend = messageText || input;
   if (!textToSend.trim()) return;
 
-  console.log("1. sendMessage pokrenut");
-  
   const userMsg = { role: "user", content: textToSend };
   setMessages(prev => [...prev, userMsg]);
   setInput("");
   setLoading(true);
 
   try {
-    console.log("2. Šaljem fetch zahtjev");
-    
+
     const res = await fetch("http://localhost:5000/api/chat", {
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
       body: JSON.stringify({ message: textToSend })
     });
-    
-    console.log("3. Fetch završen, status:", res.status);
-    
+
     if (!res.ok) {
       const errorText = await res.text();
       console.error("HTTP error details:", errorText);
       throw new Error(`HTTP error! status: ${res.status}, details: ${errorText}`);
     }
-    
+
     const data = await res.json();
-    console.log("4. Primio odgovor:", data);
-    
-    const botMsg = { 
-      role: "assistant", 
+
+    const botMsg = {
+      role: "assistant",
       content: data.response,
       timestamp: data.timestamp
     };
     setMessages(prev => [...prev, botMsg]);
-    
+
   } catch (err) {
     console.error("Chat error:", err);
-    const errorMsg = { 
-      role: "assistant", 
+    const errorMsg = {
+      role: "assistant",
       content: `Greška: ${err.message}`,
       isError: true
     };
     setMessages(prev => [...prev, errorMsg]);
   } finally {
     setLoading(false);
-    console.log("5. sendMessage završio");
   }
 };
 
   const handleCategoryClick = (category) => {
-    console.log("Kliknuta kategorija:", category.name);
     const question = `Možeš li mi objasniti osnove kategorije ${category.name}?`;
     sendMessage(question);
   };
@@ -218,9 +208,7 @@ const sendMessage = async (messageText = input) => {
                 </div>
               )}
               <div ref={messagesEndRef} />
-              
 
-              
             </div>
             <div className="input-container">
               <div className="input-wrapper">
@@ -231,7 +219,7 @@ const sendMessage = async (messageText = input) => {
                   placeholder="Unesite pitanje o kibernetičkoj sigurnosti..."
                   disabled={loading}
                 />
-                <button 
+                <button
                   onClick={handleSendClick}
                   type="button"
                   disabled={loading || !input.trim()}

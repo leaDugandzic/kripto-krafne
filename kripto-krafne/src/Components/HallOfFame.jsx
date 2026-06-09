@@ -47,21 +47,21 @@ function Podium({ teams }) {
     }
 
     return (
-        /* 2nd | 1st (raised) | 3rd, overlapping left+right behind centre */
+
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-            {/* 2nd — left, sits lower, overlaps behind 1st */}
+       
             {t2 && (
                 <div style={{ position: 'relative', zIndex: 1, marginRight: -28, marginBottom: 0 }}>
                     <TeamCard team={t2} pos={2} style={{ width: 210 }} />
                 </div>
             )}
-            {/* 1st — center, raised above the two side cards */}
+           
             {t1 && (
                 <div style={{ position: 'relative', zIndex: 3, marginBottom: 36 }}>
                     <TeamCard team={t1} pos={1} style={{ width: 230 }} />
                 </div>
             )}
-            {/* 3rd — right, sits lower, overlaps behind 1st */}
+     
             {t3 && (
                 <div style={{ position: 'relative', zIndex: 1, marginLeft: -28, marginBottom: 0 }}>
                     <TeamCard team={t3} pos={3} style={{ width: 210 }} />

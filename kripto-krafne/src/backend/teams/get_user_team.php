@@ -1,5 +1,4 @@
 <?php
-// backend/teams/get_user_team.php
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json; charset=UTF-8");
@@ -22,7 +21,7 @@ require_once '../dbConnection.php';
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
     echo json_encode([
-        'success' => false, 
+        'success' => false,
         'message' => 'User not authenticated'
     ]);
     exit;
@@ -32,7 +31,7 @@ $userId = $_SESSION['user_id'];
 
 // Get user's team
 $stmt = $conn->prepare("
-    SELECT t.*, tm.is_captain 
+    SELECT t.*, tm.is_captain
     FROM teams t
     JOIN team_members tm ON t.id = tm.team_id
     WHERE tm.user_id = ?

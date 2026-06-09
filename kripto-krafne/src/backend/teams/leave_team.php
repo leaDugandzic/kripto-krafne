@@ -18,27 +18,27 @@ header("Content-Type: application/json");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_SESSION['user_id'] ?? null;
-    
+
     if (!$userId) {
         echo json_encode(['success' => false, 'message' => 'Not authenticated']);
         exit;
     }
-    
+
     // Get user's team
     $stmt = $conn->prepare("SELECT team_id, is_captain FROM team_members WHERE user_id = ?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
     $member = $result->fetch_assoc();
-    
+
     if (!$member) {
         echo json_encode(['success' => false, 'message' => 'Not in a team']);
         exit;
     }
-    
+
     $teamId = $member['team_id'];
     $isCaptain = $member['is_captain'];
-    
+
     // If captain, disband team if it's the last member
     if ($isCaptain) {
         // Count team members
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $result = $stmt->get_result();
         $count = $result->fetch_assoc()['count'];
-        
+
         if ($count > 1) {
             echo json_encode(['success' => false, 'message' => 'Captain cannot leave. Transfer captaincy first or disband team.']);
             exit;
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("ii", $userId, $teamId);
         $stmt->execute();
     }
-    
+
     echo json_encode(['success' => true, 'message' => 'Left team successfully']);
 }
 ?>

@@ -1,5 +1,4 @@
 <?php
-// backend/leaderboard.php
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json; charset=UTF-8");
@@ -15,9 +14,9 @@ require_once './dbConnection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $limit = intval($_GET['limit'] ?? 20);
-    
+
     $stmt = $conn->prepare("
-        SELECT 
+        SELECT
             t.id,
             t.name as team_name,
             t.score,
@@ -29,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         LEFT JOIN team_members tm ON t.id = tm.team_id
         LEFT JOIN users u ON tm.user_id = u.id
         GROUP BY t.id
-        ORDER BY 
+        ORDER BY
             t.score DESC,
             t.last_solved ASC,
             t.created_at ASC
@@ -39,13 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt->execute();
     $result = $stmt->get_result();
     $teams = $result->fetch_all(MYSQLI_ASSOC);
-    
+
     // Get competition status
     $stmt = $conn->prepare("SELECT * FROM competition_settings WHERE is_active = TRUE ORDER BY id DESC LIMIT 1");
     $stmt->execute();
     $result = $stmt->get_result();
     $competition = $result->fetch_assoc();
-    
+
     echo json_encode([
         'success' => true,
         'teams' => $teams,

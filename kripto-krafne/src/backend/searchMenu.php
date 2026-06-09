@@ -4,6 +4,11 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -16,19 +21,16 @@ if ($conn->connect_error) {
     die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
 }
 
-$row_count_result = mysqli_query($conn, "SELECT COUNT(*) as total FROM krafne");
-$row_count = mysqli_fetch_assoc($row_count_result)['total'];
+$search = $_POST['search'] ?? ($_GET['search'] ?? '');
 
-$limit = $row_count - 1;
-
-$upit = "SELECT * FROM krafne ORDER BY id ASC LIMIT $limit";
+$upit = "SELECT * FROM krafne WHERE ime LIKE '%$search%'";
 $rezultat = mysqli_query($conn, $upit);
 
 if ($rezultat && mysqli_num_rows($rezultat) > 0) {
     $items = mysqli_fetch_all($rezultat, MYSQLI_ASSOC);
     echo json_encode($items);
 } else {
-    echo json_encode(["error" => "No data found in krafne table"]);
+    echo json_encode([]);
 }
 
 $conn->close();

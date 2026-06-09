@@ -1,16 +1,10 @@
--- =============================================
--- KRAFNE_BAZA — Complete corrected database script
--- Apply on a clean database (DROP DATABASE first if needed).
--- =============================================
 
 CREATE DATABASE krafne_baza
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_general_ci;
 USE krafne_baza;
 
--- =============================================
--- INDEPENDENT TABLES (no foreign keys)
--- =============================================
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     ime VARCHAR(100) NOT NULL,
@@ -74,9 +68,7 @@ CREATE TABLE recepti (
     vrijeme_pripreme VARCHAR(50) NOT NULL
 );
 
--- =============================================
--- TABLES DEPENDENT ON: users, teams
--- =============================================
+
 CREATE TABLE ljestvica (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -149,9 +141,7 @@ CREATE TABLE user_level_progress (
     UNIQUE KEY unique_user_level (user_id, level_id)
 );
 
--- =============================================
--- TABLES DEPENDENT ON: category, users
--- =============================================
+
 CREATE TABLE comments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     post_id INT NOT NULL,
@@ -184,9 +174,7 @@ CREATE TABLE likes (
     FOREIGN KEY (post_id) REFERENCES blog_posts(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- =============================================
--- TABLES DEPENDENT ON: game_levels
--- =============================================
+
 CREATE TABLE drag_drop_games (
     id INT AUTO_INCREMENT PRIMARY KEY,
     level_id INT,
@@ -227,9 +215,7 @@ CREATE TABLE vulnerability_solutions (
     FOREIGN KEY (vulnerability_game_id) REFERENCES vulnerability_games(id)
 );
 
--- =============================================
--- COMPETITION ARCHIVE TABLES
--- =============================================
+
 CREATE TABLE user_certificate_seen (
     user_id INT NOT NULL,
     competition_id INT NOT NULL,
@@ -272,9 +258,7 @@ CREATE TABLE comp_archive_tasks (
     UNIQUE KEY (competition_id, task_number)
 );
 
--- =============================================
--- DATA INSERTS
--- =============================================
+
 
 -- Categories
 INSERT INTO category (category_name) VALUES
@@ -306,9 +290,7 @@ INSERT INTO recepti (ime, slika, tijesto, nadjev, priprema, vrijeme_pripreme) VA
 ('Kokos krafna', '../assets/img/krafne/krafna5.png', '250 g brašna, 125 g maslaca, 100 g šećera, prstohvat soli, 1 jaje, 1 vanilin šećer, 1 prašak za pecivo.', 'Krema od kokosa s ', 'Razvaljaj tijesto i ostavi da se dižu 30 minuta. Prži u zagrijanom ulju dok ne postanu zlatne.', '60 minuta'),
 ('Šifrirana krafna', '../assets/img/krafne/flag.png', 'Koliko dobro čitaš nule i jedinice?', '00110110 01100010 00100000 00110111 00110010 00100000 00110110 00110001 00100000 00110110 00110110 00100000 00110110 01100101 00100000 00110110 00110001 00100000 00110111 01100010 00100000 00110110 00110100 00100000 00110011 00110000 00100000 00110111 00110101 00100000 00110110 00110111 00100000 00110110 01111000 00100000 00110110 01100101 00100000 00110111 00110101 00100000 00110111 00110100 00100000 00110101 01100110 00100000 00110110 01101000 00100000 00110011 00110100 00100000 00110111 01111000 00100000 00110111 01100100', '', '');
 
--- =============================================
--- GAME LEVELS (18 rows - matches levels.json)
--- =============================================
+
 INSERT INTO game_levels (id, category_id, name, game_type) VALUES
 -- Kriptografija
 (101, 1, 'Osnove simetrične i asimetrične kriptografije', 'dragDrop'),
@@ -335,9 +317,7 @@ INSERT INTO game_levels (id, category_id, name, game_type) VALUES
 (602, 6, 'Phishing, vishing i pretexting: Kako prepoznati i obraniti se', 'findVulnerability'),
 (603, 6, 'Manipulacija povjerenjem: Korištenje psihologije u socijalnom inženjeringu', 'dragDrop');
 
--- =============================================
--- DRAG-DROP GAMES (was MISSING — now seeded for all 6 dragDrop levels)
--- =============================================
+
 INSERT INTO drag_drop_games (level_id, term, description) VALUES
 -- Kriptografija (101)
 (101, 'AES', 'Simetrični algoritam visokih performansi.'),
@@ -370,9 +350,7 @@ INSERT INTO drag_drop_games (level_id, term, description) VALUES
 (603, 'Hitnost', 'Stvaranje osjećaja nužnosti za brzu reakciju.'),
 (603, 'Društveni dokaz', 'Korištenje činjenice da drugi nešto rade kao opravdanje.');
 
--- =============================================
--- MEMORY CARD GAMES
--- =============================================
+
 INSERT INTO memory_card_games (level_id, term, description) VALUES
 -- Kriptografija (102)
 (102, 'SHA-256', 'Sigurna hash funkcija korištena u Bitcoin mreži.'),
@@ -405,9 +383,7 @@ INSERT INTO memory_card_games (level_id, term, description) VALUES
 (601, 'Baiting', 'Napad korištenjem fizičkih ili digitalnih mamaca.'),
 (601, 'Pretexting', 'Stvaranje lažnog scenarija za dobit povjerenja.');
 
--- =============================================
--- VULNERABILITY GAMES
--- =============================================
+
 INSERT INTO vulnerability_games (level_id, code, total_vulnerabilities) VALUES
 -- Kriptografija (103)
 (103, 'Python kod za enkripciju:\nfrom Crypto.Cipher import AES\nimport os\n\ndef encrypt(plaintext):\n    key = os.urandom(16)\n    iv = ''static_iv_12345678'' # Problem 1\n    cipher = AES.new(key, AES.MODE_CBC, iv)\n    return cipher.encrypt(plaintext)\n\n# Problem 2: ECB mode\ncipher2 = AES.new(key, AES.MODE_ECB)', 2),
@@ -478,10 +454,6 @@ INSERT INTO vulnerability_solutions (vulnerability_game_id, line_number, type, d
 (6, 1, 'Fake Sender', 'Email adresa može biti lažirana (spoofed)'),
 (6, 8, 'Suspicious Link', 'Link sadrži redirect na phishing stranicu');
 
--- =============================================
--- DEFAULT COMPETITION SETTINGS
--- NOTE: this references users.id = 1, so run AFTER you create your first (admin) user,
--- or temporarily remove the FK / created_by_admin_id value.
--- =============================================
+--nakon sto se ulogiras kao admin
 -- UPDATE users SET is_admin = TRUE WHERE id = 1;
 -- INSERT INTO competition_settings (max_team_size, created_by_admin_id) VALUES (4, 1);

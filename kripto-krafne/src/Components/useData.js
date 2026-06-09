@@ -1,6 +1,5 @@
-
 import { useState, useEffect, useCallback } from 'react';
-import jsonData from '../library/levels.json'; 
+import jsonData from '../library/levels.json';
 
 const useData = () => {
   const [data, setData] = useState(null);

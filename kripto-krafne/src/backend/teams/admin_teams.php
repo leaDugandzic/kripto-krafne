@@ -1,5 +1,5 @@
 <?php
-// backend/teams/admin_teams.php – admin: list all teams with members + ban/delete
+// Admin: list all teams with members + ban/delete
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
